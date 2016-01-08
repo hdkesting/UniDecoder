@@ -50,12 +50,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BasicInfo.cs" />
     <Compile Include="DecoderForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="DecoderForm.Designer.cs">
       <DependentUpon>DecoderForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Extensions.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="DecoderForm.resx">
