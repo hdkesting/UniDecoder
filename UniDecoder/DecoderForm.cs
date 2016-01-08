@@ -34,13 +34,22 @@ namespace UniDecoder
         private void tbNameInput_TextChanged(object sender, EventArgs e)
         {
             var partial = tbNameInput.Text;
-            var list = Enumerable.Range(32, 200000)
-                .Where(CodepointExists)
-                .Select(cp => UnicodeInfo.GetCharInfo(cp))
-                .Where(x => NameMatches(partial, x.Name))
-                .Select(info => new BasicInfo(info))
-                .Take(15)
-                .ToList();
+            List<BasicInfo> list;
+
+            if (String.IsNullOrWhiteSpace(partial))
+            {
+                list = new List<BasicInfo>();
+            }
+            else
+            {
+                list = Enumerable.Range(1, 200000)
+                    .Where(CodepointExists)
+                    .Select(cp => UnicodeInfo.GetCharInfo(cp))
+                    .Where(x => NameMatches(partial, x.Name))
+                    .Select(info => new BasicInfo(info))
+                    .Take(25)
+                    .ToList();
+            }
 
             gridFoundChars.DataSource = list;
         }
@@ -68,6 +77,49 @@ namespace UniDecoder
             }
 
             return true;
+        }
+
+        private void gridFoundChars_CellMouseEnter(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.ColumnIndex == 0 && e.RowIndex >= 0)
+            {
+                var grid = (DataGridView)sender;
+                lbBigChar.Text = grid[e.ColumnIndex, e.RowIndex].Value.ToString();
+            }
+        }
+
+        private void gridFoundChars_CellMouseLeave(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.ColumnIndex == 0)
+            {
+                lbBigChar.Text = String.Empty;
+            }
+        }
+
+        private void gridFoundChars_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.ColumnIndex == 0 && e.RowIndex >= 0)
+            {
+                var grid = (DataGridView)sender;
+                var character = grid[e.ColumnIndex, e.RowIndex].Value.ToString();
+                Clipboard.SetText(character);
+            }
+        }
+
+        private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var tc = (TabControl)sender;
+
+            if (tc.SelectedIndex == 0)
+            {
+                tbInput.SelectAll();
+                tbInput.Focus();
+            }
+            else if (tc.SelectedIndex == 1)
+            {
+                tbNameInput.SelectAll();
+                tbNameInput.Focus();
+            }
         }
     }
 }

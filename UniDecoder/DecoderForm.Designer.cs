@@ -35,9 +35,10 @@
             this.gridCharacters = new System.Windows.Forms.DataGridView();
             this.tbInput = new System.Windows.Forms.TextBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.label3 = new System.Windows.Forms.Label();
-            this.tbNameInput = new System.Windows.Forms.TextBox();
             this.gridFoundChars = new System.Windows.Forms.DataGridView();
+            this.tbNameInput = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.lbBigChar = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridCharacters)).BeginInit();
@@ -57,6 +58,7 @@
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(669, 400);
             this.tabControl1.TabIndex = 5;
+            this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
             // 
             // tabPage1
             // 
@@ -114,9 +116,11 @@
             this.tbInput.Size = new System.Drawing.Size(649, 20);
             this.tbInput.TabIndex = 1;
             this.tbInput.Text = "1× 🍕 à €1,‒";
+            this.tbInput.TextChanged += new System.EventHandler(this.tbInput_TextChanged);
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.lbBigChar);
             this.tabPage2.Controls.Add(this.gridFoundChars);
             this.tabPage2.Controls.Add(this.tbNameInput);
             this.tabPage2.Controls.Add(this.label3);
@@ -127,23 +131,6 @@
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Find chars";
             this.tabPage2.UseVisualStyleBackColor = true;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(7, 28);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(82, 13);
-            this.label3.TabIndex = 0;
-            this.label3.Text = "Character name";
-            // 
-            // tbNameInput
-            // 
-            this.tbNameInput.Location = new System.Drawing.Point(7, 45);
-            this.tbNameInput.Name = "tbNameInput";
-            this.tbNameInput.Size = new System.Drawing.Size(360, 20);
-            this.tbNameInput.TabIndex = 1;
-            this.tbNameInput.TextChanged += new System.EventHandler(this.tbNameInput_TextChanged);
             // 
             // gridFoundChars
             // 
@@ -159,6 +146,38 @@
             this.gridFoundChars.ReadOnly = true;
             this.gridFoundChars.Size = new System.Drawing.Size(645, 256);
             this.gridFoundChars.TabIndex = 2;
+            this.gridFoundChars.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridFoundChars_CellDoubleClick);
+            this.gridFoundChars.CellMouseEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridFoundChars_CellMouseEnter);
+            this.gridFoundChars.CellMouseLeave += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridFoundChars_CellMouseLeave);
+            // 
+            // tbNameInput
+            // 
+            this.tbNameInput.Location = new System.Drawing.Point(7, 45);
+            this.tbNameInput.Name = "tbNameInput";
+            this.tbNameInput.Size = new System.Drawing.Size(360, 20);
+            this.tbNameInput.TabIndex = 1;
+            this.tbNameInput.TextChanged += new System.EventHandler(this.tbNameInput_TextChanged);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(7, 28);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(82, 13);
+            this.label3.TabIndex = 0;
+            this.label3.Text = "Character name";
+            // 
+            // lbBigChar
+            // 
+            this.lbBigChar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.lbBigChar.AutoSize = true;
+            this.lbBigChar.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.lbBigChar.Font = new System.Drawing.Font("Arial", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbBigChar.Location = new System.Drawing.Point(612, 28);
+            this.lbBigChar.Name = "lbBigChar";
+            this.lbBigChar.Size = new System.Drawing.Size(24, 36);
+            this.lbBigChar.TabIndex = 3;
+            this.lbBigChar.Text = " ";
             // 
             // DecoderForm
             // 
@@ -191,6 +210,7 @@
         private System.Windows.Forms.DataGridView gridFoundChars;
         private System.Windows.Forms.TextBox tbNameInput;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label lbBigChar;
     }
 }
 
