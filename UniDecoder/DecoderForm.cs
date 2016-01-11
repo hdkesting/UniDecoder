@@ -42,12 +42,13 @@ namespace UniDecoder
             }
             else
             {
+                int limit = (partial.Length > 3) ? 100 : 25;
                 list = Enumerable.Range(1, 200000)
-                    .Where(CodepointExists)
+                    .Where(cp => UnicodeInfo.GetCategory(cp) != System.Globalization.UnicodeCategory.OtherNotAssigned)
                     .Select(cp => UnicodeInfo.GetCharInfo(cp))
                     .Where(x => NameMatches(partial, x.Name))
                     .Select(info => new BasicInfo(info))
-                    .Take(25)
+                    .Take(limit)
                     .ToList();
             }
 
