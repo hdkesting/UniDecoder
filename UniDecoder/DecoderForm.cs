@@ -51,6 +51,24 @@ namespace UniDecoder
                     .ToList();
             }
 
+            // try and interpret as integer
+            int code;
+            if (Int32.TryParse(partial, out code) && CodepointExists(code))
+            {
+                var i = UnicodeInfo.GetCharInfo(code);
+                list.Insert(0, new BasicInfo(i));
+            }
+
+            if (Int32.TryParse(partial, 
+                                System.Globalization.NumberStyles.HexNumber, 
+                                System.Globalization.CultureInfo.InvariantCulture, 
+                                out code)
+                        && CodepointExists(code))
+            {
+                var i = UnicodeInfo.GetCharInfo(code);
+                list.Insert(0, new BasicInfo(i));
+            }
+
             gridFoundChars.DataSource = list;
         }
 

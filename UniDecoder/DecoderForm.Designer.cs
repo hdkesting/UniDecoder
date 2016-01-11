@@ -35,10 +35,11 @@
             this.gridCharacters = new System.Windows.Forms.DataGridView();
             this.tbInput = new System.Windows.Forms.TextBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.lbBigChar = new System.Windows.Forms.Label();
             this.gridFoundChars = new System.Windows.Forms.DataGridView();
             this.tbNameInput = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.lbBigChar = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridCharacters)).BeginInit();
@@ -102,8 +103,10 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.gridCharacters.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.gridCharacters.Location = new System.Drawing.Point(9, 109);
+            this.gridCharacters.MultiSelect = false;
             this.gridCharacters.Name = "gridCharacters";
             this.gridCharacters.ReadOnly = true;
+            this.gridCharacters.RowHeadersVisible = false;
             this.gridCharacters.Size = new System.Drawing.Size(646, 259);
             this.gridCharacters.TabIndex = 5;
             // 
@@ -120,6 +123,7 @@
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.label4);
             this.tabPage2.Controls.Add(this.lbBigChar);
             this.tabPage2.Controls.Add(this.gridFoundChars);
             this.tabPage2.Controls.Add(this.tbNameInput);
@@ -132,6 +136,18 @@
             this.tabPage2.Text = "Find chars";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
+            // lbBigChar
+            // 
+            this.lbBigChar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.lbBigChar.AutoSize = true;
+            this.lbBigChar.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.lbBigChar.Font = new System.Drawing.Font("Arial", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbBigChar.Location = new System.Drawing.Point(612, 28);
+            this.lbBigChar.Name = "lbBigChar";
+            this.lbBigChar.Size = new System.Drawing.Size(24, 36);
+            this.lbBigChar.TabIndex = 3;
+            this.lbBigChar.Text = " ";
+            // 
             // gridFoundChars
             // 
             this.gridFoundChars.AllowUserToAddRows = false;
@@ -141,10 +157,14 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.gridFoundChars.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.gridFoundChars.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.gridFoundChars.Location = new System.Drawing.Point(10, 112);
+            this.gridFoundChars.MultiSelect = false;
             this.gridFoundChars.Name = "gridFoundChars";
             this.gridFoundChars.ReadOnly = true;
-            this.gridFoundChars.Size = new System.Drawing.Size(645, 256);
+            this.gridFoundChars.RowHeadersVisible = false;
+            this.gridFoundChars.ShowEditingIcon = false;
+            this.gridFoundChars.Size = new System.Drawing.Size(645, 240);
             this.gridFoundChars.TabIndex = 2;
             this.gridFoundChars.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridFoundChars_CellDoubleClick);
             this.gridFoundChars.CellMouseEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridFoundChars_CellMouseEnter);
@@ -167,17 +187,15 @@
             this.label3.TabIndex = 0;
             this.label3.Text = "Character name";
             // 
-            // lbBigChar
+            // label4
             // 
-            this.lbBigChar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.lbBigChar.AutoSize = true;
-            this.lbBigChar.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.lbBigChar.Font = new System.Drawing.Font("Arial", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbBigChar.Location = new System.Drawing.Point(612, 28);
-            this.lbBigChar.Name = "lbBigChar";
-            this.lbBigChar.Size = new System.Drawing.Size(24, 36);
-            this.lbBigChar.TabIndex = 3;
-            this.lbBigChar.Text = " ";
+            this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(60, 355);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(159, 13);
+            this.label4.TabIndex = 4;
+            this.label4.Text = "↑ double click to copy character";
             // 
             // DecoderForm
             // 
@@ -211,6 +229,7 @@
         private System.Windows.Forms.TextBox tbNameInput;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label lbBigChar;
+        private System.Windows.Forms.Label label4;
     }
 }
 
