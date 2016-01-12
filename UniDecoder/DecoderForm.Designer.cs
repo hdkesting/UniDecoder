@@ -35,11 +35,11 @@
             this.gridCharacters = new System.Windows.Forms.DataGridView();
             this.tbInput = new System.Windows.Forms.TextBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.label4 = new System.Windows.Forms.Label();
             this.lbBigChar = new System.Windows.Forms.Label();
             this.gridFoundChars = new System.Windows.Forms.DataGridView();
             this.tbNameInput = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridCharacters)).BeginInit();
@@ -101,6 +101,7 @@
             this.gridCharacters.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.gridCharacters.BackgroundColor = System.Drawing.SystemColors.Window;
             this.gridCharacters.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.gridCharacters.Location = new System.Drawing.Point(9, 109);
             this.gridCharacters.MultiSelect = false;
@@ -136,6 +137,16 @@
             this.tabPage2.Text = "Find chars";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
+            // label4
+            // 
+            this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(60, 355);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(159, 13);
+            this.label4.TabIndex = 4;
+            this.label4.Text = "↑ double click to copy character";
+            // 
             // lbBigChar
             // 
             this.lbBigChar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -156,6 +167,7 @@
             this.gridFoundChars.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.gridFoundChars.BackgroundColor = System.Drawing.SystemColors.Window;
             this.gridFoundChars.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.gridFoundChars.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.gridFoundChars.Location = new System.Drawing.Point(10, 112);
@@ -186,16 +198,6 @@
             this.label3.Size = new System.Drawing.Size(82, 13);
             this.label3.TabIndex = 0;
             this.label3.Text = "Character name";
-            // 
-            // label4
-            // 
-            this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(60, 355);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(159, 13);
-            this.label4.TabIndex = 4;
-            this.label4.Text = "↑ double click to copy character";
             // 
             // DecoderForm
             // 
