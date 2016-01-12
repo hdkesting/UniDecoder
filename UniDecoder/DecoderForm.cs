@@ -100,19 +100,16 @@ namespace UniDecoder
 
         private void gridFoundChars_CellMouseEnter(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.ColumnIndex == 0 && e.RowIndex >= 0)
+            if (e.RowIndex >= 0)
             {
                 var grid = (DataGridView)sender;
-                lbBigChar.Text = grid[e.ColumnIndex, e.RowIndex].Value.ToString();
+                lbBigChar.Text = grid[0, e.RowIndex].Value.ToString();
             }
         }
 
         private void gridFoundChars_CellMouseLeave(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.ColumnIndex == 0)
-            {
-                lbBigChar.Text = String.Empty;
-            }
+            lbBigChar.Text = String.Empty;
         }
 
         private void gridFoundChars_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
