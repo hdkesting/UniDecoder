@@ -43,7 +43,7 @@ namespace UniDecoder
             else
             {
                 int limit = (partial.Length > 3) ? 100 : 25;
-                list = Enumerable.Range(1, 200000)
+                list = Enumerable.Range(0x0000, 0x10FFFF)
                     .Where(cp => UnicodeInfo.GetCategory(cp) != System.Globalization.UnicodeCategory.OtherNotAssigned)
                     .Select(cp => UnicodeInfo.GetCharInfo(cp))
                     .Where(x => NameMatches(partial, x.Name))
@@ -52,7 +52,7 @@ namespace UniDecoder
                     .ToList();
             }
 
-            // try and interpret as integer
+            // try and interpret as integer (decimal or hex)
             int code;
             if (Int32.TryParse(partial, out code) && CodepointExists(code))
             {
