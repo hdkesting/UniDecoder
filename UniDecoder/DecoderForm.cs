@@ -13,40 +13,54 @@ namespace UniDecoder
             InitializeComponent();
 
             tbInput_TextChanged(null, EventArgs.Empty);
+            tbInput.Focus();
         }
 
         private void tbInput_TextChanged(object sender, EventArgs e)
         {
             var text = tbInput.Text;
 
-            var items = new List<BasicInfo>();
-            for (var i = 0; i < text.Length; i += Char.IsSurrogatePair(text, i) ? 2 : 1)
+            List<BasicInfo> list;
+            if (rbShowChars.Checked)
             {
-                var codepoint = Char.ConvertToUtf32(text, i);
+                list = ShowCharactersInString(text);
+            }
+            else
+            {
+                list = FindCharacters(text);
+            }
+
+            gridCharacters.DataSource = list;
+        }
+
+        private List<BasicInfo> ShowCharactersInString(string source)
+        {
+            var items = new List<BasicInfo>();
+            for (var i = 0; i < source.Length; i += Char.IsSurrogatePair(source, i) ? 2 : 1)
+            {
+                var codepoint = Char.ConvertToUtf32(source, i);
                 var info = new BasicInfo(UnicodeInfo.GetCharInfo(codepoint));
 
                 items.Add(info);
             }
 
-            gridCharacters.DataSource = items;
+            return items;
         }
 
-        private void tbNameInput_TextChanged(object sender, EventArgs e)
+        private List<BasicInfo> FindCharacters(string source)
         {
-            var partial = tbNameInput.Text;
             List<BasicInfo> list;
-
-            if (String.IsNullOrWhiteSpace(partial))
+            if (String.IsNullOrWhiteSpace(source))
             {
                 list = new List<BasicInfo>();
             }
             else
             {
-                int limit = (partial.Length > 3) ? 100 : 25;
+                int limit = (source.Length > 3) ? 100 : 25;
                 list = Enumerable.Range(0x0000, 0x10FFFF)
                     .Where(cp => UnicodeInfo.GetCategory(cp) != System.Globalization.UnicodeCategory.OtherNotAssigned)
                     .Select(cp => UnicodeInfo.GetCharInfo(cp))
-                    .Where(x => NameMatches(partial, x.Name))
+                    .Where(x => NameMatches(source, x.Name))
                     .Select(info => new BasicInfo(info))
                     .Take(limit)
                     .ToList();
@@ -54,15 +68,15 @@ namespace UniDecoder
 
             // try and interpret as integer (decimal or hex)
             int code;
-            if (Int32.TryParse(partial, out code) && CodepointExists(code))
+            if (Int32.TryParse(source, out code) && CodepointExists(code))
             {
                 var i = UnicodeInfo.GetCharInfo(code);
                 list.Insert(0, new BasicInfo(i));
             }
 
-            if (Int32.TryParse(partial, 
-                                System.Globalization.NumberStyles.HexNumber, 
-                                System.Globalization.CultureInfo.InvariantCulture, 
+            if (Int32.TryParse(source,
+                                System.Globalization.NumberStyles.HexNumber,
+                                System.Globalization.CultureInfo.InvariantCulture,
                                 out code)
                         && CodepointExists(code))
             {
@@ -70,7 +84,7 @@ namespace UniDecoder
                 list.Insert(0, new BasicInfo(i));
             }
 
-            gridFoundChars.DataSource = list;
+            return list;
         }
 
         private bool CodepointExists(int codepoint)
@@ -98,7 +112,7 @@ namespace UniDecoder
             return true;
         }
 
-        private void gridFoundChars_CellMouseEnter(object sender, DataGridViewCellEventArgs e)
+        private void gridCharacters_CellMouseEnter(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex >= 0)
             {
@@ -107,12 +121,12 @@ namespace UniDecoder
             }
         }
 
-        private void gridFoundChars_CellMouseLeave(object sender, DataGridViewCellEventArgs e)
+        private void gridCharacters_CellMouseLeave(object sender, DataGridViewCellEventArgs e)
         {
             lbBigChar.Text = String.Empty;
         }
 
-        private void gridFoundChars_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        private void gridCharacters_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.ColumnIndex == 0 && e.RowIndex >= 0)
             {
@@ -122,20 +136,11 @@ namespace UniDecoder
             }
         }
 
-        private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
+        private void rbShowChars_CheckedChanged(object sender, EventArgs e)
         {
-            var tc = (TabControl)sender;
-
-            if (tc.SelectedIndex == 0)
-            {
-                tbInput.SelectAll();
-                tbInput.Focus();
-            }
-            else if (tc.SelectedIndex == 1)
-            {
-                tbNameInput.SelectAll();
-                tbNameInput.Focus();
-            }
+            tbInput_TextChanged(sender, e);
+            tbInput.SelectAll();
+            tbInput.Focus();
         }
     }
 }
