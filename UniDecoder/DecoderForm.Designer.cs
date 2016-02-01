@@ -117,10 +117,11 @@
             // 
             this.lbBigChar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lbBigChar.AutoSize = true;
-            this.lbBigChar.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbBigChar.Location = new System.Drawing.Point(549, 98);
+            this.lbBigChar.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.lbBigChar.Font = new System.Drawing.Font("Microsoft Sans Serif", 28F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbBigChar.Location = new System.Drawing.Point(532, 88);
             this.lbBigChar.Name = "lbBigChar";
-            this.lbBigChar.Size = new System.Drawing.Size(21, 31);
+            this.lbBigChar.Size = new System.Drawing.Size(30, 44);
             this.lbBigChar.TabIndex = 10;
             this.lbBigChar.Text = " ";
             // 
