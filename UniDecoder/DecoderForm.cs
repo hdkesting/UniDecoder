@@ -70,8 +70,12 @@ namespace UniDecoder
             int code;
             if (Int32.TryParse(source, out code) && CodepointExists(code))
             {
-                var i = UnicodeInfo.GetCharInfo(code);
-                list.Insert(0, new BasicInfo(i));
+                try
+                {
+                    var i = UnicodeInfo.GetCharInfo(code);
+                    list.Insert(0, new BasicInfo(i));
+                }
+                catch { }
             }
 
             if (Int32.TryParse(source,
@@ -80,8 +84,12 @@ namespace UniDecoder
                                 out code)
                         && CodepointExists(code))
             {
-                var i = UnicodeInfo.GetCharInfo(code);
-                list.Insert(0, new BasicInfo(i));
+                try
+                {
+                    var i = UnicodeInfo.GetCharInfo(code);
+                    list.Insert(0, new BasicInfo(i));
+                }
+                catch { }
             }
 
             return list;
