@@ -35,14 +35,7 @@ namespace UniDecoder
 
         private List<BasicInfo> ShowCharactersInString(string source)
         {
-            var items = new List<BasicInfo>();
-            for (var i = 0; i < source.Length; i += Char.IsSurrogatePair(source, i) ? 2 : 1)
-            {
-                var codepoint = Char.ConvertToUtf32(source, i);
-                var info = new BasicInfo(UnicodeInfo.GetCharInfo(codepoint));
-
-                items.Add(info);
-            }
+            var items = source.AsPermissiveCodePointEnumerable().Select(cp => new BasicInfo(UnicodeInfo.GetCharInfo(cp))).ToList();
 
             return items;
         }
