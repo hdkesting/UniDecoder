@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DecoderForm));
             this.gridCharacters = new System.Windows.Forms.DataGridView();
             this.tbInput = new System.Windows.Forms.TextBox();
             this.rbShowChars = new System.Windows.Forms.RadioButton();
@@ -97,6 +98,7 @@
             // 
             // label1
             // 
+            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(38, 481);
             this.label1.Name = "label1";
@@ -137,6 +139,7 @@
             this.Controls.Add(this.rbShowChars);
             this.Controls.Add(this.gridCharacters);
             this.Controls.Add(this.tbInput);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "DecoderForm";
             this.Text = "Unicode decoder";
             ((System.ComponentModel.ISupportInitialize)(this.gridCharacters)).EndInit();
