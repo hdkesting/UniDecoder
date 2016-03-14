@@ -13,23 +13,20 @@ namespace UniDecoder
             InitializeComponent();
 
             tbInput_TextChanged(null, EventArgs.Empty);
-            tbInput.Focus();
+            tbTextInput.Focus();
         }
 
         private void tbInput_TextChanged(object sender, EventArgs e)
         {
-            var text = tbInput.Text;
+            var text = tbTextInput.Text;
+            var list = ShowCharactersInString(text);
+            gridCharacters.DataSource = list;
+        }
 
-            List<BasicInfo> list;
-            if (rbShowChars.Checked)
-            {
-                list = ShowCharactersInString(text);
-            }
-            else
-            {
-                list = FindCharacters(text);
-            }
-
+        private void tbNameInput_TextChanged(object sender, EventArgs e)
+        {
+            var text = tbNameInput.Text;
+            var list = FindCharacters(text);
             gridCharacters.DataSource = list;
         }
 
@@ -140,8 +137,25 @@ namespace UniDecoder
         private void rbShowChars_CheckedChanged(object sender, EventArgs e)
         {
             tbInput_TextChanged(sender, e);
-            tbInput.SelectAll();
-            tbInput.Focus();
+            tbTextInput.SelectAll();
+            tbTextInput.Focus();
+        }
+
+        private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var tabs = (TabControl)sender;
+            if (tabs.SelectedIndex == 0)
+            {
+                tbInput_TextChanged(sender, e);
+                tbTextInput.Focus();
+                tbTextInput.SelectAll();
+            }
+            else
+            {
+                tbNameInput_TextChanged(sender, e);
+                tbNameInput.Focus();
+                tbNameInput.SelectAll();
+            }
         }
     }
 }
