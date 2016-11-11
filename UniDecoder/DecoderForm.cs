@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Unicode;
 using System.Windows.Forms;
 
@@ -19,6 +20,15 @@ namespace UniDecoder
         private void tbInput_TextChanged(object sender, EventArgs e)
         {
             var text = tbTextInput.Text;
+            if (rbFormC.Checked)
+            {
+                text = text.Normalize(NormalizationForm.FormC);
+            }
+            else if (rbFormD.Checked)
+            {
+                text = text.Normalize(NormalizationForm.FormD);
+            }
+
             var list = ShowCharactersInString(text);
             gridCharacters.DataSource = list;
         }
@@ -155,6 +165,14 @@ namespace UniDecoder
                 tbNameInput_TextChanged(sender, e);
                 tbNameInput.Focus();
                 tbNameInput.SelectAll();
+            }
+        }
+
+        private void rbNormalization_CheckedChanged(object sender, EventArgs e)
+        {
+            if (((RadioButton)sender).Checked)
+            {
+                tbInput_TextChanged(sender, e);
             }
         }
     }
