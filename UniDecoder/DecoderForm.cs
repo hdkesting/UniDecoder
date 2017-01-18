@@ -156,12 +156,14 @@ namespace UniDecoder
             var tabs = (TabControl)sender;
             if (tabs.SelectedIndex == 0)
             {
+                NormalizationGroup.Visible = true;
                 tbInput_TextChanged(sender, e);
                 tbTextInput.Focus();
                 tbTextInput.SelectAll();
             }
             else
             {
+                NormalizationGroup.Visible = false;
                 tbNameInput_TextChanged(sender, e);
                 tbNameInput.Focus();
                 tbNameInput.SelectAll();

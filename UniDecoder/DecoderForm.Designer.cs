@@ -40,14 +40,16 @@
             this.tabPageFind = new System.Windows.Forms.TabPage();
             this.tbNameInput = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.rbNone = new System.Windows.Forms.RadioButton();
-            this.rbFormC = new System.Windows.Forms.RadioButton();
+            this.NormalizationGroup = new System.Windows.Forms.GroupBox();
             this.rbFormD = new System.Windows.Forms.RadioButton();
+            this.rbFormC = new System.Windows.Forms.RadioButton();
+            this.rbNone = new System.Windows.Forms.RadioButton();
+            this.label5 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.gridCharacters)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.tabPageShow.SuspendLayout();
             this.tabPageFind.SuspendLayout();
+            this.NormalizationGroup.SuspendLayout();
             this.SuspendLayout();
             // 
             // gridCharacters
@@ -55,8 +57,8 @@
             this.gridCharacters.AllowUserToAddRows = false;
             this.gridCharacters.AllowUserToDeleteRows = false;
             this.gridCharacters.AllowUserToResizeRows = false;
-            this.gridCharacters.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
+            this.gridCharacters.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.gridCharacters.BackgroundColor = System.Drawing.SystemColors.Window;
             this.gridCharacters.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -104,7 +106,7 @@
             // 
             // tabControl1
             // 
-            this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl1.Controls.Add(this.tabPageShow);
             this.tabControl1.Controls.Add(this.tabPageFind);
@@ -138,7 +140,7 @@
             // 
             // tbTextInput
             // 
-            this.tbTextInput.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this.tbTextInput.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tbTextInput.Location = new System.Drawing.Point(3, 23);
             this.tbTextInput.Name = "tbTextInput";
@@ -161,7 +163,7 @@
             // 
             // tbNameInput
             // 
-            this.tbNameInput.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this.tbNameInput.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tbNameInput.Location = new System.Drawing.Point(6, 23);
             this.tbNameInput.Name = "tbNameInput";
@@ -178,59 +180,68 @@
             this.label4.TabIndex = 0;
             this.label4.Text = "Find characters by name using these words:";
             // 
-            // label5
+            // NormalizationGroup
             // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(16, 95);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(73, 13);
-            this.label5.TabIndex = 12;
-            this.label5.Text = "Normalization:";
+            this.NormalizationGroup.Controls.Add(this.label5);
+            this.NormalizationGroup.Controls.Add(this.rbNone);
+            this.NormalizationGroup.Controls.Add(this.rbFormC);
+            this.NormalizationGroup.Controls.Add(this.rbFormD);
+            this.NormalizationGroup.Location = new System.Drawing.Point(12, 90);
+            this.NormalizationGroup.Name = "NormalizationGroup";
+            this.NormalizationGroup.Size = new System.Drawing.Size(272, 39);
+            this.NormalizationGroup.TabIndex = 14;
+            this.NormalizationGroup.TabStop = false;
+            // 
+            // rbFormD
+            // 
+            this.rbFormD.AutoSize = true;
+            this.rbFormD.Location = new System.Drawing.Point(200, 14);
+            this.rbFormD.Name = "rbFormD";
+            this.rbFormD.Size = new System.Drawing.Size(53, 17);
+            this.rbFormD.TabIndex = 14;
+            this.rbFormD.Text = "FomD";
+            this.rbFormD.UseVisualStyleBackColor = true;
+            this.rbFormD.CheckedChanged += new System.EventHandler(this.rbShowChars_CheckedChanged);
+            // 
+            // rbFormC
+            // 
+            this.rbFormC.AutoSize = true;
+            this.rbFormC.Location = new System.Drawing.Point(142, 14);
+            this.rbFormC.Name = "rbFormC";
+            this.rbFormC.Size = new System.Drawing.Size(52, 17);
+            this.rbFormC.TabIndex = 15;
+            this.rbFormC.Text = "FomC";
+            this.rbFormC.UseVisualStyleBackColor = true;
+            this.rbFormC.CheckedChanged += new System.EventHandler(this.rbShowChars_CheckedChanged);
             // 
             // rbNone
             // 
             this.rbNone.AutoSize = true;
             this.rbNone.Checked = true;
-            this.rbNone.Location = new System.Drawing.Point(96, 95);
+            this.rbNone.Location = new System.Drawing.Point(85, 14);
             this.rbNone.Name = "rbNone";
             this.rbNone.Size = new System.Drawing.Size(51, 17);
-            this.rbNone.TabIndex = 13;
+            this.rbNone.TabIndex = 16;
             this.rbNone.TabStop = true;
             this.rbNone.Text = "None";
             this.rbNone.UseVisualStyleBackColor = true;
-            this.rbNone.CheckedChanged += new System.EventHandler(this.rbNormalization_CheckedChanged);
+            this.rbNone.CheckedChanged += new System.EventHandler(this.rbShowChars_CheckedChanged);
             // 
-            // rbFormC
+            // label5
             // 
-            this.rbFormC.AutoSize = true;
-            this.rbFormC.Location = new System.Drawing.Point(153, 94);
-            this.rbFormC.Name = "rbFormC";
-            this.rbFormC.Size = new System.Drawing.Size(52, 17);
-            this.rbFormC.TabIndex = 13;
-            this.rbFormC.Text = "FomC";
-            this.rbFormC.UseVisualStyleBackColor = true;
-            this.rbFormC.CheckedChanged += new System.EventHandler(this.rbNormalization_CheckedChanged);
-            // 
-            // rbFormD
-            // 
-            this.rbFormD.AutoSize = true;
-            this.rbFormD.Location = new System.Drawing.Point(211, 95);
-            this.rbFormD.Name = "rbFormD";
-            this.rbFormD.Size = new System.Drawing.Size(53, 17);
-            this.rbFormD.TabIndex = 13;
-            this.rbFormD.Text = "FomD";
-            this.rbFormD.UseVisualStyleBackColor = true;
-            this.rbFormD.CheckedChanged += new System.EventHandler(this.rbNormalization_CheckedChanged);
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(6, 16);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(73, 13);
+            this.label5.TabIndex = 17;
+            this.label5.Text = "Normalization:";
             // 
             // DecoderForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(595, 546);
-            this.Controls.Add(this.rbFormD);
-            this.Controls.Add(this.rbFormC);
-            this.Controls.Add(this.rbNone);
-            this.Controls.Add(this.label5);
+            this.Controls.Add(this.NormalizationGroup);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.lbBigChar);
             this.Controls.Add(this.label2);
@@ -245,6 +256,8 @@
             this.tabPageShow.PerformLayout();
             this.tabPageFind.ResumeLayout(false);
             this.tabPageFind.PerformLayout();
+            this.NormalizationGroup.ResumeLayout(false);
+            this.NormalizationGroup.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -262,6 +275,7 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox tbNameInput;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.GroupBox NormalizationGroup;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.RadioButton rbNone;
         private System.Windows.Forms.RadioButton rbFormC;

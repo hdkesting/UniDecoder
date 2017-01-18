@@ -12,14 +12,14 @@ namespace UniDecoder
             Character = Char.ConvertFromUtf32(fullInfo.CodePoint);
         }
 
-        public string Character { get; private set; }
+        public string Character { get; }
 
-        public string Name { get; private set; }
+        public string Name { get; }
 
-        public string Block { get; private set; }
+        public string Block { get; }
 
-        public int Codepoint { get; private set; }
+        public int Codepoint { get; }
 
-        public string CodepointHex { get { return Codepoint.ToString("X4"); } }
+        public string CodepointHex => Codepoint.ToString("X4");
     }
 }
