@@ -4,6 +4,11 @@ namespace UniDecoder
 {
     public static class Extensions
     {
+        /// <summary>
+        /// Converts the (upper case) input to Title Case.
+        /// </summary>
+        /// <param name="input">The input.</param>
+        /// <returns>The converted string.</returns>
         public static string ToTitleCase(this string input)
         {
             var ca = (input ?? String.Empty).ToCharArray();

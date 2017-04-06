@@ -41,10 +41,10 @@
             this.tbNameInput = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.NormalizationGroup = new System.Windows.Forms.GroupBox();
-            this.rbFormD = new System.Windows.Forms.RadioButton();
-            this.rbFormC = new System.Windows.Forms.RadioButton();
-            this.rbNone = new System.Windows.Forms.RadioButton();
             this.label5 = new System.Windows.Forms.Label();
+            this.rbNone = new System.Windows.Forms.RadioButton();
+            this.rbFormC = new System.Windows.Forms.RadioButton();
+            this.rbFormD = new System.Windows.Forms.RadioButton();
             ((System.ComponentModel.ISupportInitialize)(this.gridCharacters)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.tabPageShow.SuspendLayout();
@@ -60,6 +60,7 @@
             this.gridCharacters.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.gridCharacters.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.gridCharacters.BackgroundColor = System.Drawing.SystemColors.Window;
             this.gridCharacters.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.gridCharacters.Location = new System.Drawing.Point(12, 148);
@@ -192,27 +193,14 @@
             this.NormalizationGroup.TabIndex = 14;
             this.NormalizationGroup.TabStop = false;
             // 
-            // rbFormD
+            // label5
             // 
-            this.rbFormD.AutoSize = true;
-            this.rbFormD.Location = new System.Drawing.Point(200, 14);
-            this.rbFormD.Name = "rbFormD";
-            this.rbFormD.Size = new System.Drawing.Size(53, 17);
-            this.rbFormD.TabIndex = 14;
-            this.rbFormD.Text = "FomD";
-            this.rbFormD.UseVisualStyleBackColor = true;
-            this.rbFormD.CheckedChanged += new System.EventHandler(this.rbShowChars_CheckedChanged);
-            // 
-            // rbFormC
-            // 
-            this.rbFormC.AutoSize = true;
-            this.rbFormC.Location = new System.Drawing.Point(142, 14);
-            this.rbFormC.Name = "rbFormC";
-            this.rbFormC.Size = new System.Drawing.Size(52, 17);
-            this.rbFormC.TabIndex = 15;
-            this.rbFormC.Text = "FomC";
-            this.rbFormC.UseVisualStyleBackColor = true;
-            this.rbFormC.CheckedChanged += new System.EventHandler(this.rbShowChars_CheckedChanged);
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(6, 16);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(73, 13);
+            this.label5.TabIndex = 17;
+            this.label5.Text = "Normalization:";
             // 
             // rbNone
             // 
@@ -227,14 +215,27 @@
             this.rbNone.UseVisualStyleBackColor = true;
             this.rbNone.CheckedChanged += new System.EventHandler(this.rbShowChars_CheckedChanged);
             // 
-            // label5
+            // rbFormC
             // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(6, 16);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(73, 13);
-            this.label5.TabIndex = 17;
-            this.label5.Text = "Normalization:";
+            this.rbFormC.AutoSize = true;
+            this.rbFormC.Location = new System.Drawing.Point(142, 14);
+            this.rbFormC.Name = "rbFormC";
+            this.rbFormC.Size = new System.Drawing.Size(52, 17);
+            this.rbFormC.TabIndex = 15;
+            this.rbFormC.Text = "FomC";
+            this.rbFormC.UseVisualStyleBackColor = true;
+            this.rbFormC.CheckedChanged += new System.EventHandler(this.rbShowChars_CheckedChanged);
+            // 
+            // rbFormD
+            // 
+            this.rbFormD.AutoSize = true;
+            this.rbFormD.Location = new System.Drawing.Point(200, 14);
+            this.rbFormD.Name = "rbFormD";
+            this.rbFormD.Size = new System.Drawing.Size(53, 17);
+            this.rbFormD.TabIndex = 14;
+            this.rbFormD.Text = "FomD";
+            this.rbFormD.UseVisualStyleBackColor = true;
+            this.rbFormD.CheckedChanged += new System.EventHandler(this.rbShowChars_CheckedChanged);
             // 
             // DecoderForm
             // 

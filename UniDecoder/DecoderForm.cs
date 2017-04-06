@@ -56,10 +56,11 @@ namespace UniDecoder
             }
             else
             {
+                // select the first {limit} existing characters whose name matches
                 int limit = (source.Length > 3) ? 100 : 25;
                 list = Enumerable.Range(0x0000, 0x10FFFF)
-                    .Where(cp => UnicodeInfo.GetCategory(cp) != System.Globalization.UnicodeCategory.OtherNotAssigned)
-                    .Select(cp => UnicodeInfo.GetCharInfo(cp))
+                    .Where(CodepointExists)
+                    .Select(UnicodeInfo.GetCharInfo)
                     .Where(x => NameMatches(source, x.Name))
                     .Select(info => new BasicInfo(info))
                     .Take(limit)
@@ -99,12 +100,15 @@ namespace UniDecoder
         {
             var cat = UnicodeInfo.GetCategory(codepoint);
             return cat != System.Globalization.UnicodeCategory.OtherNotAssigned;
+            // unfortunately I don't see a more direct/less brittle way
         }
 
         private bool NameMatches(string match, string source)
         {
             if (source == null)
+            {
                 return false;
+            }
 
             var searchwords = match.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
             var sourcewords = source.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
