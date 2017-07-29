@@ -16,7 +16,14 @@ namespace UniDecoder
             Name = fullInfo.Name.ToTitleCase();
             Block = fullInfo.Block;
             Codepoint = fullInfo.CodePoint;
-            Character = Char.ConvertFromUtf32(fullInfo.CodePoint);
+            if (fullInfo.Category != System.Globalization.UnicodeCategory.Surrogate)
+            {
+                Character = Char.ConvertFromUtf32(fullInfo.CodePoint);
+            }
+            else
+            {
+                Character = "�";
+            }
         }
 
         /// <summary>
