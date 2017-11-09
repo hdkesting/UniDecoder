@@ -79,9 +79,9 @@
             this.gridCharacters.RowHeadersVisible = false;
             this.gridCharacters.Size = new System.Drawing.Size(571, 370);
             this.gridCharacters.TabIndex = 5;
-            this.gridCharacters.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridCharacters_CellDoubleClick);
-            this.gridCharacters.CellMouseEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridCharacters_CellMouseEnter);
-            this.gridCharacters.CellMouseLeave += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridCharacters_CellMouseLeave);
+            this.gridCharacters.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.GridCharacters_CellDoubleClick);
+            this.gridCharacters.CellMouseEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.GridCharacters_CellMouseEnter);
+            this.gridCharacters.CellMouseLeave += new System.Windows.Forms.DataGridViewCellEventHandler(this.GridCharacters_CellMouseLeave);
             // 
             // label1
             // 
@@ -125,7 +125,7 @@
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(571, 76);
             this.tabControl1.TabIndex = 11;
-            this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
+            this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.TabControl1_SelectedIndexChanged);
             // 
             // tabPageShow
             // 
@@ -158,7 +158,7 @@
             this.tbTextInput.Size = new System.Drawing.Size(554, 22);
             this.tbTextInput.TabIndex = 2;
             this.tbTextInput.Text = "1× 🍕 à €1,‒";
-            this.tbTextInput.TextChanged += new System.EventHandler(this.tbInput_TextChanged);
+            this.tbTextInput.TextChanged += new System.EventHandler(this.TbInput_TextChanged);
             // 
             // tabPageFind
             // 
@@ -180,7 +180,7 @@
             this.tbNameInput.Name = "tbNameInput";
             this.tbNameInput.Size = new System.Drawing.Size(551, 20);
             this.tbNameInput.TabIndex = 1;
-            this.tbNameInput.TextChanged += new System.EventHandler(this.tbNameInput_TextChanged);
+            this.tbNameInput.TextChanged += new System.EventHandler(this.TbNameInput_TextChanged);
             // 
             // label4
             // 
@@ -223,7 +223,7 @@
             this.rbNone.TabStop = true;
             this.rbNone.Text = "None";
             this.rbNone.UseVisualStyleBackColor = true;
-            this.rbNone.CheckedChanged += new System.EventHandler(this.rbShowChars_CheckedChanged);
+            this.rbNone.CheckedChanged += new System.EventHandler(this.RbShowChars_CheckedChanged);
             // 
             // rbFormC
             // 
@@ -234,7 +234,7 @@
             this.rbFormC.TabIndex = 15;
             this.rbFormC.Text = "FomC";
             this.rbFormC.UseVisualStyleBackColor = true;
-            this.rbFormC.CheckedChanged += new System.EventHandler(this.rbShowChars_CheckedChanged);
+            this.rbFormC.CheckedChanged += new System.EventHandler(this.RbShowChars_CheckedChanged);
             // 
             // rbFormD
             // 
@@ -245,7 +245,7 @@
             this.rbFormD.TabIndex = 14;
             this.rbFormD.Text = "FomD";
             this.rbFormD.UseVisualStyleBackColor = true;
-            this.rbFormD.CheckedChanged += new System.EventHandler(this.rbShowChars_CheckedChanged);
+            this.rbFormD.CheckedChanged += new System.EventHandler(this.RbShowChars_CheckedChanged);
             // 
             // DecoderForm
             // 

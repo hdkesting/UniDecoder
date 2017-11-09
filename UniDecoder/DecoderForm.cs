@@ -13,31 +13,31 @@ namespace UniDecoder
         {
             InitializeComponent();
 
-            tbInput_TextChanged(null, EventArgs.Empty);
-            tbTextInput.Focus();
+            TbInput_TextChanged(null, EventArgs.Empty);
+            this.tbTextInput.Focus();
         }
 
-        private void tbInput_TextChanged(object sender, EventArgs e)
+        private void TbInput_TextChanged(object sender, EventArgs e)
         {
-            var text = tbTextInput.Text;
-            if (rbFormC.Checked)
+            var text = this.tbTextInput.Text;
+            if (this.rbFormC.Checked)
             {
                 text = text.Normalize(NormalizationForm.FormC);
             }
-            else if (rbFormD.Checked)
+            else if (this.rbFormD.Checked)
             {
                 text = text.Normalize(NormalizationForm.FormD);
             }
 
             var list = ShowCharactersInString(text);
-            gridCharacters.DataSource = list;
+            this.gridCharacters.DataSource = list;
         }
 
-        private void tbNameInput_TextChanged(object sender, EventArgs e)
+        private void TbNameInput_TextChanged(object sender, EventArgs e)
         {
-            var text = tbNameInput.Text;
+            var text = this.tbNameInput.Text;
             var list = FindCharacters(text);
-            gridCharacters.DataSource = list;
+            this.gridCharacters.DataSource = list;
         }
 
         private List<BasicInfo> ShowCharactersInString(string source)
@@ -68,8 +68,7 @@ namespace UniDecoder
             }
 
             // try and interpret as integer (decimal or hex)
-            int code;
-            if (Int32.TryParse(source, out code) && CodepointExists(code))
+            if (Int32.TryParse(source, out int code) && CodepointExists(code))
             {
                 try
                 {
@@ -124,21 +123,21 @@ namespace UniDecoder
             return true;
         }
 
-        private void gridCharacters_CellMouseEnter(object sender, DataGridViewCellEventArgs e)
+        private void GridCharacters_CellMouseEnter(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex >= 0)
             {
                 var grid = (DataGridView)sender;
-                lbBigChar.Text = grid[0, e.RowIndex].Value.ToString();
+                this.lbBigChar.Text = grid[0, e.RowIndex].Value.ToString();
             }
         }
 
-        private void gridCharacters_CellMouseLeave(object sender, DataGridViewCellEventArgs e)
+        private void GridCharacters_CellMouseLeave(object sender, DataGridViewCellEventArgs e)
         {
-            lbBigChar.Text = String.Empty;
+            this.lbBigChar.Text = String.Empty;
         }
 
-        private void gridCharacters_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        private void GridCharacters_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.ColumnIndex == 0 && e.RowIndex >= 0)
             {
@@ -148,37 +147,37 @@ namespace UniDecoder
             }
         }
 
-        private void rbShowChars_CheckedChanged(object sender, EventArgs e)
+        private void RbShowChars_CheckedChanged(object sender, EventArgs e)
         {
-            tbInput_TextChanged(sender, e);
-            tbTextInput.SelectAll();
-            tbTextInput.Focus();
+            TbInput_TextChanged(sender, e);
+            this.tbTextInput.SelectAll();
+            this.tbTextInput.Focus();
         }
 
-        private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
+        private void TabControl1_SelectedIndexChanged(object sender, EventArgs e)
         {
             var tabs = (TabControl)sender;
             if (tabs.SelectedIndex == 0)
             {
-                NormalizationGroup.Visible = true;
-                tbInput_TextChanged(sender, e);
-                tbTextInput.Focus();
-                tbTextInput.SelectAll();
+                this.NormalizationGroup.Visible = true;
+                TbInput_TextChanged(sender, e);
+                this.tbTextInput.Focus();
+                this.tbTextInput.SelectAll();
             }
             else
             {
-                NormalizationGroup.Visible = false;
-                tbNameInput_TextChanged(sender, e);
-                tbNameInput.Focus();
-                tbNameInput.SelectAll();
+                this.NormalizationGroup.Visible = false;
+                TbNameInput_TextChanged(sender, e);
+                this.tbNameInput.Focus();
+                this.tbNameInput.SelectAll();
             }
         }
 
-        private void rbNormalization_CheckedChanged(object sender, EventArgs e)
+        private void RbNormalization_CheckedChanged(object sender, EventArgs e)
         {
             if (((RadioButton)sender).Checked)
             {
-                tbInput_TextChanged(sender, e);
+                TbInput_TextChanged(sender, e);
             }
         }
     }
