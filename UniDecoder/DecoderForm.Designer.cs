@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DecoderForm));
             this.gridCharacters = new System.Windows.Forms.DataGridView();
             this.label1 = new System.Windows.Forms.Label();
@@ -67,6 +68,14 @@
             this.gridCharacters.MultiSelect = false;
             this.gridCharacters.Name = "gridCharacters";
             this.gridCharacters.ReadOnly = true;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.gridCharacters.RowHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.gridCharacters.RowHeadersVisible = false;
             this.gridCharacters.Size = new System.Drawing.Size(571, 370);
             this.gridCharacters.TabIndex = 5;
@@ -98,10 +107,10 @@
             this.lbBigChar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lbBigChar.AutoSize = true;
             this.lbBigChar.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.lbBigChar.Font = new System.Drawing.Font("Microsoft Sans Serif", 28F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbBigChar.Location = new System.Drawing.Point(532, 101);
+            this.lbBigChar.Font = new System.Drawing.Font("Segoe UI Semibold", 27.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbBigChar.Location = new System.Drawing.Point(532, 95);
             this.lbBigChar.Name = "lbBigChar";
-            this.lbBigChar.Size = new System.Drawing.Size(30, 44);
+            this.lbBigChar.Size = new System.Drawing.Size(32, 50);
             this.lbBigChar.TabIndex = 10;
             this.lbBigChar.Text = " ";
             // 
@@ -143,9 +152,10 @@
             // 
             this.tbTextInput.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.tbTextInput.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tbTextInput.Location = new System.Drawing.Point(3, 23);
             this.tbTextInput.Name = "tbTextInput";
-            this.tbTextInput.Size = new System.Drawing.Size(554, 20);
+            this.tbTextInput.Size = new System.Drawing.Size(554, 22);
             this.tbTextInput.TabIndex = 2;
             this.tbTextInput.Text = "1× 🍕 à €1,‒";
             this.tbTextInput.TextChanged += new System.EventHandler(this.tbInput_TextChanged);
