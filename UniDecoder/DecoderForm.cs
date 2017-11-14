@@ -13,8 +13,23 @@ namespace UniDecoder
         {
             InitializeComponent();
 
+            this.FillBlockList();
+
             TbInput_TextChanged(null, EventArgs.Empty);
             this.tbTextInput.Focus();
+        }
+
+        private void FillBlockList()
+        {
+            var list = Enumerable.Range(0x0000, 0x10FFFF)
+                   .Where(CodepointExists)
+                   .Select(UnicodeInfo.GetCharInfo)
+                   .Select(info => info.Block)
+                   .Distinct()
+                   .ToArray();
+
+            this.cbBlocks.Items.Clear();
+            this.cbBlocks.Items.AddRange(list);
         }
 
         private void TbInput_TextChanged(object sender, EventArgs e)
@@ -157,19 +172,33 @@ namespace UniDecoder
         private void TabControl1_SelectedIndexChanged(object sender, EventArgs e)
         {
             var tabs = (TabControl)sender;
-            if (tabs.SelectedIndex == 0)
+            switch (tabs.SelectedIndex)
             {
-                this.NormalizationGroup.Visible = true;
-                TbInput_TextChanged(sender, e);
-                this.tbTextInput.Focus();
-                this.tbTextInput.SelectAll();
-            }
-            else
-            {
-                this.NormalizationGroup.Visible = false;
-                TbNameInput_TextChanged(sender, e);
-                this.tbNameInput.Focus();
-                this.tbNameInput.SelectAll();
+                case 0:
+                    this.NormalizationGroup.Visible = true;
+                    TbInput_TextChanged(sender, e);
+                    this.tbTextInput.Focus();
+                    this.tbTextInput.SelectAll();
+                    break;
+
+                case 1:
+                    this.NormalizationGroup.Visible = false;
+                    TbNameInput_TextChanged(sender, e);
+                    this.tbNameInput.Focus();
+                    this.tbNameInput.SelectAll();
+                    break;
+
+                case 2:
+                    this.NormalizationGroup.Visible = false;
+                    if (this.cbBlocks.SelectedItem == null)
+                    {
+                        this.cbBlocks.SelectedItem = "Basic Latin";
+                    }
+                    else
+                    {
+                        this.CbBlocks_SelectedValueChanged(null, null);
+                    }
+                    break;
             }
         }
 
@@ -179,6 +208,20 @@ namespace UniDecoder
             {
                 TbInput_TextChanged(sender, e);
             }
+        }
+
+        private void CbBlocks_SelectedValueChanged(object sender, EventArgs e)
+        {
+            var block = (string)this.cbBlocks.SelectedItem;
+
+            var list = Enumerable.Range(0x0000, 0x10FFFF)
+                        .Where(CodepointExists)
+                        .Select(UnicodeInfo.GetCharInfo)
+                        .Where(x => x.Block == block)
+                        .Select(info => new BasicInfo(info))
+                        .ToList();
+
+            this.gridCharacters.DataSource = list;
         }
     }
 }

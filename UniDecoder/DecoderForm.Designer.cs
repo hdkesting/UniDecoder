@@ -41,6 +41,9 @@
             this.tabPageFind = new System.Windows.Forms.TabPage();
             this.tbNameInput = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
+            this.tabPageBlock = new System.Windows.Forms.TabPage();
+            this.cbBlocks = new System.Windows.Forms.ComboBox();
+            this.label6 = new System.Windows.Forms.Label();
             this.NormalizationGroup = new System.Windows.Forms.GroupBox();
             this.label5 = new System.Windows.Forms.Label();
             this.rbNone = new System.Windows.Forms.RadioButton();
@@ -50,6 +53,7 @@
             this.tabControl1.SuspendLayout();
             this.tabPageShow.SuspendLayout();
             this.tabPageFind.SuspendLayout();
+            this.tabPageBlock.SuspendLayout();
             this.NormalizationGroup.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -120,6 +124,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl1.Controls.Add(this.tabPageShow);
             this.tabControl1.Controls.Add(this.tabPageFind);
+            this.tabControl1.Controls.Add(this.tabPageBlock);
             this.tabControl1.Location = new System.Drawing.Point(12, 12);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
@@ -190,6 +195,39 @@
             this.label4.Size = new System.Drawing.Size(214, 13);
             this.label4.TabIndex = 0;
             this.label4.Text = "Find characters by name using these words:";
+            // 
+            // tabPageBlock
+            // 
+            this.tabPageBlock.Controls.Add(this.cbBlocks);
+            this.tabPageBlock.Controls.Add(this.label6);
+            this.tabPageBlock.Location = new System.Drawing.Point(4, 22);
+            this.tabPageBlock.Name = "tabPageBlock";
+            this.tabPageBlock.Size = new System.Drawing.Size(563, 50);
+            this.tabPageBlock.TabIndex = 2;
+            this.tabPageBlock.Text = "Block";
+            this.tabPageBlock.UseVisualStyleBackColor = true;
+            // 
+            // cbBlocks
+            // 
+            this.cbBlocks.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.cbBlocks.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cbBlocks.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbBlocks.FormattingEnabled = true;
+            this.cbBlocks.Location = new System.Drawing.Point(5, 20);
+            this.cbBlocks.Name = "cbBlocks";
+            this.cbBlocks.Size = new System.Drawing.Size(280, 21);
+            this.cbBlocks.Sorted = true;
+            this.cbBlocks.TabIndex = 1;
+            this.cbBlocks.SelectedValueChanged += new System.EventHandler(this.CbBlocks_SelectedValueChanged);
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(5, 4);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(203, 13);
+            this.label6.TabIndex = 0;
+            this.label6.Text = "Show characters from the selected block:";
             // 
             // NormalizationGroup
             // 
@@ -267,6 +305,8 @@
             this.tabPageShow.PerformLayout();
             this.tabPageFind.ResumeLayout(false);
             this.tabPageFind.PerformLayout();
+            this.tabPageBlock.ResumeLayout(false);
+            this.tabPageBlock.PerformLayout();
             this.NormalizationGroup.ResumeLayout(false);
             this.NormalizationGroup.PerformLayout();
             this.ResumeLayout(false);
@@ -291,6 +331,9 @@
         private System.Windows.Forms.RadioButton rbNone;
         private System.Windows.Forms.RadioButton rbFormC;
         private System.Windows.Forms.RadioButton rbFormD;
+        private System.Windows.Forms.TabPage tabPageBlock;
+        private System.Windows.Forms.ComboBox cbBlocks;
+        private System.Windows.Forms.Label label6;
     }
 }
 
