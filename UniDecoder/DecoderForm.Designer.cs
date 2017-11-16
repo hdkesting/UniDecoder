@@ -49,6 +49,7 @@
             this.rbNone = new System.Windows.Forms.RadioButton();
             this.rbFormC = new System.Windows.Forms.RadioButton();
             this.rbFormD = new System.Windows.Forms.RadioButton();
+            this.VersionLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.gridCharacters)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.tabPageShow.SuspendLayout();
@@ -285,11 +286,22 @@
             this.rbFormD.UseVisualStyleBackColor = true;
             this.rbFormD.CheckedChanged += new System.EventHandler(this.RbShowChars_CheckedChanged);
             // 
+            // VersionLabel
+            // 
+            this.VersionLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.VersionLabel.AutoSize = true;
+            this.VersionLabel.Location = new System.Drawing.Point(529, 524);
+            this.VersionLabel.Name = "VersionLabel";
+            this.VersionLabel.Size = new System.Drawing.Size(40, 13);
+            this.VersionLabel.TabIndex = 15;
+            this.VersionLabel.Text = "0.0.0.0";
+            // 
             // DecoderForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(595, 546);
+            this.Controls.Add(this.VersionLabel);
             this.Controls.Add(this.NormalizationGroup);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.lbBigChar);
@@ -334,6 +346,7 @@
         private System.Windows.Forms.TabPage tabPageBlock;
         private System.Windows.Forms.ComboBox cbBlocks;
         private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label VersionLabel;
     }
 }
 

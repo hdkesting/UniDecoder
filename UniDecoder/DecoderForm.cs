@@ -15,6 +15,8 @@ namespace UniDecoder
 
             this.FillBlockList();
 
+            this.VersionLabel.Text = UnicodeInfo.UnicodeVersion.ToString();
+
             TbInput_TextChanged(null, EventArgs.Empty);
             this.tbTextInput.Focus();
         }
