@@ -24,6 +24,8 @@ namespace UniDecoder
             {
                 Character = "�";
             }
+
+            Category = fullInfo.Category.ToString().ToSeparateWords();
         }
 
         /// <summary>
@@ -65,5 +67,8 @@ namespace UniDecoder
         /// The hexadecimal codepoint .
         /// </value>
         public string CodepointHex => Codepoint.ToString("X4");
+
+
+        public string Category { get; }
     }
 }
