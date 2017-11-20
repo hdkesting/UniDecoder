@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Unicode;
 
 namespace UniDecoder
 {
@@ -11,19 +12,15 @@ namespace UniDecoder
         /// Initializes a new instance of the <see cref="BasicInfo"/> class.
         /// </summary>
         /// <param name="fullInfo">The full information.</param>
-        public BasicInfo(System.Unicode.UnicodeCharInfo fullInfo)
+        public BasicInfo(UnicodeCharInfo fullInfo)
         {
             Name = fullInfo.Name.ToTitleCase();
             Block = fullInfo.Block;
             Codepoint = fullInfo.CodePoint;
-            if (fullInfo.Category != System.Globalization.UnicodeCategory.Surrogate)
-            {
-                Character = Char.ConvertFromUtf32(fullInfo.CodePoint);
-            }
-            else
-            {
-                Character = "�";
-            }
+
+            Character = UnicodeInfo.GetDisplayText(fullInfo.CodePoint);
+
+            Category = fullInfo.Category.ToString().ToSeparateWords();
         }
 
         /// <summary>
@@ -65,5 +62,13 @@ namespace UniDecoder
         /// The hexadecimal codepoint .
         /// </value>
         public string CodepointHex => Codepoint.ToString("X4");
+
+        /// <summary>
+        /// Gets the Unicode category.
+        /// </summary>
+        /// <value>
+        /// The category.
+        /// </value>
+        public string Category { get; }
     }
 }

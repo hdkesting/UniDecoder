@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 
 namespace UniDecoder
 {
@@ -30,6 +31,13 @@ namespace UniDecoder
             }
 
             return new string(ca);
+        }
+
+        public static string ToSeparateWords(this string input)
+        {
+            return string.IsNullOrEmpty(input)
+                        ? string.Empty
+                        : Regex.Replace(input, @"(?<=[a-z0-9])([A-Z])|(?<=[A-Z])([A-Z])(?=[a-z])", " $1$2"); // insert space before capital letter
         }
     }
 }
