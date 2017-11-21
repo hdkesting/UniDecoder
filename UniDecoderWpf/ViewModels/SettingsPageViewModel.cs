@@ -25,22 +25,22 @@ namespace UniDecoderWpf.ViewModels
             }
             else
             {
-                _settings = Services.SettingsServices.SettingsService.Instance;
+                this._settings = Services.SettingsServices.SettingsService.Instance;
             }
         }
 
         public bool ShowHamburgerButton
         {
-            get { return _settings.ShowHamburgerButton; }
-            set { _settings.ShowHamburgerButton = value; base.RaisePropertyChanged(); }
+            get { return this._settings.ShowHamburgerButton; }
+            set { this._settings.ShowHamburgerButton = value; base.RaisePropertyChanged(); }
         }
 
         public bool IsFullScreen
         {
-            get { return _settings.IsFullScreen; }
+            get { return this._settings.IsFullScreen; }
             set
             {
-                _settings.IsFullScreen = value;
+                this._settings.IsFullScreen = value;
                 base.RaisePropertyChanged();
                 if (value)
                 {
@@ -55,35 +55,17 @@ namespace UniDecoderWpf.ViewModels
 
         public bool UseShellBackButton
         {
-            get { return _settings.UseShellBackButton; }
-            set { _settings.UseShellBackButton = value; base.RaisePropertyChanged(); }
+            get { return this._settings.UseShellBackButton; }
+            set { this._settings.UseShellBackButton = value; base.RaisePropertyChanged(); }
         }
 
         public bool UseLightThemeButton
         {
-            get { return _settings.AppTheme.Equals(ApplicationTheme.Light); }
-            set { _settings.AppTheme = value ? ApplicationTheme.Light : ApplicationTheme.Dark; base.RaisePropertyChanged(); }
+            get { return this._settings.AppTheme.Equals(ApplicationTheme.Light); }
+            set { this._settings.AppTheme = value ? ApplicationTheme.Light : ApplicationTheme.Dark; base.RaisePropertyChanged(); }
         }
 
-        private string _BusyText = "Please wait...";
-        public string BusyText
-        {
-            get { return _BusyText; }
-            set
-            {
-                Set(ref _BusyText, value);
-                _ShowBusyCommand.RaiseCanExecuteChanged();
-            }
-        }
-
-        DelegateCommand _ShowBusyCommand;
-        public DelegateCommand ShowBusyCommand
-            => _ShowBusyCommand ?? (_ShowBusyCommand = new DelegateCommand(async () =>
-            {
-                Views.Busy.SetBusy(true, _BusyText);
-                await Task.Delay(5000);
-                Views.Busy.SetBusy(false);
-            }, () => !string.IsNullOrEmpty(BusyText)));
+        public Version UnicodeVersion => System.Unicode.UnicodeInfo.UnicodeVersion;
     }
 
     public class AboutPartViewModel : ViewModelBase
@@ -103,6 +85,6 @@ namespace UniDecoderWpf.ViewModels
             }
         }
 
-        public Uri RateMe => new Uri("http://aka.ms/template10");
+        //public Uri RateMe => new Uri("http://aka.ms/template10");
     }
 }

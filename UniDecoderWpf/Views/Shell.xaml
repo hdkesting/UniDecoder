@@ -16,7 +16,7 @@
 
         <Controls:HamburgerMenu.PrimaryButtons>
             <!--  mainpage button  -->
-            <Controls:HamburgerButtonInfo ClearHistory="True" PageType="views:MainPage">
+            <Controls:HamburgerButtonInfo ClearHistory="True" PageType="views:ShowCharacterPage">
                 <StackPanel Orientation="Horizontal">
                     <SymbolIcon Width="48"
                                 Height="48"
@@ -30,7 +30,7 @@
 
         <Controls:HamburgerMenu.SecondaryButtons>
             <!--  profile button  -->
-            <Controls:HamburgerButtonInfo ButtonType="Command">
+            <!--<Controls:HamburgerButtonInfo ButtonType="Command">
                 <Interactivity:Interaction.Behaviors>
                     <Core:EventTriggerBehavior EventName="Tapped">
                         <behaviors:MessageDialogAction Title="Show profile" Content="This is an example of a Command-type hamburger button. It does not navigate, only raises the Tapped event for some custom implementation." />
@@ -49,7 +49,7 @@
                                VerticalAlignment="Center"
                                Text="User profile" />
                 </StackPanel>
-            </Controls:HamburgerButtonInfo>
+            </Controls:HamburgerButtonInfo>-->
             <!--  settingspage button  -->
             <Controls:HamburgerButtonInfo x:Name="SettingsButton"
                                           PageParameter="0"

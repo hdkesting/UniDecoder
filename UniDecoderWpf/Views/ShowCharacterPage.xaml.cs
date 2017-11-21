@@ -7,9 +7,9 @@ using System.Collections.ObjectModel;
 
 namespace UniDecoderWpf.Views
 {
-    public sealed partial class MainPage : Page
+    public sealed partial class ShowCharacterPage : Page
     {
-        public MainPage()
+        public ShowCharacterPage()
         {
             InitializeComponent();
             NavigationCacheMode = Windows.UI.Xaml.Navigation.NavigationCacheMode.Enabled;
