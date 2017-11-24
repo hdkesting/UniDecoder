@@ -5,10 +5,16 @@
     xmlns:local="using:UniDecoderWpf.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="using:UniDecoderWpf.ViewModels" 
     mc:Ignorable="d"
     d:DesignHeight="300"
     d:DesignWidth="400">
 
+    <UserControl.DataContext>
+        <vm:CharacterGridViewModel x:Name="ViewModel" />
+    </UserControl.DataContext>
+
+    <Border BorderBrush="Black" BorderThickness="2">
     <ListView ItemsSource="{Binding Path=Characters}" SelectionMode="None" IsItemClickEnabled="True" ItemClick="ListView_ItemClick">
         <ListView.ItemTemplate>
             <DataTemplate>
@@ -33,4 +39,5 @@
             </DataTemplate>
         </ListView.ItemTemplate>
     </ListView>
+    </Border>
 </UserControl>

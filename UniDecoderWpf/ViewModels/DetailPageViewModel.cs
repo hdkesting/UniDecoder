@@ -12,6 +12,7 @@ namespace UniDecoderWpf.ViewModels
 {
     public class DetailPageViewModel : ViewModelBase
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public DetailPageViewModel()
         {
             if (Windows.ApplicationModel.DesignMode.DesignModeEnabled)
@@ -21,7 +22,7 @@ namespace UniDecoderWpf.ViewModels
         }
 
         private string _Value = "Default";
-        public string Value { get { return _Value; } set { Set(ref _Value, value); } }
+        public string Value { get { return this._Value; } set { Set(ref this._Value, value); } }
 
         public override async Task OnNavigatedToAsync(object parameter, NavigationMode mode, IDictionary<string, object> suspensionState)
         {

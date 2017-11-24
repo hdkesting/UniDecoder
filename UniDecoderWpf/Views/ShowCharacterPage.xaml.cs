@@ -14,5 +14,17 @@ namespace UniDecoderWpf.Views
             InitializeComponent();
             NavigationCacheMode = Windows.UI.Xaml.Navigation.NavigationCacheMode.Enabled;
         }
+
+        //private void StringValue_TextChanging(TextBox sender, TextBoxTextChangingEventArgs args)
+        //{
+        //    var svc = new Services.UnicodeServices.UnicodeService();
+
+        //    var list = svc.ShowCharactersInString(sender.Text);
+
+        //    //this.CharGrid.Characters = list;
+        //    this.CharGrid.DataContext = new ViewModels.CharacterGridViewModel() { CharacterList = list };
+
+        //    ((ShowCharacterPageViewModel)this.DataContext).List = list;
+        //}
     }
 }

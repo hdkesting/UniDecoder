@@ -68,6 +68,18 @@ namespace UniDecoderWpf.Services.UnicodeServices
             return list;
         }
 
+        internal List<BasicInfo> GetCharacters(List<int> list)
+        {
+            if (list == null || !list.Any())
+            {
+                return new List<BasicInfo>();
+            }
+
+            return list.Select(cp => UnicodeInfo.GetCharInfo(cp))
+                    .Select(ci => new BasicInfo(ci))
+                    .ToList();
+        }
+
         public bool CodepointExists(int codepoint)
         {
             var cat = UnicodeInfo.GetCategory(codepoint);

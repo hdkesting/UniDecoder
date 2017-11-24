@@ -11,7 +11,7 @@
       xmlns:vm="using:UniDecoderWpf.ViewModels" mc:Ignorable="d">
 
     <Page.DataContext>
-        <vm:MainPageViewModel x:Name="ViewModel" />
+        <vm:ShowCharacterPageViewModel x:Name="ViewModel" />
     </Page.DataContext>
 
     <RelativePanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
@@ -65,15 +65,27 @@
                           RelativePanel.AlignLeftWithPanel="True"
                           RelativePanel.Below="pageHeader">
 
-            <TextBox MinWidth="150" MinHeight="62"
+            <!--<TextBox MinWidth="150" MinHeight="62"
                      Header="Parameter to pass"
                      Text="{Binding Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                      TextWrapping="Wrap">
                 <Interactivity:Interaction.Behaviors>
-                    <!--  enable submit on enter key  -->
-                    <Behaviors:KeyBehavior Key="Enter">
+                    --><!--  enable submit on enter key  -->
+                    <!--<Behaviors:KeyBehavior Key="Enter">
                         <Core:CallMethodAction MethodName="GotoDetailsPage" TargetObject="{Binding}" />
-                    </Behaviors:KeyBehavior>
+                    </Behaviors:KeyBehavior>-->
+                    <!--  focus on textbox when page loads  --><!--
+                    <Core:EventTriggerBehavior>
+                        <Behaviors:FocusAction />
+                    </Core:EventTriggerBehavior>
+                </Interactivity:Interaction.Behaviors>
+            </TextBox>-->
+            <TextBox x:Name="StringValue" Text="{Binding Value, Mode=TwoWay}" Header="Show characters in this text"
+                     TextChanged="{x:Bind ViewModel.GetList}">
+                <Interactivity:Interaction.Behaviors>
+                    <!--<Behaviors:KeyBehavior>
+                        <Core:ChangePropertyAction TargetObject="CharGrid" PropertyName="List" Value="{Binding List}"/>
+                    </Behaviors:KeyBehavior>-->
                     <!--  focus on textbox when page loads  -->
                     <Core:EventTriggerBehavior>
                         <Behaviors:FocusAction />
@@ -82,16 +94,41 @@
             </TextBox>
 
         </controls:Resizer>
-
-        <Button x:Name="submitButton"
-                Click="{x:Bind ViewModel.GotoDetailsPage}" Content="Submit"
-                RelativePanel.AlignBottomWith="parameterResizer"
-                RelativePanel.RightOf="parameterResizer" />
-
-        <TextBlock x:Name="stateTextBox" Margin="16,16,0,0"
-                   RelativePanel.AlignLeftWith="parameterResizer"
-                   RelativePanel.Below="parameterResizer"
-                   Text="Current Visual State" />
+        <!--<local:CharacterGrid x:Name="CharGrid" ch
+                             RelativePanel.Below="parameterResizer" 
+                RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignBottomWithPanel="True"/>-->
+        <Border BorderBrush="Black" BorderThickness="2" RelativePanel.Below="parameterResizer" 
+                RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True">
+            <ListView ItemsSource="{Binding Path=List, Mode=OneWay}" SelectionMode="None">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <!-- char -->
+                                <ColumnDefinition Width="Auto"/>
+                                <!-- name -->
+                                <ColumnDefinition Width="Auto"/>
+                                <!-- block -->
+                                <ColumnDefinition Width="Auto"/>
+                                <!-- codepoint hex/dec -->
+                                <ColumnDefinition Width="Auto"/>
+                                <!-- category -->
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Text="{Binding Character}" />
+                            <TextBlock Grid.Column="1" Text="{Binding Name}" />
+                            <TextBlock Grid.Column="2" Text="{Binding Block}" />
+                            <StackPanel Grid.Column="3" Orientation="Horizontal">
+                                <TextBlock Text="{Binding CodepointHex}"/>
+                                <TextBlock Text="/" />
+                                <TextBlock Text="{Binding Codepoint}" />
+                            </StackPanel>
+                            <TextBlock Grid.Column="4" Text="{Binding Category}" />
+                        </Grid>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </Border>
 
     </RelativePanel>
 </Page>

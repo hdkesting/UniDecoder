@@ -5,12 +5,18 @@ using System.Linq;
 using System.Threading.Tasks;
 using Template10.Services.NavigationService;
 using Windows.UI.Xaml.Navigation;
+using UniDecoderWpf.Models;
+using Windows.UI.Xaml.Controls;
 
 namespace UniDecoderWpf.ViewModels
 {
-    public class MainPageViewModel : ViewModelBase
+    public class ShowCharacterPageViewModel : ViewModelBase
     {
-        public MainPageViewModel()
+        string value = "1× 🍕 à €1,‒";
+        List<BasicInfo> list;
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public ShowCharacterPageViewModel()
         {
             if (Windows.ApplicationModel.DesignMode.DesignModeEnabled)
             {
@@ -18,8 +24,19 @@ namespace UniDecoderWpf.ViewModels
             }
         }
 
-        string _Value = "Gas";
-        public string Value { get { return this._Value; } set { Set(ref this._Value, value); } }
+        public string Value { get { return this.value; } set { Set(ref this.value, value); } }
+
+        public List<BasicInfo> List
+        {
+            get { return this.list; }
+            set { Set(ref this.list, value); }
+        }
+
+        public void GetList(TextBox sender, TextBoxTextChangingEventArgs args)
+        {
+            var svc = new Services.UnicodeServices.UnicodeService();
+            List = svc.ShowCharactersInString(Value);
+        }
 
         public override async Task OnNavigatedToAsync(object parameter, NavigationMode mode, IDictionary<string, object> suspensionState)
         {

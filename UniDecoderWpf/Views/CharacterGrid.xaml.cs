@@ -25,7 +25,7 @@ namespace UniDecoderWpf.Views
             this.InitializeComponent();
         }
 
-        public List<BasicInfo> Characters { get; set; }
+        // public List<BasicInfo> Characters { get; set; }
 
         public string Utf8String(BasicInfo character)
         {
