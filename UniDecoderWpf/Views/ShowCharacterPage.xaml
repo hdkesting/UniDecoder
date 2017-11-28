@@ -72,16 +72,15 @@
             </Interactivity:Interaction.Behaviors>
         </TextBox>
 
-        <Border BorderBrush="Black" BorderThickness="2" RelativePanel.Below="StringValue" 
+            <GridView ItemsSource="{Binding Path=List, Mode=OneWay}" SelectionMode="Single" RelativePanel.Below="StringValue" 
                 RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True">
-            <GridView ItemsSource="{Binding Path=List, Mode=OneWay}" SelectionMode="Single">
                 <GridView.ItemTemplate>
                     <DataTemplate>
-                        <Grid BorderThickness="1" BorderBrush="Black">
+                        <Grid BorderThickness="1" BorderBrush="Black" Margin="2,2,0,0" Background="#80808080">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="50"/>
                                 <ColumnDefinition Width="200"/>
-                                <ColumnDefinition Width="100"/>
+                                <ColumnDefinition Width="120"/>
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
                                 <RowDefinition/>
@@ -101,7 +100,6 @@
                     </DataTemplate>
                 </GridView.ItemTemplate>
             </GridView>
-        </Border>
 
     </RelativePanel>
 </Page>
