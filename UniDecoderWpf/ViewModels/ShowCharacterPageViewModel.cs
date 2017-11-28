@@ -12,7 +12,7 @@ namespace UniDecoderWpf.ViewModels
 {
     public class ShowCharacterPageViewModel : ViewModelBase
     {
-        string value = "1× 🍕 à €1,‒";
+        string value;
         List<BasicInfo> list;
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -22,9 +22,21 @@ namespace UniDecoderWpf.ViewModels
             {
                 Value = "Designtime value";
             }
+            else
+            {
+                Value = "1× 🍕 à €1,‒";
+            }
         }
 
-        public string Value { get { return this.value; } set { Set(ref this.value, value); } }
+        public string Value
+        {
+            get { return this.value; }
+            set
+            {
+                Set(ref this.value, value);
+                CreateList();
+            }
+        }
 
         public List<BasicInfo> List
         {
@@ -32,10 +44,15 @@ namespace UniDecoderWpf.ViewModels
             set { Set(ref this.list, value); }
         }
 
-        public void GetList(TextBox sender, TextBoxTextChangingEventArgs args)
+        private void CreateList()
         {
             var svc = new Services.UnicodeServices.UnicodeService();
             List = svc.ShowCharactersInString(Value);
+        }
+
+        public void StringValue_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            Value = ((TextBox)sender).Text; // calls CreateList
         }
 
         public override async Task OnNavigatedToAsync(object parameter, NavigationMode mode, IDictionary<string, object> suspensionState)
