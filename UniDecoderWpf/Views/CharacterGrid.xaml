@@ -10,34 +10,33 @@
     d:DesignHeight="300"
     d:DesignWidth="400">
 
-    <UserControl.DataContext>
-        <vm:CharacterGridViewModel x:Name="ViewModel" />
-    </UserControl.DataContext>
-
-    <Border BorderBrush="Black" BorderThickness="2">
-    <ListView ItemsSource="{Binding Path=Characters}" SelectionMode="None" IsItemClickEnabled="True" ItemClick="ListView_ItemClick">
-        <ListView.ItemTemplate>
-            <DataTemplate>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/> <!-- char -->
-                        <ColumnDefinition Width="Auto"/> <!-- name -->
-                        <ColumnDefinition Width="Auto"/> <!-- block -->
-                        <ColumnDefinition Width="Auto"/> <!-- codepoint hex/dec -->
-                        <ColumnDefinition Width="Auto"/> <!-- category -->
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Column="0" Text="{Binding Character}" />
-                    <TextBlock Grid.Column="1" Text="{Binding Name}" />
-                    <TextBlock Grid.Column="2" Text="{Binding Block}" />
-                    <StackPanel Grid.Column="3" Orientation="Horizontal">
-                        <TextBlock Text="{Binding CodepointHex}"/>
-                        <TextBlock Text="/" />
-                        <TextBlock Text="{Binding Codepoint}" />
-                    </StackPanel>
-                    <TextBlock Grid.Column="4" Text="{Binding Category}" />
-                </Grid>
-            </DataTemplate>
-        </ListView.ItemTemplate>
-    </ListView>
+    <Border BorderBrush="Blue" BorderThickness="2">
+    <GridView ItemsSource="{x:Bind Path=Characters}" SelectionMode="None" IsItemClickEnabled="True" ItemClick="ListView_ItemClick">
+            <GridView.ItemTemplate>
+                <DataTemplate>
+                    <Grid BorderThickness="1" BorderBrush="Black" Margin="2,2,0,0" Background="#80808080">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="50"/>
+                            <ColumnDefinition Width="200"/>
+                            <ColumnDefinition Width="120"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.Column="0" Grid.Row="0" Grid.RowSpan="3" Text="{Binding Character}" FontSize="40" HorizontalAlignment="Center" />
+                        <TextBlock Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2" Text="{Binding Name}" FontStyle="Italic" />
+                        <TextBlock Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" Text="{Binding Block}" />
+                        <StackPanel Grid.Column="2" Grid.Row="2" Orientation="Horizontal">
+                            <TextBlock Text="{Binding CodepointHex}" FontFamily="Courier New"/>
+                            <TextBlock Text="/" FontFamily="Courier New" />
+                            <TextBlock Text="{Binding Codepoint}" FontFamily="Courier New" />
+                        </StackPanel>
+                        <TextBlock Grid.Column="1" Grid.Row="2" Text="{Binding Category}" />
+                    </Grid>
+                </DataTemplate>
+            </GridView.ItemTemplate>
+        </GridView>
     </Border>
 </UserControl>

@@ -7,13 +7,15 @@ using Template10.Services.NavigationService;
 using Windows.UI.Xaml.Navigation;
 using UniDecoderWpf.Models;
 using Windows.UI.Xaml.Controls;
+using System.Collections.ObjectModel;
 
 namespace UniDecoderWpf.ViewModels
 {
     public class ShowCharacterPageViewModel : ViewModelBase
     {
-        string value;
-        List<BasicInfo> list;
+        private string value;
+        private ObservableCollection<BasicInfo> list = new ObservableCollection<BasicInfo>();
+        private Services.UnicodeServices.UnicodeService svc = new Services.UnicodeServices.UnicodeService();
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public ShowCharacterPageViewModel()
@@ -24,7 +26,7 @@ namespace UniDecoderWpf.ViewModels
             }
             else
             {
-                Value = "1× 🍕 à €1,‒";
+                Value = "1× 🍕 à €1,‒?";
             }
         }
 
@@ -38,7 +40,7 @@ namespace UniDecoderWpf.ViewModels
             }
         }
 
-        public List<BasicInfo> List
+        public ObservableCollection<BasicInfo> List
         {
             get { return this.list; }
             set { Set(ref this.list, value); }
@@ -46,8 +48,30 @@ namespace UniDecoderWpf.ViewModels
 
         private void CreateList()
         {
-            var svc = new Services.UnicodeServices.UnicodeService();
-            List = svc.ShowCharactersInString(Value);
+            var newlist = this.svc.ShowCharactersInString(Value);
+
+            for (int i = 0; i < Math.Max(List.Count, newlist.Count); i++)
+            {
+                var oldc = i < List.Count ? List[i] : null;
+                var newc = i < newlist.Count ? newlist[i] : null;
+                if (oldc == null)
+                {
+                    // past end of List, so add it
+                    List.Add(newc);
+                }
+                else if (newc == null)
+                {
+                    // past end of newlist, so remove from List
+                    List.RemoveAt(i);
+                }
+                else // neither null
+                {
+                    if (oldc.Codepoint != newc.Codepoint)
+                    {
+                        List[i] = newc;
+                    }
+                }
+            }
         }
 
         public void StringValue_TextChanged(object sender, TextChangedEventArgs e)

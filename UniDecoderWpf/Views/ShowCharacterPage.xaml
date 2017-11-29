@@ -62,8 +62,8 @@
 
         </controls:PageHeader>
 
-        <TextBox x:Name="StringValue" Text="{Binding Value, Mode=TwoWay}" Header="Show characters in this text"
-                    TextChanged="{x:Bind ViewModel.StringValue_TextChanged}"
+        <TextBox x:Name="StringValue" Text="{x:Bind ViewModel.Value, Mode=TwoWay}" Header="Show characters in this text:"
+                    TextChanged="{x:Bind ViewModel.StringValue_TextChanged}" FontSize="20"
                     RelativePanel.Below="pageHeader" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True">
             <Interactivity:Interaction.Behaviors>
                 <Core:EventTriggerBehavior>
@@ -72,34 +72,9 @@
             </Interactivity:Interaction.Behaviors>
         </TextBox>
 
-            <GridView ItemsSource="{Binding Path=List, Mode=OneWay}" SelectionMode="Single" RelativePanel.Below="StringValue" 
-                RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True">
-                <GridView.ItemTemplate>
-                    <DataTemplate>
-                        <Grid BorderThickness="1" BorderBrush="Black" Margin="2,2,0,0" Background="#80808080">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="50"/>
-                                <ColumnDefinition Width="200"/>
-                                <ColumnDefinition Width="120"/>
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition/>
-                                <RowDefinition/>
-                                <RowDefinition/>
-                            </Grid.RowDefinitions>
-                            <TextBlock Grid.Column="0" Grid.Row="0" Grid.RowSpan="3" Text="{Binding Character}" FontSize="40" HorizontalAlignment="Center" />
-                            <TextBlock Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2" Text="{Binding Name}" FontStyle="Italic" />
-                            <TextBlock Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" Text="{Binding Block}" />
-                            <StackPanel Grid.Column="2" Grid.Row="2" Orientation="Horizontal">
-                                <TextBlock Text="{Binding CodepointHex}" FontFamily="Courier New"/>
-                                <TextBlock Text="/" FontFamily="Courier New" />
-                                <TextBlock Text="{Binding Codepoint}" FontFamily="Courier New" />
-                            </StackPanel>
-                            <TextBlock Grid.Column="1" Grid.Row="2" Text="{Binding Category}" />
-                        </Grid>
-                    </DataTemplate>
-                </GridView.ItemTemplate>
-            </GridView>
+        <local:CharacterGrid Characters="{x:Bind Path=ViewModel.List}" 
+                             RelativePanel.Below="StringValue" 
+                RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True"/>
 
     </RelativePanel>
 </Page>
