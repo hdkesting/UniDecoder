@@ -104,6 +104,7 @@
     <Compile Include="ViewModels\CharacterGridViewModel.cs" />
     <Compile Include="ViewModels\CharacterPageBaseViewModel.cs" />
     <Compile Include="ViewModels\FindCharacterPageViewModel.cs" />
+    <Compile Include="ViewModels\ShowBlockPageViewModel.cs" />
     <Compile Include="ViewModels\ShowCharacterPageViewModel.cs" />
     <Compile Include="ViewModels\DetailPageViewModel.cs" />
     <Compile Include="ViewModels\SettingsPageViewModel.cs" />
@@ -118,6 +119,9 @@
     </Compile>
     <Compile Include="Views\FindCharacterPage.xaml.cs">
       <DependentUpon>FindCharacterPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ShowBlockPage.xaml.cs">
+      <DependentUpon>ShowBlockPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ShowCharacterPage.xaml.cs">
       <DependentUpon>ShowCharacterPage.xaml</DependentUpon>
@@ -172,6 +176,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\FindCharacterPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ShowBlockPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

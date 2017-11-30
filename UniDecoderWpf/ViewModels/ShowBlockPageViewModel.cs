@@ -1,34 +1,31 @@
-﻿using Template10.Mvvm;
-using System.Collections.Generic;
-using System;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Template10.Services.NavigationService;
-using Windows.UI.Xaml.Navigation;
 using UniDecoderWpf.Models;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Navigation;
 
 namespace UniDecoderWpf.ViewModels
 {
-    public class ShowCharacterPageViewModel : CharacterPageBaseViewModel
+    public class ShowBlockPageViewModel : CharacterPageBaseViewModel
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public ShowCharacterPageViewModel()
+        public ShowBlockPageViewModel()
         {
-            if (Windows.ApplicationModel.DesignMode.DesignModeEnabled)
-            {
-                Value = "Designtime value";
-            }
+            BlockNames = this.svc.GetUnicodeBlockNames();
+            //Value = "Basic Latin";
         }
+
+        public List<string> BlockNames { get; }
 
         protected override List<BasicInfo> CreateList()
         {
-            return this.svc.ShowCharactersInString(Value);
+            return this.svc.GetCharactersByBlock(Value);
         }
 
-        public void StringValue_TextChanged(object sender, TextChangedEventArgs e)
+        public void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Value = ((TextBox)sender).Text; // calls CreateList
+            Value = ((ComboBox)sender).SelectedValue.ToString();
         }
 
         public override async Task OnNavigatedToAsync(object parameter, NavigationMode mode, IDictionary<string, object> suspensionState)
@@ -40,8 +37,9 @@ namespace UniDecoderWpf.ViewModels
 
             if (string.IsNullOrEmpty(Value))
             {
-                Value = "1× 🍕 à €1,‒";
+                Value = "Basic Latin";
             }
+
             await Task.CompletedTask;
         }
 
@@ -59,7 +57,6 @@ namespace UniDecoderWpf.ViewModels
             args.Cancel = false;
             await Task.CompletedTask;
         }
-
 
     }
 }
