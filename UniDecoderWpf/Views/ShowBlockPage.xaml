@@ -72,9 +72,18 @@
             </Interactivity:Interaction.Behaviors>
         </TextBox>-->
 
-        <ComboBox x:Name="BlockSelection"  ItemsSource="{x:Bind ViewModel.BlockNames}" Header="Select a Unicode block to show its characters"
+        <!--<ComboBox x:Name="BlockSelection"  ItemsSource="{x:Bind ViewModel.BlockNames}" Header="Select a Unicode block to show its characters"
                   SelectionChanged="{x:Bind ViewModel.ComboBox_SelectionChanged}" SelectedValue="{x:Bind ViewModel.Value}"
-                  RelativePanel.Below="pageHeader" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True"/>
+                  RelativePanel.Below="pageHeader" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True"/>-->
+
+        <AutoSuggestBox x:Name="BlockSelection" 
+                        Header="Select a Unicode block to show its characters"
+                        QueryIcon="Find" Text="{x:Bind ViewModel.Value, Mode=TwoWay}"
+                        TextChanged="{x:Bind ViewModel.AutoSuggestBox_TextChanged}"
+                        QuerySubmitted="{x:Bind ViewModel.AutoSuggestBox_QuerySubmitted}"
+                        SuggestionChosen="{x:Bind ViewModel.AutoSuggestBox_SuggestionChosen}"
+                        RelativePanel.Below="pageHeader" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True"
+                        />
 
         <local:CharacterGrid Characters="{x:Bind Path=ViewModel.List}" 
                              RelativePanel.Below="BlockSelection" 
