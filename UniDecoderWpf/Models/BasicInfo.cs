@@ -7,7 +7,7 @@ namespace UniDecoderWpf.Models
     /// <summary>
     /// Basic information about a unicode codepoint, for display in the grid.
     /// </summary>
-    public class BasicInfo
+    public class BasicInfo : IEquatable<BasicInfo>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="BasicInfo"/> class.
@@ -71,5 +71,20 @@ namespace UniDecoderWpf.Models
         /// The category.
         /// </value>
         public string Category { get; }
+
+        public bool Equals(BasicInfo other)
+        {
+            return other?.Codepoint == this.Codepoint;
+        }
+
+        public override string ToString() => Name;
+
+        public override int GetHashCode() => this.Codepoint;
+
+        public override bool Equals(object obj)
+        {
+            var bi = obj as BasicInfo;
+            return bi == null ? false : this.Equals(bi);
+        }
     }
 }

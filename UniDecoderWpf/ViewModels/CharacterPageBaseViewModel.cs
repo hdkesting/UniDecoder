@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Template10.Mvvm;
 using UniDecoderWpf.Models;
 
@@ -42,8 +39,7 @@ namespace UniDecoderWpf.ViewModels
 
         protected void MergeList(List<BasicInfo> newlist)
         {
-            var max = Math.Max(List.Count, newlist.Count);
-            for (int i = 0; i < max; i++)
+            for (int i = 0; i < Math.Max(List.Count, newlist.Count); i++)
             {
                 var oldc = i < List.Count ? List[i] : null;
                 var newc = i < newlist.Count ? newlist[i] : null;
@@ -56,6 +52,7 @@ namespace UniDecoderWpf.ViewModels
                 {
                     // moved past end of newlist, so remove from List
                     List.RemoveAt(i);
+                    i--; // redo this index
                 }
                 else // neither are null
                 {

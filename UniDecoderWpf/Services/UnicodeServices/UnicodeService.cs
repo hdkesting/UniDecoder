@@ -18,7 +18,7 @@ namespace UniDecoderWpf.Services.UnicodeServices
             return items;
         }
 
-        public List<BasicInfo> FindCharacters(string source)
+        public List<BasicInfo> FindCharactersByName(string source)
         {
             List<BasicInfo> list;
             if (String.IsNullOrWhiteSpace(source))
@@ -68,7 +68,7 @@ namespace UniDecoderWpf.Services.UnicodeServices
             return list;
         }
 
-        internal List<BasicInfo> GetCharacters(List<int> list)
+        public List<BasicInfo> GetCharacters(List<int> list)
         {
             if (list == null || !list.Any())
             {
@@ -78,6 +78,30 @@ namespace UniDecoderWpf.Services.UnicodeServices
             return list.Select(cp => UnicodeInfo.GetCharInfo(cp))
                     .Select(ci => new BasicInfo(ci))
                     .ToList();
+        }
+
+        public List<string> GetUnicodeBlockNames()
+        {
+            var list = Enumerable.Range(0x0000, 0x10FFFF)
+                                 .Where(CodepointExists)
+                                 .Select(UnicodeInfo.GetCharInfo)
+                                 .Select(info => info.Block)
+                                 .Distinct()
+                                 .ToList();
+
+            return list;
+        }
+
+        public List<BasicInfo> GetCharactersByBlock(string block)
+        {
+            var list = Enumerable.Range(0x0000, 0x10FFFF)
+                                 .Where(CodepointExists)
+                                 .Select(UnicodeInfo.GetCharInfo)
+                                 .Where(x => x.Block == block)
+                                 .Select(info => new BasicInfo(info))
+                                 .ToList();
+
+            return list;
         }
 
         public bool CodepointExists(int codepoint)

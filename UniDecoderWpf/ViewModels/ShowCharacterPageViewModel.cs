@@ -7,7 +7,6 @@ using Template10.Services.NavigationService;
 using Windows.UI.Xaml.Navigation;
 using UniDecoderWpf.Models;
 using Windows.UI.Xaml.Controls;
-using System.Collections.ObjectModel;
 
 namespace UniDecoderWpf.ViewModels
 {
