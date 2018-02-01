@@ -13,7 +13,7 @@ namespace UniDecoderWpf.ViewModels
     {
         public ShowBlockPageViewModel()
         {
-            BlockNames = this.svc.GetUnicodeBlockNames();
+            BlockNames = this.unicodeSvc.GetUnicodeBlockNames();
             //Value = "Basic Latin";
         }
 
@@ -21,7 +21,7 @@ namespace UniDecoderWpf.ViewModels
 
         protected override List<BasicInfo> CreateList()
         {
-            return this.svc.GetCharactersByBlock(Value);
+            return this.unicodeSvc.GetCharactersByBlock(Value);
         }
 
         //public void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)

@@ -7,11 +7,15 @@ using Template10.Services.NavigationService;
 using Windows.UI.Xaml.Navigation;
 using UniDecoderWpf.Models;
 using Windows.UI.Xaml.Controls;
+using System.Collections.ObjectModel;
+using Windows.UI.Xaml.Documents;
 
 namespace UniDecoderWpf.ViewModels
 {
     public class ShowCharacterPageViewModel : CharacterPageBaseViewModel
     {
+        private IEnumerable<TextRange> fragments;
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public ShowCharacterPageViewModel()
         {
@@ -21,14 +25,35 @@ namespace UniDecoderWpf.ViewModels
             }
         }
 
+        public IEnumerable<TextRange> Fragments
+        {
+            get
+            {
+                var text = Value ?? string.Empty;
+                var ranges = this.unicodeSvc.SplitInRanges(text).ToList();
+                //Set(ref this.fragments, ranges);
+                this.fragments = ranges;
+                return this.fragments;
+            }
+            set
+            {
+                Set(ref this.fragments, value);
+            }
+        }
+
         protected override List<BasicInfo> CreateList()
         {
-            return this.svc.ShowCharactersInString(Value);
+            return this.unicodeSvc.ShowCharactersInString(Value);
         }
 
         public void StringValue_TextChanged(object sender, TextChangedEventArgs e)
         {
-            Value = ((TextBox)sender).Text; // calls CreateList
+            var text = ((TextBox)sender).Text;
+            Value = text; // calls CreateList
+
+            var ranges = this.unicodeSvc.SplitInRanges(text).ToList();
+
+            Fragments = ranges;
         }
 
         public override async Task OnNavigatedToAsync(object parameter, NavigationMode mode, IDictionary<string, object> suspensionState)
@@ -42,6 +67,7 @@ namespace UniDecoderWpf.ViewModels
             {
                 Value = "1× 🍕 à €1,‒";
             }
+
             await Task.CompletedTask;
         }
 
@@ -59,7 +85,5 @@ namespace UniDecoderWpf.ViewModels
             args.Cancel = false;
             await Task.CompletedTask;
         }
-
-
     }
 }

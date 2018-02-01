@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Template10.Mvvm;
 using UniDecoderWpf.Models;
+using Windows.UI.Xaml;
 
 namespace UniDecoderWpf.ViewModels
 {
     public abstract class CharacterPageBaseViewModel : ViewModelBase
     {
-        protected readonly Services.UnicodeServices.UnicodeService svc = new Services.UnicodeServices.UnicodeService();
+        protected readonly Services.UnicodeServices.UnicodeService unicodeSvc = new Services.UnicodeServices.UnicodeService();
 
         private string value;
         private ObservableCollection<BasicInfo> list = new ObservableCollection<BasicInfo>();
@@ -66,13 +67,13 @@ namespace UniDecoderWpf.ViewModels
 
         }
 
-        public void GotoSettings() =>
+        public void GotoSettings(object sender, RoutedEventArgs e) =>
             NavigationService.Navigate(typeof(Views.SettingsPage), 0);
 
-        public void GotoPrivacy() =>
+        public void GotoPrivacy(object sender, RoutedEventArgs e) =>
             NavigationService.Navigate(typeof(Views.SettingsPage), 1);
 
-        public void GotoAbout() =>
+        public void GotoAbout(object sender, RoutedEventArgs e) =>
             NavigationService.Navigate(typeof(Views.SettingsPage), 2);
 
     }

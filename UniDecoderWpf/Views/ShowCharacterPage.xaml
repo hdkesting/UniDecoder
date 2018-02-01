@@ -9,6 +9,7 @@
       xmlns:local="using:UniDecoderWpf.Views"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:vm="using:UniDecoderWpf.ViewModels" 
+      xmlns:support="using:UniDecoderWpf.Support"
       mc:Ignorable="d">
 
     <Page.DataContext>
@@ -72,8 +73,19 @@
             </Interactivity:Interaction.Behaviors>
         </TextBox>
 
+        <RichTextBlock x:Name="ColoredText" support:TextBlockExtensions.BindableTextRanges="{x:Bind ViewModel.Fragments,Mode=OneWay}" 
+                   FontSize="20"
+                   RelativePanel.Below="StringValue" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" >
+            <RichTextBlock.TextHighlighters>
+                <TextHighlighter Background="Yellow" />
+            </RichTextBlock.TextHighlighters>
+            <Paragraph>
+                <Run Text="{x:Bind ViewModel.Value, Mode=OneWay}"/>
+            </Paragraph>
+        </RichTextBlock>
+
         <local:CharacterGrid Characters="{x:Bind Path=ViewModel.List}" 
-                             RelativePanel.Below="StringValue" 
+                             RelativePanel.Below="ColoredText" 
                 RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True"/>
 
     </RelativePanel>

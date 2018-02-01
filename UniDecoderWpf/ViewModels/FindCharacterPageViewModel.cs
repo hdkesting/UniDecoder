@@ -23,7 +23,7 @@ namespace UniDecoderWpf.ViewModels
 
         protected override List<BasicInfo> CreateList()
         {
-            return this.svc.FindCharactersByName(Value);
+            return this.unicodeSvc.FindCharactersByName(Value);
         }
 
         public void StringValue_TextChanged(object sender, TextChangedEventArgs e)

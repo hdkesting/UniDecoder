@@ -15,6 +15,11 @@ namespace UniDecoderWpf.Views
             NavigationCacheMode = Windows.UI.Xaml.Navigation.NavigationCacheMode.Enabled;
         }
 
+        private void SomeClickMethod(object sender, RoutedEventArgs e)
+        {
+
+        }
+
         //private void StringValue_TextChanging(TextBox sender, TextBoxTextChangingEventArgs args)
         //{
         //    var svc = new Services.UnicodeServices.UnicodeService();

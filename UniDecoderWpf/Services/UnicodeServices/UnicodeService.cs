@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Unicode;
 using UniDecoderWpf.Models;
+using Windows.UI.Xaml.Documents;
 
 namespace UniDecoderWpf.Services.UnicodeServices
 {
@@ -66,6 +67,90 @@ namespace UniDecoderWpf.Services.UnicodeServices
             }
 
             return list;
+        }
+
+        internal IEnumerable<TextRange> SplitInRanges(string text)
+        {
+            if (string.IsNullOrEmpty(text))
+            {
+                return Enumerable.Empty<TextRange>();
+            }
+
+            bool isLatin(string block)
+            {
+                return block.Contains("Latin");
+            }
+
+            var output = new List<TextRange>();
+
+            var list = this.ShowCharactersInString(text);
+            var inLatin = isLatin(list[0].Block);
+
+            TextRange range = new TextRange { StartIndex = 0 };
+
+            int charpos = -1;
+            for (int i = 0; i < list.Count; i++)
+            {
+                charpos++;
+                if (isLatin(list[i].Block) != inLatin)
+                {
+                    if (!inLatin)
+                    {
+                        range.Length = charpos - range.StartIndex;
+                        output.Add(range);
+                    }
+
+                    range = new TextRange { StartIndex = charpos };
+
+                    inLatin = isLatin(list[i].Block);
+                }
+                if (char.IsSurrogate(text[charpos]))
+                {
+                    // TextRange uses character positions and surrogates take two chars to represent one codepoint
+                    charpos++;
+                }
+            }
+
+            if (!inLatin)
+            {
+                range.Length = text.Length - range.StartIndex;
+                output.Add(range);
+            }
+
+            return output;
+        }
+
+        internal List<TextFragment> SplitInBlocks(string text)
+        {
+            var list = ShowCharactersInString(text);
+
+            var output = new List<TextFragment>();
+            string currentBlock = null;
+            string currentFragment = "";
+            foreach (var token in list)
+            {
+                if (token.Block != currentBlock)
+                {
+                    if (!String.IsNullOrEmpty(currentFragment))
+                    {
+                        output.Add(new TextFragment(currentFragment, currentBlock));
+                    }
+
+                    currentBlock = token.Block;
+                    currentFragment = token.Character;
+                }
+                else
+                {
+                    currentFragment += token.Character;
+                }
+            }
+
+            if (!String.IsNullOrEmpty(currentFragment))
+            {
+                output.Add(new TextFragment(currentFragment, currentBlock));
+            }
+
+            return output;
         }
 
         public List<BasicInfo> GetCharacters(List<int> list)
