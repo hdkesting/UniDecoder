@@ -85,11 +85,11 @@ namespace UniDecoderWpf.ViewModels
             }
         }
 
-        public override async Task OnNavigatedToAsync(object parameter, NavigationMode mode, IDictionary<string, object> suspensionState)
+        public override Task OnNavigatedToAsync(object parameter, NavigationMode mode, IDictionary<string, object> suspensionState)
         {
             if (suspensionState.Any())
             {
-                Value = suspensionState[nameof(Value)]?.ToString();
+                Value = suspensionState[nameof(ShowBlockPageViewModel)]?.ToString();
             }
 
             if (string.IsNullOrEmpty(Value))
@@ -97,23 +97,17 @@ namespace UniDecoderWpf.ViewModels
                 Value = "Basic Latin";
             }
 
-            await Task.CompletedTask;
+            return Task.CompletedTask;
         }
 
-        public override async Task OnNavigatedFromAsync(IDictionary<string, object> suspensionState, bool suspending)
+        public override Task OnNavigatedFromAsync(IDictionary<string, object> suspensionState, bool suspending)
         {
             //if (suspending)
             {
-                suspensionState[nameof(Value)] = Value;
+                suspensionState[nameof(ShowBlockPageViewModel)] = Value;
             }
-            await Task.CompletedTask;
-        }
 
-        public override async Task OnNavigatingFromAsync(NavigatingEventArgs args)
-        {
-            args.Cancel = false;
-            await Task.CompletedTask;
+            return Task.CompletedTask;
         }
-
     }
 }

@@ -56,11 +56,11 @@ namespace UniDecoderWpf.ViewModels
             Fragments = ranges;
         }
 
-        public override async Task OnNavigatedToAsync(object parameter, NavigationMode mode, IDictionary<string, object> suspensionState)
+        public override Task OnNavigatedToAsync(object parameter, NavigationMode mode, IDictionary<string, object> suspensionState)
         {
             if (suspensionState.Any())
             {
-                Value = suspensionState[nameof(Value)]?.ToString();
+                Value = suspensionState[nameof(ShowCharacterPageViewModel)]?.ToString();
             }
 
             if (string.IsNullOrEmpty(Value))
@@ -68,22 +68,17 @@ namespace UniDecoderWpf.ViewModels
                 Value = "1× 🍕 à €1,‒";
             }
 
-            await Task.CompletedTask;
+            return Task.CompletedTask;
         }
 
-        public override async Task OnNavigatedFromAsync(IDictionary<string, object> suspensionState, bool suspending)
+        public override Task OnNavigatedFromAsync(IDictionary<string, object> suspensionState, bool suspending)
         {
             //if (suspending)
             {
-                suspensionState[nameof(Value)] = Value;
+                suspensionState[nameof(ShowCharacterPageViewModel)] = Value;
             }
-            await Task.CompletedTask;
-        }
 
-        public override async Task OnNavigatingFromAsync(NavigatingEventArgs args)
-        {
-            args.Cancel = false;
-            await Task.CompletedTask;
+            return Task.CompletedTask;
         }
     }
 }
