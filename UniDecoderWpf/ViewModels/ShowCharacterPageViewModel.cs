@@ -1,13 +1,9 @@
-﻿using Template10.Mvvm;
-using System.Collections.Generic;
-using System;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Template10.Services.NavigationService;
 using Windows.UI.Xaml.Navigation;
 using UniDecoderWpf.Models;
 using Windows.UI.Xaml.Controls;
-using System.Collections.ObjectModel;
 using Windows.UI.Xaml.Documents;
 
 namespace UniDecoderWpf.ViewModels

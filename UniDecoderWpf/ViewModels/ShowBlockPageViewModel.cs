@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Template10.Services.NavigationService;
 using UniDecoderWpf.Models;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
@@ -17,8 +16,18 @@ namespace UniDecoderWpf.ViewModels
             //Value = "Basic Latin";
         }
 
+        /// <summary>
+        /// Gets the block names.
+        /// </summary>
+        /// <value>
+        /// The block names.
+        /// </value>
         public List<string> BlockNames { get; }
 
+        /// <summary>
+        /// Creates the list.
+        /// </summary>
+        /// <returns></returns>
         protected override List<BasicInfo> CreateList()
         {
             return this.unicodeSvc.GetCharactersByBlock(Value);

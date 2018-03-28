@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using Template10.Services.NavigationService;
 using UniDecoderWpf.Models;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
