@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json.Linq;
 using UnidecoderWeb.Services;
 using UniDecoderWeb.Models;
 
@@ -24,10 +25,25 @@ namespace UnidecoderWeb.Controllers
         }
 
         [HttpGet("characters")]
-        public List<BasicInfo> GetAllCharacters()
+        public JObject GetAllCharacters()
         {
             var list = this.service.GetAllCharacters();
-            return list;
+
+            var result = new JObject();
+            foreach (var c in list)
+            {
+                var cp = c.Codepoint;
+                var obj = new JObject
+                {
+                    new JProperty("name", c.Name),
+                    new JProperty("category", c.Category),
+                    new JProperty("block", c.Block),
+                    new JProperty("hex", c.CodepointHex),
+                };
+                result.Add(new JProperty(cp.ToString(), obj));
+            }
+
+            return result;
         }
 
         [HttpGet("version")]

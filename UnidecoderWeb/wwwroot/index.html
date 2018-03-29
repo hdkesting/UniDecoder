@@ -3,8 +3,30 @@
 <head>
     <meta charset="utf-8" />
     <title>Uni-decoder</title>
+    <script type="text/javascript">
+        if ("serviceWorker" in navigator) {
+            console.log("registering service worker");
+            navigator.serviceWorker.register("/serviceworker.js");
+        } else {
+            console.log("no service worker support");
+        }
+    </script>
+    <script type="text/javascript" src="js/handlebars.min.js"></script>
 </head>
 <body>
     <h1>Unicode decoder</h1>
+
+    <input id="sampleString" type="text" value="1× 🍕 à €1,‒" onkeyup="process(this, document.getElementById('result'), document.getElementById('result-template'))" />
+
+    <div id="result">&hellip;</div>
+
+    <script type="text/javascript" src="js/process.js"></script>
+    <script id="result-template" type="text/mustache">
+        {{#each characters}}
+        <div style="border:1px solid black">
+            {{this.name}} [{{this.block}}]<br/> {{this.category}}
+        </div>
+        {{/each}}
+    </script>
 </body>
 </html>
