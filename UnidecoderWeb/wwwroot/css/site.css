@@ -1,12 +1,15 @@
-﻿#result {
+﻿body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+#result {
   display: flex;
   flex-wrap: wrap;
 }
 #result .character {
   border: 1px solid black;
   margin: 2px;
-  float: left;
-  min-width: 150px;
+  min-width: 200px;
+  flex-basis: auto;
 }
 #result .character p {
   margin: 0;

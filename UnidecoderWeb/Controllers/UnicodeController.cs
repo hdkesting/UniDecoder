@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 using Newtonsoft.Json.Linq;
 using UnidecoderWeb.Services;
 using UniDecoderWeb.Models;
@@ -11,10 +12,12 @@ namespace UnidecoderWeb.Controllers
     public class UnicodeController : Controller
     {
         private readonly UnicodeService service;
+        private readonly IMemoryCache memoryCache;
 
-        public UnicodeController(UnicodeService service)
+        public UnicodeController(UnicodeService service, IMemoryCache memoryCache)
         {
             this.service = service;
+            this.memoryCache = memoryCache;
         }
 
         [HttpGet("blocks")]
@@ -27,23 +30,37 @@ namespace UnidecoderWeb.Controllers
         [HttpGet("characters")]
         public JObject GetAllCharacters()
         {
-            var list = this.service.GetAllCharacters();
-
-            var result = new JObject();
-            foreach (var c in list)
+            lock (memoryCache)
             {
-                var cp = c.Codepoint;
-                var obj = new JObject
+                JObject result;
+
+                result = this.memoryCache.Get<JObject>(nameof(GetAllCharacters));
+
+                if (result != null)
+                {
+                    return result;
+                }
+
+                var list = this.service.GetAllCharacters();
+
+                result = new JObject();
+                foreach (var c in list)
+                {
+                    var cp = c.Codepoint;
+                    var obj = new JObject
                 {
                     new JProperty("name", c.Name),
                     new JProperty("category", c.Category),
                     new JProperty("block", c.Block),
                     new JProperty("hex", c.CodepointHex),
                 };
-                result.Add(new JProperty(cp.ToString(), obj));
-            }
+                    result.Add(new JProperty(cp.ToString(), obj));
+                }
 
-            return result;
+                this.memoryCache.Set(nameof(GetAllCharacters), result);
+
+                return result;
+            }
         }
 
         [HttpGet("version")]

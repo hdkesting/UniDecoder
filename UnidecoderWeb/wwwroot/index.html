@@ -4,9 +4,17 @@
     <meta charset="utf-8" />
     <title>Uni-decoder</title>
     <script type="text/javascript">
-        if ("serviceWorker" in navigator) {
-            console.log("registering service worker");
-            navigator.serviceWorker.register("/serviceworker.js");
+        if ('serviceWorker' in navigator) {
+            console.log("registering service worker after load");
+            window.addEventListener('load', function () {
+                navigator.serviceWorker.register('/serviceworker.js').then(function (registration) {
+                    // Registration was successful
+                    console.log('ServiceWorker registration successful with scope: ', registration.scope);
+                }, function (err) {
+                    // registration failed :(
+                    console.log('ServiceWorker registration failed: ', err);
+                });
+            });
         } else {
             console.log("no service worker support");
         }
@@ -17,9 +25,17 @@
 <body>
     <h1>Unicode decoder</h1>
 
-    <input id="sampleString" type="text" value="1× 🍕 à €1,‒" onkeyup="process(this, document.getElementById('result'), document.getElementById('result-template'))" />
-
+    <input id="sampleString" type="text" value="1× 🍕 à €1,‒" placeholder="Input text to inspect" autofocus required
+           onkeyup="process(this, document.getElementById('result'), document.getElementById('result-template'))" />
+    <!--
+      onkeypress reageert niet op "wissen" en geeft oude waarde
+      onkeyup reageert ook op cursor keys maar geeft juiste waarde
+    -->
     <div id="result">&hellip;</div>
+
+    <footer>
+        <a href="chrome://inspect/#service-workers" target="_blank">inspect SW</a>
+    </footer>
 
     <script type="text/javascript" src="js/process.js"></script>
     <script id="result-template" type="text/mustache">
