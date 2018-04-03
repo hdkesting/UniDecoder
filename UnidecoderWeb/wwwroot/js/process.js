@@ -1,33 +1,33 @@
-﻿function process(inputElement, targetElement, templateElement) {
-    var text = inputElement.value;
-    console.log("processing '" + text + "'");
+﻿(async function (window) {
 
-    fetch("api/unicode/characters").then(response => {
-        console.log("got char list");
-        response.json().then(list => {
-            console.log("known chars = " + Object.keys(list).length);
-            var result = "";
-            var data = { characters:[] };
-            for (var i = 0; i < text.length; i++) {
-                var cp = text.codePointAt(i);
-                var c = list[cp];
-                if (c) {
-                    data.characters.push(c);
-                }
-                if (cp > 65536) i++;
+    var list;
+    var decoder = {};
+
+    decoder.getList = async function () {
+        if (!list) {
+            console.log("fetching");
+            var response = await fetch("api/unicode/characters");
+            list = await response.json();
+        }
+
+        return list;
+    };
+
+    decoder.getChars = async function (text) {
+        var characters = [];
+        var list = await this.getList();
+        for (var i = 0; i < text.length; i++) {
+            var cp = text.codePointAt(i);
+            var c = list[cp];
+            if (c) {
+                characters.push(c);
             }
+            if (cp > 65536) i++;
+        }
 
-            console.log("found chars in text: " + data.characters.length);
-            console.dir(data);
-            var templateSource = templateElement.innerHTML;
-            var template = Handlebars.compile(templateSource);
+        return characters;
+    };
 
-            // property(-name) "characters" of "data" matches {{#each characters}} in template
-            var content = template(data);
-            targetElement.innerHTML = content;
+    window.decoder = decoder;
 
-            //console.log(content);
-            console.log("data bound?");
-        });
-    });
-}
+})(window);

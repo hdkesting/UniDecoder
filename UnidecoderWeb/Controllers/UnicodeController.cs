@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 using Newtonsoft.Json.Linq;
 using UnidecoderWeb.Services;
 using UniDecoderWeb.Models;
+using Microsoft.AspNetCore.Hosting;
 
 namespace UnidecoderWeb.Controllers
 {
@@ -13,11 +15,13 @@ namespace UnidecoderWeb.Controllers
     {
         private readonly UnicodeService service;
         private readonly IMemoryCache memoryCache;
+        private readonly IHostingEnvironment environment;
 
-        public UnicodeController(UnicodeService service, IMemoryCache memoryCache)
+        public UnicodeController(UnicodeService service, IMemoryCache memoryCache, IHostingEnvironment environment)
         {
             this.service = service;
             this.memoryCache = memoryCache;
+            this.environment = environment;
         }
 
         [HttpGet("blocks")]
@@ -28,38 +32,43 @@ namespace UnidecoderWeb.Controllers
         }
 
         [HttpGet("characters")]
-        public JObject GetAllCharacters()
+        public IActionResult GetAllCharacters()
         {
+            var path = System.IO.Path.Combine(this.environment.WebRootPath, "characters.json");
+
+            if (System.IO.File.Exists(path))
+            {
+                this.Redirect("/characters.json");
+            }
+
             lock (memoryCache)
             {
                 JObject result;
 
                 result = this.memoryCache.Get<JObject>(nameof(GetAllCharacters));
 
-                if (result != null)
+                if (result == null)
                 {
-                    return result;
+                    var list = this.service.GetAllCharacters();
+
+                    result = new JObject();
+                    foreach (var c in list.Where(it => it.Category.IndexOf("Private Use") == -1))
+                    {
+                        var cp = c.Codepoint;
+                        var obj = new JObject
+                                        {
+                                            new JProperty("name", c.Name),
+                                            new JProperty("category", c.Category),
+                                            new JProperty("block", c.Block),
+                                            new JProperty("hex", c.CodepointHex),
+                                        };
+                        result.Add(new JProperty(cp.ToString(), obj));
+                    }
+
+                    this.memoryCache.Set(nameof(GetAllCharacters), result);
                 }
 
-                var list = this.service.GetAllCharacters();
-
-                result = new JObject();
-                foreach (var c in list)
-                {
-                    var cp = c.Codepoint;
-                    var obj = new JObject
-                {
-                    new JProperty("name", c.Name),
-                    new JProperty("category", c.Category),
-                    new JProperty("block", c.Block),
-                    new JProperty("hex", c.CodepointHex),
-                };
-                    result.Add(new JProperty(cp.ToString(), obj));
-                }
-
-                this.memoryCache.Set(nameof(GetAllCharacters), result);
-
-                return result;
+                return this.Content(result.ToString(), "application/json");
             }
         }
 

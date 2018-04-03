@@ -4,49 +4,65 @@
     <meta charset="utf-8" />
     <title>Uni-decoder</title>
     <script type="text/javascript">
-        if ('serviceWorker' in navigator) {
-            console.log("registering service worker after load");
-            window.addEventListener('load', function () {
-                navigator.serviceWorker.register('/serviceworker.js').then(function (registration) {
-                    // Registration was successful
-                    console.log('ServiceWorker registration successful with scope: ', registration.scope);
-                }, function (err) {
-                    // registration failed :(
-                    console.log('ServiceWorker registration failed: ', err);
-                });
-            });
-        } else {
-            console.log("no service worker support");
+        //if (false && 'serviceWorker' in navigator) {
+        //    console.log("registering service worker after load");
+        //    window.addEventListener('load', function () {
+        //        navigator.serviceWorker.register('/serviceworker.js').then(function (registration) {
+        //            // Registration was successful
+        //            console.log('ServiceWorker registration successful with scope: ', registration.scope);
+        //        }, function (err) {
+        //            // registration failed :(
+        //            console.log('ServiceWorker registration failed: ', err);
+        //        });
+        //    });
+        //} else {
+        //    console.log("no service worker support");
+        //}
+    </script>
+    <script type="text/javascript" src="js/process.js"></script>
+    <script type="text/javascript" src="js/handlebars.min.js"></script>
+    <script>
+        var template;
+        async function processDecoder(source) {
+            if (!template) {
+                var templateElement = document.getElementById('result-template');
+                var templateSource = templateElement.innerHTML;
+                template = Handlebars.compile(templateSource);
+            }
+
+            // property(-name) "characters" of "data" matches {{#each characters}} in template
+            var data = { characters: await decoder.getChars(source.value) };
+
+            var targetElement = document.getElementById('result');
+            var content = template(data);
+            targetElement.innerHTML = content;
         }
     </script>
-    <script type="text/javascript" src="js/handlebars.min.js"></script>
     <link type="text/css" rel="stylesheet" href="css/site.min.css" />
 </head>
 <body>
     <h1>Unicode decoder</h1>
 
     <input id="sampleString" type="text" value="1× 🍕 à €1,‒" placeholder="Input text to inspect" autofocus required
-           onkeyup="process(this, document.getElementById('result'), document.getElementById('result-template'))" />
+           onkeyup="processDecoder(this)" />
     <!--
       onkeypress reageert niet op "wissen" en geeft oude waarde
       onkeyup reageert ook op cursor keys maar geeft juiste waarde
     -->
     <div id="result">&hellip;</div>
 
-    <footer>
-        <a href="chrome://inspect/#service-workers" target="_blank">inspect SW</a>
-    </footer>
-
-    <script type="text/javascript" src="js/process.js"></script>
     <script id="result-template" type="text/mustache">
         {{#each characters}}
         <div class="character">
-            <p>&#x{{hex}};</p>
+            <p>&#x{{this.hex}};</p>
             <p><strong>{{this.name}}</strong></p>
             <p>{{this.block}}</p>
             <p><em>{{this.category}}</em></p>
         </div>
         {{/each}}
+    </script>
+    <script>
+        processDecoder(document.getElementById('sampleString'));
     </script>
 </body>
 </html>
