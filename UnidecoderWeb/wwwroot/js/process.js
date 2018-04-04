@@ -19,9 +19,26 @@
         for (var i = 0; i < text.length; i++) {
             var cp = text.codePointAt(i);
             var c = list[cp];
+            var c2;
             if (c) {
-                characters.push(c);
+                c2 = {
+                    codepoint: cp,
+                    hex: c.hex,
+                    name: c.name,
+                    block: list.blocks[c.block],
+                    category: list.categories[c.category]
+                };
+            } else {
+                c2 = {
+                    codepoint: cp,
+                    hex: 'FFFD', // replacement char
+                    name: 'Unknown',
+                    block: '?',
+                    category: 'Private Use'
+                };
             }
+
+            characters.push(c2);
             if (cp > 65536) i++;
         }
 

@@ -13,14 +13,14 @@ namespace UnidecoderWeb.Controllers
     [Route("api/Unicode")]
     public class UnicodeController : Controller
     {
+        private static readonly object padlock = new object();
+
         private readonly UnicodeService service;
-        private readonly IMemoryCache memoryCache;
         private readonly IHostingEnvironment environment;
 
-        public UnicodeController(UnicodeService service, IMemoryCache memoryCache, IHostingEnvironment environment)
+        public UnicodeController(UnicodeService service, IHostingEnvironment environment)
         {
             this.service = service;
-            this.memoryCache = memoryCache;
             this.environment = environment;
         }
 
@@ -37,37 +37,39 @@ namespace UnidecoderWeb.Controllers
             const string charfile = "characters.json";
             var path = System.IO.Path.Combine(this.environment.WebRootPath, charfile);
 
-            lock (memoryCache)
+            lock (padlock)
             {
                 if (!System.IO.File.Exists(path))
                 {
-                    JObject result;
+                    var list = this.service.GetAllCharacters();
 
-                    result = this.memoryCache.Get<JObject>(nameof(GetAllCharacters));
+                    var catlist = new List<string>();
+                    var blocklist = new List<string>();
 
-                    if (result == null)
+                    JObject result = new JObject();
+                    // filtering out "Private Use"characters goes from 40 MB to 22 MB
+                    // category and blocks to separte list reduces to 12 MB (not indented)
+                    foreach (var c in list.Where(it => it.Category.IndexOf("Private Use") == -1))
                     {
-                        var list = this.service.GetAllCharacters();
+                        var cp = c.Codepoint;
+                        int catindex = GetIndex(catlist, c.Category);
+                        int blockindex = GetIndex(blocklist, c.Block);
 
-                        result = new JObject();
-                        foreach (var c in list.Where(it => it.Category.IndexOf("Private Use") == -1))
-                        {
-                            var cp = c.Codepoint;
-                            var obj = new JObject
+                        var obj = new JObject
                                         {
                                             new JProperty("name", c.Name),
-                                            new JProperty("category", c.Category),
-                                            new JProperty("block", c.Block),
+                                            new JProperty("category", catindex),
+                                            new JProperty("block", blockindex),
                                             new JProperty("hex", c.CodepointHex),
                                         };
-                            result.Add(new JProperty(cp.ToString(), obj));
-                        }
-
-                        this.memoryCache.Set(nameof(GetAllCharacters), result);
+                        result.Add(new JProperty(cp.ToString(), obj));
                     }
 
+                    result.Add(new JProperty("categories", new JArray(catlist)));
+                    result.Add(new JProperty("blocks", new JArray(blocklist)));
+
                     //return this.Content(result.ToString(), "application/json");
-                    System.IO.File.WriteAllText(path, result.ToString());
+                    System.IO.File.WriteAllText(path, result.ToString(Newtonsoft.Json.Formatting.None));
                 }
             }
 
@@ -78,6 +80,18 @@ namespace UnidecoderWeb.Controllers
         public string GetVersion()
         {
             return this.service.GetUnicodeVersion().ToString();
+        }
+
+        private int GetIndex(List<string> list, string name)
+        {
+            var idx = list.IndexOf(name);
+            if (idx < 0)
+            {
+                list.Add(name);
+                idx = list.Count - 1;
+            }
+
+            return idx;
         }
     }
 }
