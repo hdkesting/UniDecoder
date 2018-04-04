@@ -54,7 +54,7 @@
     <script id="result-template" type="text/mustache">
         {{#each characters}}
         <div class="character">
-            <p>&#x{{this.hex}};</p>
+            <p title="{{this.hex}}">&#x{{this.hex}};</p>
             <p><strong>{{this.name}}</strong></p>
             <p>{{this.block}}</p>
             <p><em>{{this.category}}</em></p>

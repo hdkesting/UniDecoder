@@ -34,42 +34,44 @@ namespace UnidecoderWeb.Controllers
         [HttpGet("characters")]
         public IActionResult GetAllCharacters()
         {
-            var path = System.IO.Path.Combine(this.environment.WebRootPath, "characters.json");
-
-            if (System.IO.File.Exists(path))
-            {
-                this.Redirect("/characters.json");
-            }
+            const string charfile = "characters.json";
+            var path = System.IO.Path.Combine(this.environment.WebRootPath, charfile);
 
             lock (memoryCache)
             {
-                JObject result;
-
-                result = this.memoryCache.Get<JObject>(nameof(GetAllCharacters));
-
-                if (result == null)
+                if (!System.IO.File.Exists(path))
                 {
-                    var list = this.service.GetAllCharacters();
+                    JObject result;
 
-                    result = new JObject();
-                    foreach (var c in list.Where(it => it.Category.IndexOf("Private Use") == -1))
+                    result = this.memoryCache.Get<JObject>(nameof(GetAllCharacters));
+
+                    if (result == null)
                     {
-                        var cp = c.Codepoint;
-                        var obj = new JObject
+                        var list = this.service.GetAllCharacters();
+
+                        result = new JObject();
+                        foreach (var c in list.Where(it => it.Category.IndexOf("Private Use") == -1))
+                        {
+                            var cp = c.Codepoint;
+                            var obj = new JObject
                                         {
                                             new JProperty("name", c.Name),
                                             new JProperty("category", c.Category),
                                             new JProperty("block", c.Block),
                                             new JProperty("hex", c.CodepointHex),
                                         };
-                        result.Add(new JProperty(cp.ToString(), obj));
+                            result.Add(new JProperty(cp.ToString(), obj));
+                        }
+
+                        this.memoryCache.Set(nameof(GetAllCharacters), result);
                     }
 
-                    this.memoryCache.Set(nameof(GetAllCharacters), result);
+                    //return this.Content(result.ToString(), "application/json");
+                    System.IO.File.WriteAllText(path, result.ToString());
                 }
-
-                return this.Content(result.ToString(), "application/json");
             }
+
+            return this.RedirectPermanent("/" + charfile);
         }
 
         [HttpGet("version")]
