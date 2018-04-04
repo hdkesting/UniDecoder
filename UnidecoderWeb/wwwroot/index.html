@@ -23,46 +23,93 @@
     <script type="text/javascript" src="js/handlebars.min.js"></script>
     <script>
         var template;
-        async function processDecoder(source) {
+        function setTemplate() {
             if (!template) {
                 var templateElement = document.getElementById('result-template');
                 var templateSource = templateElement.innerHTML;
                 template = Handlebars.compile(templateSource);
             }
+        }
+
+        async function processDecoder(source, targetId) {
+            setTemplate();
 
             // property(-name) "characters" of "data" matches {{#each characters}} in template
-            var data = { characters: await decoder.getChars(source.value) };
+            var data = { characters: await decoder.expandToChars(source.value) };
 
-            var targetElement = document.getElementById('result');
+            var targetElement = document.getElementById(targetId);
             var content = template(data);
             targetElement.innerHTML = content;
         }
-    </script>
+
+        function opentab(tabElement, tabContentName) {
+            for (var elt of document.getElementsByClassName("tab")) {
+                elt.classList.remove("opened");
+            }
+
+            tabElement.classList.add("opened");
+
+            for (var elt of document.getElementsByClassName("tabcontent")) {
+                elt.classList.remove("visible");
+            }
+
+            var tab = document.getElementById(tabContentName);
+            tab.classList.add("visible");
+        }
+
+        </script>
     <link type="text/css" rel="stylesheet" href="css/site.min.css" />
 </head>
 <body>
     <h1>Unicode decoder</h1>
 
-    <input id="sampleString" type="text" value="1× 🍕 à €1,‒" placeholder="Input text to inspect" autofocus required
-           onkeyup="processDecoder(this)" />
-    <!--
+    <div id="tablist">
+        <div class="tab opened" onclick="opentab(this, 'tab1')">Intro</div>
+        <div class="tab" onclick="opentab(this, 'tab2')">Show characters in text</div>
+        <div class="tab" onclick="opentab(this, 'tab3')">Find characters by name</div>
+        <div class="tab" onclick="opentab(this, 'tab4')">Find characters by block</div>
+    </div>
+
+    <div id="tab1" class="tabcontent visible">
+        <h2>Introduction</h2>
+        <p>Every character (letter, digit, punctuation, ...) of any language has its own codepoint and name.</p>
+        <p>Use the other tabs to find out about them.</p>
+    </div>
+
+    <div id="tab2" class="tabcontent">
+        <h2>Character details</h2>
+        <p>Type in (or copy in) some text. Information about all characters in it will be shown.</p>
+        <input id="sampleString" type="text" placeholder="Input text to inspect" autofocus required
+               onkeyup="processDecoder(this, 'result2')" style="width:100%"/>
+        <p>&nbsp;</p>
+        <!--
       onkeypress reageert niet op "wissen" en geeft oude waarde
       onkeyup reageert ook op cursor keys maar geeft juiste waarde
     -->
-    <div id="result">&hellip;</div>
+        <div id="result2" class="result">&hellip;</div>
+    </div>
 
-    <script id="result-template" type="text/mustache">
+    <div id="tab3" class="tabcontent">
+        <h2>Search by name</h2>
+        <div id="result3">&hellip;</div>
+    </div>
+
+    <div id="tab4" class="tabcontent">
+        <h2>Search by block</h2>
+        <div id="result4">&hellip;</div>
+    </div>
+
+
+    <script id="result-template" type="text/x-handlebars">
         {{#each characters}}
         <div class="character">
-            <p title="{{this.hex}}">&#x{{this.hex}};</p>
+            <p>&#x{{this.hex}};</p>
             <p><strong>{{this.name}}</strong></p>
             <p>{{this.block}}</p>
             <p><em>{{this.category}}</em></p>
+            <p>{{this.hex}} - {{this.codepoint}}</p>
         </div>
         {{/each}}
-    </script>
-    <script>
-        processDecoder(document.getElementById('sampleString'));
     </script>
 </body>
 </html>

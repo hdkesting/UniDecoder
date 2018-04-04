@@ -13,7 +13,7 @@
         return list;
     };
 
-    decoder.getChars = async function (text) {
+    decoder.expandToChars = async function (text) {
         var characters = [];
         var list = await this.getList();
         for (var i = 0; i < text.length; i++) {
@@ -48,3 +48,6 @@
     window.decoder = decoder;
 
 })(window);
+
+// pre-fetch list, fire-and-forget
+decoder.getList();
