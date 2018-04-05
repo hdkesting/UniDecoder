@@ -95,19 +95,33 @@
     // find all (max 50) characters whose name contains the words in the supplied text
     decoder.findChars = async function (text) {
         console.log("finding " + text);
+        if (!text) {
+            return [];
+        }
+
         var characters = [];
+        var c;
+
         var cp = makeInt(text, 10);
-        var c = await getChar(cp, false);
-        if (c) {
-            console.log("got (dec) " + cp);
-            characters.push(c);
+        if (cp) {
+            for (var i = cp - 5; i <= cp + 5; i++) {
+                c = await getChar(i, false);
+                if (c) {
+                    //console.log("got (dec) " + i);
+                    characters.push(c);
+                }
+            }
         }
 
         cp = makeInt(text, 16);
-        c = await getChar(cp);
-        if (c) {
-            console.log("got (hex) " + cp);
-            characters.push(c);
+        if (cp) {
+            for (var j = cp - 5; j <= cp + 5; j++) {
+                c = await getChar(j);
+                if (c) {
+                    //console.log("got (hex) " + i);
+                    characters.push(c);
+                }
+            }
         }
 
         text = text.toUpperCase().split(' ');

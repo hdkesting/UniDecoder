@@ -40,6 +40,9 @@ namespace UnidecoderWeb
             }
 
             app.UseMvc();
+
+            // https://docs.microsoft.com/en-us/aspnet/core/fundamentals/static-files?tabs=aspnetcore2x#serving-a-default-document
+            app.UseDefaultFiles();
             app.UseStaticFiles();
         }
     }
