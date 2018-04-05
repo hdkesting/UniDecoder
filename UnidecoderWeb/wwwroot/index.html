@@ -22,34 +22,61 @@
     <script type="text/javascript" src="js/process.js"></script>
     <script type="text/javascript" src="js/handlebars.min.js"></script>
     <script>
-        var template;
-        function setTemplate() {
-            if (!template) {
+        var resultTemplate;
+        function setResultTemplate() {
+            if (!resultTemplate) {
                 var templateElement = document.getElementById('result-template');
                 var templateSource = templateElement.innerHTML;
-                template = Handlebars.compile(templateSource);
+                resultTemplate = Handlebars.compile(templateSource);
             }
         }
 
         async function processDecoder(source, targetId) {
-            setTemplate();
+            setResultTemplate();
 
             // property(-name) "characters" of "data" matches {{#each characters}} in template
             var data = { characters: await decoder.expandToChars(source.value) };
 
             var targetElement = document.getElementById(targetId);
-            var content = template(data);
+            var content = resultTemplate(data);
             targetElement.innerHTML = content;
         }
 
         async function processSearch(source, targetId) {
-            setTemplate();
+            setResultTemplate();
 
             // property(-name) "characters" of "data" matches {{#each characters}} in template
             var data = { characters: await decoder.findChars(source.value) };
 
             var targetElement = document.getElementById(targetId);
-            var content = template(data);
+            var content = resultTemplate(data);
+            targetElement.innerHTML = content;
+        }
+
+        async function processBlockSearch(source, targetId) {
+            setResultTemplate();
+
+            var blockId = 1 * source.value; // make sure it's a number
+            console.log("finding block " + blockId);
+
+            var data = { characters: await decoder.findCharsByBlock(blockId) };
+            console.log("got block " + blockId);
+
+            var targetElement = document.getElementById(targetId);
+            var content = resultTemplate(data);
+            targetElement.innerHTML = content;
+        }
+
+        async function setBlockSelect() {
+            var templateElement = document.getElementById('blockselect-template');
+            var templateSource = templateElement.innerHTML;
+            var blockTemplate = Handlebars.compile(templateSource);
+
+            var blocklist = await decoder.getBlockList();
+            var data = { blocks: blocklist };
+            var content = blockTemplate(data);
+
+            var targetElement = document.getElementById("blockSelect");
             targetElement.innerHTML = content;
         }
 
@@ -111,11 +138,13 @@
 
     <div id="tab4" class="tabcontent">
         <h2>Search by block</h2>
+        <p>Select a block to see its characters.</p>
+        <select id="blockSelect" onchange="processBlockSearch(this, 'result4')"></select>
         <div id="result4" class="result">&hellip;</div>
     </div>
 
 
-    <script id="result-template" type="text/x-handlebars">
+    <script id="result-template" type="text/x-handlebars-template">
         {{#each characters}}
         <div class="character">
             <p>&#x{{this.hex}};</p>
@@ -125,6 +154,20 @@
             <p>{{this.hex}} - {{this.codepoint}}</p>
         </div>
         {{/each}}
+    </script>
+
+    <script id="blockselect-template" type="text/x-handlebars-template">
+        {{#each blocks}}
+        <option value="{{this.index}}">{{this.name}}</option>
+        {{/each}}
+    </script>
+
+    <script type="text/javascript">
+        (async function () {
+            // also pre-fetches the charlist
+            await setBlockSelect();
+            await processBlockSearch(document.getElementById('blockSelect'), 'result4');
+        })();
     </script>
 </body>
 </html>

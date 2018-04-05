@@ -132,7 +132,7 @@
                         category: list.categories[c.category]
                     };
                     characters.push(c2);
-                    if (characters.length > 50) {
+                    if (characters.length > 80) {
                         console.log("found enough");
                         break;
                     }
@@ -143,9 +143,56 @@
         return characters;
     };
 
-    window.decoder = decoder;
+    // get a sorted list of blocknames + indices
+    decoder.getBlockList = async function () {
+        var l = await getList();
+        var blocks = [];
+        for (var b = 0; b < l.blocks.length; b++) {
+            blocks.push({ "index": b, "name": l.blocks[b] });
+        }
 
-    // pre-fetch list, fire-and-forget
-    await getList();
+        // sort the Latin ones first, then alphabetically
+        blocks.sort(function (a, b) {
+            // a first: return -1; b first: return 1; equal: return 0 (but I don't expect that)
+            if (a.name.indexOf("Latin") >= 0) {
+                if (b.name.indexOf("Latin") >= 0) {
+                    // both "Latin"
+                    return a.name < b.name ? -1 : 1;
+                }
+                else {
+                    return -1; // latin a before non-latin b
+                }
+            } else if (b.name.indexOf("Latin") >= 0) {
+                return 1; // latin b before non-latin a
+            } else {
+                // both "non-Latin"
+                return a.name < b.name ? -1 : 1;
+            }
+        });
+
+        return blocks;
+    };
+
+    decoder.findCharsByBlock = async function (blockId) {
+        var l = await getList();
+        var chars = [];
+
+        for (cp in list.characters) {
+            var c = list.characters[cp];
+            if (c.block === blockId) {
+                chars.push({
+                    codepoint: cp,
+                    hex: c.hex,
+                    name: c.name,
+                    block: l.blocks[c.block],
+                    category: l.categories[c.category]
+                });
+            }
+        }
+
+        return chars;
+    };
+
+    window.decoder = decoder;
 })(window);
 
