@@ -46,7 +46,7 @@ namespace UnidecoderWeb.Controllers
                     var catlist = new List<string>();
                     var blocklist = new List<string>();
 
-                    JObject result = new JObject();
+                    JObject charlist = new JObject();
                     // filtering out "Private Use"characters goes from 40 MB to 22 MB
                     // category and blocks to separte list reduces to 12 MB (not indented)
                     foreach (var c in list.Where(it => it.Category.IndexOf("Private Use") == -1))
@@ -62,11 +62,15 @@ namespace UnidecoderWeb.Controllers
                                             new JProperty("block", blockindex),
                                             new JProperty("hex", c.CodepointHex),
                                         };
-                        result.Add(new JProperty(cp.ToString(), obj));
+                        charlist.Add(new JProperty(cp.ToString(), obj));
                     }
 
-                    result.Add(new JProperty("categories", new JArray(catlist)));
-                    result.Add(new JProperty("blocks", new JArray(blocklist)));
+                    JObject result = new JObject
+                    {
+                        new JProperty("characters", charlist),
+                        new JProperty("categories", new JArray(catlist)),
+                        new JProperty("blocks", new JArray(blocklist))
+                    };
 
                     //return this.Content(result.ToString(), "application/json");
                     System.IO.File.WriteAllText(path, result.ToString(Newtonsoft.Json.Formatting.None));

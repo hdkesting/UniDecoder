@@ -42,6 +42,17 @@
             targetElement.innerHTML = content;
         }
 
+        async function processSearch(source, targetId) {
+            setTemplate();
+
+            // property(-name) "characters" of "data" matches {{#each characters}} in template
+            var data = { characters: await decoder.findChars(source.value) };
+
+            var targetElement = document.getElementById(targetId);
+            var content = template(data);
+            targetElement.innerHTML = content;
+        }
+
         function opentab(tabElement, tabContentName) {
             for (var elt of document.getElementsByClassName("tab")) {
                 elt.classList.remove("opened");
@@ -80,23 +91,27 @@
         <h2>Character details</h2>
         <p>Type in (or copy in) some text. Information about all characters in it will be shown.</p>
         <input id="sampleString" type="text" placeholder="Input text to inspect" autofocus required
-               onkeyup="processDecoder(this, 'result2')" style="width:100%"/>
-        <p>&nbsp;</p>
+               onkeyup="processDecoder(this, 'result2')" style="width:100%" />
         <!--
       onkeypress reageert niet op "wissen" en geeft oude waarde
       onkeyup reageert ook op cursor keys maar geeft juiste waarde
     -->
+        <p>&nbsp;</p>
         <div id="result2" class="result">&hellip;</div>
     </div>
 
     <div id="tab3" class="tabcontent">
         <h2>Search by name</h2>
-        <div id="result3">&hellip;</div>
+        <p>Type in a partial name of a character or type in its code to find out about it.</p>
+        <input id="searchString" type="text" placeholder="Input name to find" autofocus required
+               onkeyup="processSearch(this, 'result3')" style="width:100%" />
+        <p>&nbsp;</p>
+        <div id="result3" class="result">&hellip;</div>
     </div>
 
     <div id="tab4" class="tabcontent">
         <h2>Search by block</h2>
-        <div id="result4">&hellip;</div>
+        <div id="result4" class="result">&hellip;</div>
     </div>
 
 
