@@ -211,3 +211,4 @@ GeneratedArtifacts/
 _Pvt_Extensions/
 ModelManifest.xml
 UnidecoderWeb/wwwroot/characters.json
+UnidecoderWeb/wwwroot/characters.json.gz
