@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -29,6 +30,8 @@ namespace UnidecoderWeb
             services.AddTransient<UnicodeService, UnicodeService>();
 
             services.AddMemoryCache();
+
+            services.AddResponseCompression();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -39,11 +42,13 @@ namespace UnidecoderWeb
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseMvc();
-
             // https://docs.microsoft.com/en-us/aspnet/core/fundamentals/static-files?tabs=aspnetcore2x#serving-a-default-document
             app.UseDefaultFiles();
+
+            app.UseResponseCompression();
             app.UseStaticFiles();
+
+            app.UseMvc();
         }
     }
 }
