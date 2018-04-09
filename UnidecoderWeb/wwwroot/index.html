@@ -45,8 +45,8 @@
             targetElement.innerHTML = content;
 
             var link = document.getElementById(linkId);
-            link.href = document.location.href.split('?')[0];
-            link.href += "?s=" + encodeURI(source.value);
+            link.href = document.location.href.split('#')[0];
+            link.href += "#s=" + encodeURI(source.value);
         }
 
         async function processSearch(source, targetId, linkId) {
@@ -63,8 +63,8 @@
             targetElement.innerHTML = content;
 
             var link = document.getElementById(linkId);
-            link.href = document.location.href.split('?')[0];
-            link.href += "?q=" + encodeURI(source.value);
+            link.href = document.location.href.split('#')[0];
+            link.href += "#q=" + encodeURI(source.value);
         }
 
         async function processBlockSearch(source, targetId, linkId) {
@@ -85,8 +85,8 @@
 
             if (linkId) {
                 var link = document.getElementById(linkId);
-                link.href = document.location.href.split('?')[0];
-                link.href += "?b=" + encodeURI(source.value);
+                link.href = document.location.href.split('#')[0];
+                link.href += "#b=" + encodeURI(source.value);
             }
         }
 
@@ -123,6 +123,36 @@
             tab.classList.add("visible");
         }
 
+        function handleHash() {
+            // window.location.hash is including '#'
+            if (window.location.hash) {
+                console.log("HASH: " + window.location.hash);
+                var srch = window.location.hash.substr(1); // remove initial '#'
+                srch = srch.split('=');  // variable = value
+                switch (srch[0]) {
+                    case 's':
+                        console.log("show chars of " + srch[1]);
+                        opentab('tab2', 'tabcontent2');
+                        document.getElementById("sampleString").value = decodeURI(srch[1]);
+                        processDecoder('sampleString', 'result2', 'link2');
+                        break;
+                    case 'q':
+                        console.log("search chars by " + srch[1]);
+                        opentab('tab3', 'tabcontent3');
+                        document.getElementById("searchString").value = decodeURI(srch[1]);
+                        processSearch('searchString', 'result3', 'link3');
+                        break;
+                    case 'b':
+                        console.log("show block " + srch[1]);
+                        opentab('tab4', 'tabcontent4');
+                        // value is internal ID of block
+                        document.getElementById("blockSelect").value = decodeURI(srch[1]);
+                        processBlockSearch('blockSelect', 'result4', 'link4')
+                        break;
+                }
+            }
+
+        }
         </script>
     <link type="text/css" rel="stylesheet" href="css/site.min.css" />
 </head>
@@ -167,14 +197,14 @@
     <div id="tabcontent2" class="tabcontent">
         <h2>Character details</h2>
         <p>Type in (or copy in) some text. Information about all characters in it will be shown.</p>
-        <p>For example: "<a href="index.html?s=cr%C3%A8me%20br%C3%BBl%C3%A9e">Cre&#x0300;me brûlée</a>"</p>
+        <p>For example: "<a href="index.html#s=cr%C3%A8me%20br%C3%BBl%C3%A9e">Cre&#x0300;me brûlée</a>"</p>
         <input id="sampleString" type="text" placeholder="Input text to inspect" autofocus required
                onkeyup="processDecoder(this, 'result2', 'link2')" style="width:100%" />
         <!--
       onkeypress reageert niet op "wissen" en geeft oude waarde
       onkeyup reageert ook op cursor keys maar geeft juiste waarde
     -->
-        <p><a href="?s=" id="link2">Direct link</a></p>
+        <p><a href="#s=" id="link2">Direct link</a></p>
         <div id="result2" class="result">&hellip;</div>
     </div>
 
@@ -182,11 +212,12 @@
     <div id="tabcontent3" class="tabcontent">
         <h2>Search by name</h2>
         <p>Type in a partial name of a character or type in its code to find out about it. 
-        When you type in a numerical code (decimal or hexadecimal), also some characters around it will be shown.</p>
-        <p>When there are too many matches, the list is truncated. Use a more specific search (you can use multiple words).</p>
+        When you type in a numerical code (decimal or hexadecimal), some characters around it will also be shown.</p>
+        <p>When there are too many matches, the list is truncated. Use a more specific search (you can use multiple words) to get a more specific result.</p>
+        <p>Examples: <a href="index.html#q=phone">phone</a> or <a href="index.html#q=egyptian%20hieroglyph">egyptian hieroglyph</a></p>
         <input id="searchString" type="text" placeholder="Input name to find" autofocus required
                oninput="processSearch(this, 'result3', 'link3')" style="width:100%" />
-        <p><a href="?q=" id="link3">Direct link</a></p>
+        <p><a href="#q=" id="link3">Direct link</a></p>
         <div id="result3" class="result">&hellip;</div>
     </div>
 
@@ -195,7 +226,7 @@
         <h2>Search by block</h2>
         <p>Select a block to see its characters.</p>
         <select id="blockSelect" onchange="processBlockSearch(this, 'result4', 'link4')"></select>
-        <p><a href="?b=0" id="link4">Direct link</a></p>
+        <p><a href="#b=0" id="link4">Direct link</a></p>
         <div id="result4" class="result">&hellip;</div>
     </div>
 
@@ -224,34 +255,8 @@
             await setBlockSelect();
             await processBlockSearch('blockSelect', 'result4');
 
-            // window.location.search gives "?s=text"
-            if (window.location.search) {
-                console.log("SEARCH: " + window.location.search);
-                var srch = window.location.search.substr(1); // remove initial '?'
-                srch = srch.split('&')[0]; // only use first value
-                srch = srch.split('=');  // variable = value
-                switch (srch[0]) {
-                    case 's':
-                        console.log("show chars of " + srch[1]);
-                        opentab('tab2', 'tabcontent2');
-                        document.getElementById("sampleString").value = decodeURI(srch[1]);
-                        processDecoder('sampleString', 'result2', 'link2');
-                        break;
-                    case 'q':
-                        console.log("search chars by " + srch[1]);
-                        opentab('tab3', 'tabcontent3');
-                        document.getElementById("searchString").value = decodeURI(srch[1]);
-                        processSearch('searchString', 'result3', 'link3');
-                        break;
-                    case 'b':
-                        console.log("show block " + srch[1]);
-                        opentab('tab4', 'tabcontent4');
-                        // value is internal ID of block
-                        document.getElementById("blockSelect").value = decodeURI(srch[1]);
-                        processBlockSearch('blockSelect', 'result4', 'link4')
-                        break;
-                }
-            }
+            window.addEventListener("hashchange", handleHash);
+            handleHash();
         })();
     </script>
 </body>
