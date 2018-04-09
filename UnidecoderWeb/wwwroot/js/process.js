@@ -131,7 +131,9 @@
             if (list.characters.hasOwnProperty(cp)) {
                 c = list.characters[cp];
                 for (var t of text) {
-                    if (c.NAME.indexOf(t) < 0) {
+                    var idx = c.NAME.indexOf(t);
+                    if (idx < 0 || (idx > 0 && c.NAME[idx - 1] !== ' ')) {
+                        // either not found at all, or the character just before (if any) is not a space: no match
                         c = null;
                         break;
                     }
