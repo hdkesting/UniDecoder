@@ -22,6 +22,7 @@ namespace UniDecoderWeb.Models
 
             Character = UnicodeInfo.GetDisplayText(fullInfo.CodePoint);
 
+            CategoryId = (int)fullInfo.Category;
             Category = fullInfo.Category.ToString().ToSeparateWords();
         }
 
@@ -78,6 +79,8 @@ namespace UniDecoderWeb.Models
         /// </value>
         [JsonProperty("category")]
         public string Category { get; }
+
+        public int CategoryId { get; }
 
         public bool Equals(BasicInfo other)
         {

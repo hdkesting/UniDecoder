@@ -41,22 +41,25 @@ namespace UnidecoderWeb.Controllers
                 {
                     var list = this.service.GetAllCharacters();
 
-                    var catlist = new List<string>();
+                    var catlist = new Dictionary<int, string>();
                     var blocklist = new List<string>();
 
                     JObject charlist = new JObject();
                     // filtering out "Private Use"characters goes from 40 MB to 22 MB
                     // category and blocks to separte list reduces to 12 MB (not indented)
-                    foreach (var c in list.Where(it => it.Category.IndexOf("Private Use") == -1))
+                    foreach (var c in list.Where(it => it.Category.IndexOf("Private Use") == -1 && it.Name.IndexOf("Surrogate-") == -1))
                     {
                         var cp = c.Codepoint;
-                        int catindex = GetIndex(catlist, c.Category);
+                        if (!catlist.ContainsKey(c.CategoryId))
+                        {
+                            catlist.Add(c.CategoryId, c.Category);
+                        }
                         int blockindex = GetIndex(blocklist, c.Block);
 
                         var obj = new JObject
                                         {
                                             new JProperty("name", c.Name),
-                                            new JProperty("category", catindex),
+                                            new JProperty("category", c.CategoryId),
                                             new JProperty("block", blockindex),
                                             new JProperty("hex", c.CodepointHex),
                                         };
@@ -66,7 +69,7 @@ namespace UnidecoderWeb.Controllers
                     JObject result = new JObject
                     {
                         new JProperty("characters", charlist),
-                        new JProperty("categories", new JArray(catlist)),
+                        new JProperty("categories", GetCategoryList(catlist)),
                         new JProperty("blocks", new JArray(blocklist))
                     };
 
@@ -94,6 +97,17 @@ namespace UnidecoderWeb.Controllers
             }
 
             return idx;
+        }
+
+        private JObject GetCategoryList(IDictionary<int, string> catlist)
+        {
+            var res = new JObject();
+            foreach (var kvp in catlist)
+            {
+                res.Add(new JProperty(kvp.Key.ToString(), kvp.Value));
+            }
+
+            return res;
         }
     }
 }
