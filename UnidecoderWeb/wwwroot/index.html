@@ -169,7 +169,7 @@
     <!-- tab: intro -->
     <div id="tabcontent1" class="tabcontent visible">
         <h2>Introduction</h2>
-        <p>Every character (letter, digit, punctuation, emoji,...) of any language has its own codepoint and name.</p>
+        <p>Every character (letter, digit, punctuation, emoji,...) of any language has its own codepoint and name in the Unicode character set.</p>
         <p>Use the other tabs to find out about them.</p>
 
         <p>Characters are shown like this:</p>
@@ -177,6 +177,7 @@
             <div class="character">
                 <p>a</p>
                 <p><strong>Latin Small Letter A</strong></p>
+                <p>Basic Latin</p>
                 <p><em>Lowercase Letter</em></p>
                 <p>0061 - 97</p>
             </div>
@@ -188,7 +189,7 @@
             <li>(bold) The name of the character (search for this in tab 3)</li>
             <li>The block name (see tab 4)</li>
             <li>(cursive) The category of the character</li>
-            <li>The codepoint of the character: hexadecimal and decimal</li>
+            <li>The codepoint of the character: both hexadecimal and decimal</li>
         </ul>
         </p>
     </div>
@@ -238,9 +239,9 @@
         <div class="character">
             <p>&#x{{this.hex}};</p>
             <p><strong>{{this.name}}</strong></p>
-            <p>{{this.block}}</p>
+            <p><a href="#b={{this.blockId}}">{{this.block}}</a></p>
             <p><em>{{this.category}}</em></p>
-            <p>{{this.hex}} - {{this.codepoint}}</p>
+            <p><a href="#q={{this.hex}}">{{this.hex}}</a> - <a href="#q={{this.codepoint}}">{{this.codepoint}}</a></p>
         </div>
         {{/each}}
     </script>

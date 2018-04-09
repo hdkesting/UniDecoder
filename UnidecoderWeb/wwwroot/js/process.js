@@ -43,6 +43,7 @@
                 hex: c.hex,
                 name: c.name,
                 block: l.blocks[c.block],
+                blockId: c.block,
                 category: l.categories[c.category]
             };
 
@@ -65,6 +66,10 @@
     };
 
     var makeInt = function (value, radix) {
+        while (value.length && value[0] === '0') {
+            value = value.substr(1);
+        }
+
         var i = parseInt(value, radix);
 
         if (isNaN(i)) return 0;
@@ -132,7 +137,8 @@
                 c = list.characters[cp];
                 for (var t of text) {
                     var idx = c.NAME.indexOf(t);
-                    if (idx < 0 || (idx > 0 && c.NAME[idx - 1] !== ' ')) {
+ /* eslint no-extra-parens: ["error", "all", { "nestedBinaryExpressions": false }] */
+                   if (idx < 0 || (idx > 0 && c.NAME[idx - 1] !== ' ')) {
                         // either not found at all, or the character just before (if any) is not a space: no match
                         c = null;
                         break;
@@ -145,6 +151,7 @@
                         hex: c.hex,
                         name: c.name,
                         block: list.blocks[c.block],
+                        blockId: c.block,
                         category: list.categories[c.category]
                     };
                     characters.push(c2);
@@ -193,14 +200,15 @@
         var l = await getList();
         var chars = [];
 
-        for (cp in list.characters) {
-            var c = list.characters[cp];
+        for (cp in l.characters) {
+            var c = l.characters[cp];
             if (c.block === blockId) {
                 chars.push({
                     codepoint: cp,
                     hex: c.hex,
                     name: c.name,
                     block: l.blocks[c.block],
+                    blockId: c.block,
                     category: l.categories[c.category]
                 });
             }
