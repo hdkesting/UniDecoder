@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
 using UnidecoderWeb.Services;
 using Microsoft.AspNetCore.Hosting;
+using System.IO;
 
 namespace UnidecoderWeb.Controllers
 {
@@ -73,8 +74,15 @@ namespace UnidecoderWeb.Controllers
                         new JProperty("blocks", new JArray(blocklist))
                     };
 
-                    //return this.Content(result.ToString(), "application/json");
-                    System.IO.File.WriteAllText(path, result.ToString(Newtonsoft.Json.Formatting.None));
+                    // write both as plain (JSON) text and as gzipped version
+                    var formattedJson = result.ToString(Newtonsoft.Json.Formatting.None);
+                    System.IO.File.WriteAllText(path, formattedJson);
+                    using (var stream = System.IO.File.OpenWrite(path + ".gz"))
+                    using (var zip = new System.IO.Compression.GZipStream(stream, System.IO.Compression.CompressionLevel.Optimal))
+                    using (var sw = new StreamWriter(zip))
+                    {
+                        sw.Write(formattedJson);
+                    }
                 }
             }
 

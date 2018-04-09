@@ -1,14 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.IO;
+using System.Net;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.ResponseCompression;
+using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
+using Microsoft.Net.Http.Headers;
 using UnidecoderWeb.Services;
 
 namespace UnidecoderWeb
@@ -22,6 +20,8 @@ namespace UnidecoderWeb
 
         public IConfiguration Configuration { get; }
 
+        public bool IsDevelopment { get; private set; }
+
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
@@ -29,9 +29,7 @@ namespace UnidecoderWeb
 
             services.AddTransient<UnicodeService, UnicodeService>();
 
-            services.AddMemoryCache();
-
-            services.AddResponseCompression();
+            //services.AddMemoryCache();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -45,10 +43,52 @@ namespace UnidecoderWeb
             // https://docs.microsoft.com/en-us/aspnet/core/fundamentals/static-files?tabs=aspnetcore2x#serving-a-default-document
             app.UseDefaultFiles();
 
-            app.UseResponseCompression();
-            app.UseStaticFiles();
+            app.UseStaticFiles(new StaticFileOptions { OnPrepareResponse = PrepareCompressedResponse });
 
             app.UseMvc();
+        }
+
+        private void PrepareCompressedResponse(StaticFileResponseContext context)
+        {
+            // https://github.com/aspnet/StaticFiles/issues/7
+
+            var file = context.File;
+            var request = context.Context.Request;
+            var response = context.Context.Response;
+
+            if (file.Name.EndsWith(".gz"))
+            {
+                // possibly just redirected to the .gz version
+                response.Headers[HeaderNames.ContentEncoding] = "gzip";
+                return;
+            }
+
+            var requestPath = request.Path.Value;
+            var filePath = file.PhysicalPath;
+
+            if (IsDevelopment && file.Name.IndexOf(".min.", StringComparison.OrdinalIgnoreCase) != -1)
+            {
+
+                // in development, replace minified files with originals
+                if (File.Exists(filePath.Replace(".min.", ".")))
+                {
+                    response.StatusCode = (int)HttpStatusCode.TemporaryRedirect;
+                    response.Headers[HeaderNames.Location] = requestPath.Replace(".min.", ".");
+                }
+            }
+            else
+            {
+                // if a .gz version exists, use that! (which enters this method again)
+                var acceptEncoding = (string)request.Headers[HeaderNames.AcceptEncoding];
+                if (acceptEncoding.IndexOf("gzip", StringComparison.OrdinalIgnoreCase) != -1)
+                {
+                    if (File.Exists(filePath + ".gz"))
+                    {
+                        response.StatusCode = (int)HttpStatusCode.MovedPermanently;
+                        response.Headers[HeaderNames.Location] = requestPath + ".gz";
+                    }
+                }
+            }
         }
     }
 }
