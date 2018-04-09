@@ -37,6 +37,7 @@ namespace UnidecoderWeb
         {
             if (env.IsDevelopment())
             {
+                this.IsDevelopment = true;
                 app.UseDeveloperExceptionPage();
             }
 
@@ -75,18 +76,18 @@ namespace UnidecoderWeb
                     response.StatusCode = (int)HttpStatusCode.TemporaryRedirect;
                     response.Headers[HeaderNames.Location] = requestPath.Replace(".min.", ".");
                 }
+
+                return;
             }
-            else
+
+            // if a .gz version exists, use that! (which enters this method again)
+            var acceptEncoding = (string)request.Headers[HeaderNames.AcceptEncoding];
+            if (acceptEncoding.IndexOf("gzip", StringComparison.OrdinalIgnoreCase) != -1)
             {
-                // if a .gz version exists, use that! (which enters this method again)
-                var acceptEncoding = (string)request.Headers[HeaderNames.AcceptEncoding];
-                if (acceptEncoding.IndexOf("gzip", StringComparison.OrdinalIgnoreCase) != -1)
+                if (File.Exists(filePath + ".gz"))
                 {
-                    if (File.Exists(filePath + ".gz"))
-                    {
-                        response.StatusCode = (int)HttpStatusCode.MovedPermanently;
-                        response.Headers[HeaderNames.Location] = requestPath + ".gz";
-                    }
+                    response.StatusCode = (int)HttpStatusCode.MovedPermanently;
+                    response.Headers[HeaderNames.Location] = requestPath + ".gz";
                 }
             }
         }
