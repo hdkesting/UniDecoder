@@ -12,6 +12,11 @@ a:hover {
   text-decoration-line: underline;
   text-decoration-style: solid;
 }
+a.sample {
+  padding: 2px;
+  border: dotted 1px grey;
+  border-radius: 5px;
+}
 .result {
   display: flex;
   flex-wrap: wrap;

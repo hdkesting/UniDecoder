@@ -48,7 +48,10 @@ namespace UnidecoderWeb.Controllers
                     JObject charlist = new JObject();
                     // filtering out "Private Use"characters goes from 40 MB to 22 MB
                     // category and blocks to separte list reduces to 12 MB (not indented)
-                    foreach (var c in list.Where(it => it.Category.IndexOf("Private Use") == -1 && it.Name.IndexOf("Surrogate-") == -1))
+                    foreach (var c in list.Where(it =>
+                        it.Codepoint >= 32 &&
+                        it.Category.IndexOf("Private Use") == -1 &&
+                        it.Name.IndexOf("Surrogate-") == -1))
                     {
                         var cp = c.Codepoint;
                         if (!catlist.ContainsKey(c.CategoryId))

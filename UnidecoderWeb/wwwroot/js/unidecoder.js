@@ -28,6 +28,21 @@
         return list;
     };
 
+    var convertChar = function (cp, c) {
+        if (!c) {
+            c = list[cp];
+        }
+
+        return {
+            codepoint: cp,
+            hex: c.hex,
+            name: c.name,
+            block: list.blocks[c.block],
+            blockId: c.block,
+            category: list.categories[c.category]
+        };
+    };
+
     var getChar = async function (cp, fillMissing) {
         if (cp <= 0) {
             return null;
@@ -36,30 +51,19 @@
         var l = await getList();
 
         var c = l.characters[cp];
-        var c2;
-        if (c) {
-            c2 = {
-                codepoint: cp,
-                hex: c.hex,
-                name: c.name,
-                block: l.blocks[c.block],
-                blockId: c.block,
-                category: l.categories[c.category]
-            };
 
-            return c2;
+        if (c) {
+            return convertChar(cp, c);
         }
 
         if (fillMissing) {
-            c2 = {
+            return {
                 codepoint: cp,
                 hex: 'FFFD', // replacement char
                 name: 'Unknown',
                 block: '?',
                 category: 'Private Use'
             };
-
-            return c2;
         }
 
         return null;
@@ -112,7 +116,6 @@
             for (var i = cp - 5; i <= cp + 5; i++) {
                 c = await getChar(i, false);
                 if (c) {
-                    //console.log("got (dec) " + i);
                     characters.push(c);
                 }
             }
@@ -123,7 +126,6 @@
             for (var j = cp - 5; j <= cp + 5; j++) {
                 c = await getChar(j);
                 if (c) {
-                    //console.log("got (hex) " + i);
                     characters.push(c);
                 }
             }
@@ -146,14 +148,7 @@
                 }
 
                 if (c) {
-                    var c2 = {
-                        codepoint: cp,
-                        hex: c.hex,
-                        name: c.name,
-                        block: list.blocks[c.block],
-                        blockId: c.block,
-                        category: list.categories[c.category]
-                    };
+                    var c2 = convertChar(cp, c);
                     characters.push(c2);
                     if (characters.length > 80) {
                         console.log("found enough");
@@ -202,15 +197,8 @@
 
         for (cp in l.characters) {
             var c = l.characters[cp];
-            if (c.block === blockId) {
-                chars.push({
-                    codepoint: cp,
-                    hex: c.hex,
-                    name: c.name,
-                    block: l.blocks[c.block],
-                    blockId: c.block,
-                    category: l.categories[c.category]
-                });
+            if (c && c.block === blockId) {
+                chars.push(convertChar(cp, c));
             }
         }
 
