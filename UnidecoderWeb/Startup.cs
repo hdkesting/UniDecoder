@@ -61,6 +61,10 @@ namespace UnidecoderWeb
             {
                 // possibly just redirected to the .gz version
                 response.Headers[HeaderNames.ContentEncoding] = "gzip";
+
+                // reset to *original* content type (not application/x-gzip)
+                new FileExtensionContentTypeProvider().TryGetContentType(file.Name.Replace(".gz", ""), out string contentType);
+                response.Headers[HeaderNames.ContentType] = contentType ?? "application/octet-stream";
                 return;
             }
 
