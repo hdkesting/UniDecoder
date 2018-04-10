@@ -110,15 +110,24 @@
                 tabElement = document.getElementById(tabElement);
             }
 
-            for (var elt of document.getElementsByClassName("tab")) {
-                elt.classList.remove("opened");
+            //for (var elt of document.getElementsByClassName("tab")) {
+            //    elt.classList.remove("opened");
+            //}
+            var elts = document.getElementsByClassName("tab");
+            for (let i = 0; i < elts.length; i++) {
+                elts.item(i).classList.remove("opened");
             }
 
             tabElement.classList.add("opened");
 
-            for (var elt of document.getElementsByClassName("tabcontent")) {
-                elt.classList.remove("visible");
+            //for (var elt of document.getElementsByClassName("tabcontent")) {
+            //    elt.classList.remove("visible");
+            //}
+            var elts = document.getElementsByClassName("tabcontent");
+            for (let i = 0; i < elts.length; i++) {
+                elts.item(i).classList.remove("visible");
             }
+
 
             var tab = document.getElementById(tabContentName);
             tab.classList.add("visible");
