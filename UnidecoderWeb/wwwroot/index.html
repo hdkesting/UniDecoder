@@ -110,9 +110,6 @@
                 tabElement = document.getElementById(tabElement);
             }
 
-            //for (var elt of document.getElementsByClassName("tab")) {
-            //    elt.classList.remove("opened");
-            //}
             var elts = document.getElementsByClassName("tab");
             for (let i = 0; i < elts.length; i++) {
                 elts.item(i).classList.remove("opened");
@@ -120,9 +117,6 @@
 
             tabElement.classList.add("opened");
 
-            //for (var elt of document.getElementsByClassName("tabcontent")) {
-            //    elt.classList.remove("visible");
-            //}
             var elts = document.getElementsByClassName("tabcontent");
             for (let i = 0; i < elts.length; i++) {
                 elts.item(i).classList.remove("visible");
@@ -184,7 +178,13 @@
     <div id="tabcontent1" class="tabcontent visible">
         <h2>Introduction</h2>
         <p>Every character (letter, digit, punctuation, emoji,...) of any language has its own codepoint and name in the Unicode character set.</p>
-        <p>Use the other tabs to find out about them.</p>
+        <p>Use the other tabs to find out about them:
+        <ul>
+            <li><strong>Show characters</strong>: shows the characters in a text that you maybe copied from somewhere.</li>
+            <li><strong>Find characters</strong>: tries to find characters by name.</li>
+            <li><strong>Find by block</strong>: shows all characters that belong to the selected block.</li>
+        </ul>
+        </p>
 
         <p>Characters are shown like this:</p>
         <div class="result">
@@ -199,7 +199,7 @@
 
         <p>Meaning:
         <ul>
-            <li>(big, in grey) The character (if it is available in the current font - not all are)</li>
+            <li>(big, in grey) The character (if it is available in the current font - not all are, then it will be a thin rectangle)</li>
             <li>(bold) The name of the character (search for this in tab 3)</li>
             <li>The block name (see tab 4)</li>
             <li>(cursive) The category of the character</li>
