@@ -31,6 +31,15 @@
             }
         }
 
+        function setLink(linkid, tag, value) {
+            if (linkid) {
+                var link = document.getElementById(linkid);
+                link.href = document.location.href.split('#')[0];
+                link.href += `#${tag}=${encodeURI(value)}`;
+                    //"#" + tag + "=" + encodeURI(source.value);
+            }
+        }
+
         async function processDecoder(source, targetId, linkId) {
             setResultTemplate();
             if (typeof (source) === "string") {
@@ -44,9 +53,7 @@
             var content = resultTemplate(data);
             targetElement.innerHTML = content;
 
-            var link = document.getElementById(linkId);
-            link.href = document.location.href.split('#')[0];
-            link.href += "#s=" + encodeURI(source.value);
+            setLink(linkId, 's', source.value);
         }
 
         async function processSearch(source, targetId, linkId) {
@@ -62,9 +69,7 @@
             var content = resultTemplate(data);
             targetElement.innerHTML = content;
 
-            var link = document.getElementById(linkId);
-            link.href = document.location.href.split('#')[0];
-            link.href += "#q=" + encodeURI(source.value);
+            setLink(linkId, 'q', source.value);
         }
 
         async function processBlockSearch(source, targetId, linkId) {
@@ -83,11 +88,7 @@
             var content = resultTemplate(data);
             targetElement.innerHTML = content;
 
-            if (linkId) {
-                var link = document.getElementById(linkId);
-                link.href = document.location.href.split('#')[0];
-                link.href += "#b=" + encodeURI(source.value);
-            }
+            setLink(linkId, 'b', source.value);
         }
 
         async function setBlockSelect() {

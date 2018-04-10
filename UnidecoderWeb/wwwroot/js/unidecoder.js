@@ -1,8 +1,10 @@
 ﻿(async function (window) {
+    'use strict'
 
     var list;
     var decoder = {};
 
+    // get the local list if available, else get from server (and store)
     var getList = async function () {
         if (!list) {
             console.log("fetching");
@@ -17,7 +19,9 @@
             
             list = await response.json();
             console.log("got the list");
-            for (var cp in list.characters) {
+
+            // make an uppercase copy of all names, for easier searching
+            for (let cp in list.characters) {
                 var c = list.characters[cp];
                 c.NAME = c.name.toUpperCase();
             }
@@ -28,6 +32,8 @@
         return list;
     };
 
+    // convert a char from the (local) list to a display value
+    // params: cp = codepoint (int), c = char from list (optional, object)
     var convertChar = function (cp, c) {
         if (!c) {
             c = list[cp];
@@ -43,6 +49,8 @@
         };
     };
 
+    // try and get a character from the list
+    // params: cp = codepoint (int), fillMissing = when true, create a "missing value" (bool), else use null
     var getChar = async function (cp, fillMissing) {
         if (cp <= 0) {
             return null;
@@ -69,7 +77,10 @@
         return null;
     };
 
+    // converts a value to an int, using the supplied radix
+    // params: value = value to convert (string), radix = base to use for conversion (10 or 16)
     var makeInt = function (value, radix) {
+        // remove any leading 0's
         while (value.length && value[0] === '0') {
             value = value.substr(1);
         }
@@ -90,12 +101,12 @@
     decoder.expandToChars = async function (text) {
         var characters = [];
         var list = await getList();
-        for (var i = 0; i < text.length; i++) {
+        for (let i = 0; i < text.length; i++) {
             var cp = text.codePointAt(i);
             var c2 = await getChar(cp, true);
 
             characters.push(c2);
-            if (cp > 65536) i++;
+            if (cp > 65536) i++; // skip other half of surrogate pair
         }
 
         return characters;
@@ -113,7 +124,7 @@
 
         var cp = makeInt(text, 10);
         if (cp) {
-            for (var i = cp - 5; i <= cp + 5; i++) {
+            for (let i = cp - 5; i <= cp + 5; i++) {
                 c = await getChar(i, false);
                 if (c) {
                     characters.push(c);
@@ -123,8 +134,8 @@
 
         cp = makeInt(text, 16);
         if (cp) {
-            for (var j = cp - 5; j <= cp + 5; j++) {
-                c = await getChar(j);
+            for (let i = cp - 5; i <= cp + 5; i++) {
+                c = await getChar(i);
                 if (c) {
                     characters.push(c);
                 }
@@ -195,7 +206,7 @@
         var l = await getList();
         var chars = [];
 
-        for (cp in l.characters) {
+        for (let cp in l.characters) {
             var c = l.characters[cp];
             if (c && c.block === blockId) {
                 chars.push(convertChar(cp, c));
