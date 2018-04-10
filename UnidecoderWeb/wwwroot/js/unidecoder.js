@@ -45,7 +45,8 @@
             name: c.name,
             block: list.blocks[c.block],
             blockId: c.block,
-            category: list.categories[c.category]
+            category: list.categories[c.category],
+            isLatin: list.blocks[c.block].indexOf("Latin") >= 0
         };
     };
 

@@ -152,7 +152,11 @@
                         break;
                 }
             }
+        }
 
+        function cp(cp, name) {
+            let ch = String.fromCodePoint(cp);
+            window.prompt("Use Ctrl+C to copy the character '" + name + "'", ch);
         }
         </script>
     <link type="text/css" rel="stylesheet" href="css/site.min.css" />
@@ -176,7 +180,7 @@
         <p>Characters are shown like this:</p>
         <div class="result">
             <div class="character">
-                <p>a</p>
+                <p class="latin">a</p>
                 <p><strong>Latin Small Letter A</strong></p>
                 <p>Basic Latin</p>
                 <p><em>Lowercase Letter</em></p>
@@ -199,8 +203,10 @@
     <div id="tabcontent2" class="tabcontent">
         <h2>Character details</h2>
         <p>Type in (or copy in) some text. Information about all characters in it will be shown.</p>
-        <p>For example: <a class="sample" href="#s=cr%C3%A8me%20br%C3%BBl%C3%A9e">Cre&#x0300;me brûlée</a>  or
-                        <a class="sample" href="#s=1%C3%97%20%F0%9F%8D%95%20%C3%A0%20%E2%82%AC1,%E2%80%92">1× 🍕 à €1,‒</a></p>
+        <p>For example: <a class="sample" href="#s=cr%C3%A8me%20br%C3%BBl%C3%A9e">Cre&#x0300;me brûlée</a>,
+                        <a class="sample" href="#s=1%C3%97%20%F0%9F%8D%95%20%C3%A0%20%E2%82%AC1,%E2%80%92">1× 🍕 à €1,‒</a> or
+                        <a class="sample" href="#s=%D0%A0hishy@%CE%9Cicr%CE%BFs%CE%BFft.com">Рhishy@Μicrοsοft.com</a>
+        </p>
         <input id="sampleString" type="text" placeholder="Input text to inspect" autofocus required
                onkeyup="processDecoder(this, 'result2', 'link2')" style="width:100%" />
         <!--
@@ -242,7 +248,7 @@
     <script id="result-template" type="text/x-handlebars-template">
         {{#each characters}}
         <div class="character">
-            <p>&#x{{this.hex}};</p>
+            <p onclick="cp({{this.codepoint}}, '{{this.name}}')" {{#if this.isLatin}}class="latin"{{/if}}>&#x{{this.hex}};</p>
             <p><strong>{{this.name}}</strong></p>
             <p><a href="#b={{this.blockId}}">{{this.block}}</a></p>
             <p><em>{{this.category}}</em></p>
