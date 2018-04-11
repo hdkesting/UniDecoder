@@ -104,6 +104,12 @@
             targetElement.innerHTML = content;
         }
 
+        async function setCharCount() {
+            var count = await decoder.getCharCount();
+            var targetElement = document.getElementById("charcount");
+            targetElement.innerHTML = count;
+        }
+
         function opentab(tabElement, tabContentName) {
             if (typeof (tabElement) === "string") {
                 // supplied as id-string, convert to element
@@ -177,12 +183,14 @@
     <!-- tab: intro -->
     <div id="tabcontent1" class="tabcontent visible">
         <h2>Introduction</h2>
-        <p>Every character (letter, digit, punctuation, emoji,...) of any language has its own codepoint and name in the Unicode character set.</p>
+        <p>Every character (letter, digit, punctuation, emoji,...) of any language has its own codepoint and name in the Unicode character set.<br/>
+        This app knows details about <span id="charcount">a lot</span> of them.
+        </p>
         <p>Use the other tabs to find out about them:
         <ul>
             <li><strong>Show characters</strong>: shows the characters in a text that you maybe copied from somewhere.</li>
-            <li><strong>Find characters</strong>: tries to find characters by name.</li>
-            <li><strong>Find by block</strong>: shows all characters that belong to the selected block.</li>
+            <li><strong>Find characters</strong>: tries to find characters by name or codepoint.</li>
+            <li><strong>Find by block</strong>: shows all characters that belong to a selected block.</li>
         </ul>
         </p>
 
@@ -199,7 +207,7 @@
 
         <p>Meaning:
         <ul>
-            <li>(big, in grey) The character (if it is available in the current font - not all are, then it will be a thin rectangle)</li>
+            <li>(big, in grey) The character (if it is available in the current font &ndash; not all are, then it will be a thin rectangle)</li>
             <li>(bold) The name of the character (search for this in tab 3)</li>
             <li>The block name (see tab 4)</li>
             <li>(cursive) The category of the character</li>
@@ -212,16 +220,25 @@
     <div id="tabcontent2" class="tabcontent">
         <h2>Character details</h2>
         <p>Type in (or copy in) some text. Information about all characters in it will be shown.</p>
-        <p>For example: <a class="sample" href="#s=cr%C3%A8me%20br%C3%BBl%C3%A9e">Cre&#x0300;me brûlée</a>,
-                        <a class="sample" href="#s=1%C3%97%20%F0%9F%8D%95%20%C3%A0%20%E2%82%AC1,%E2%80%92">1× 🍕 à €1,‒</a> or
-                        <a class="sample" href="#s=%D0%A0hishy@%CE%9Cicr%CE%BFs%CE%BFft.com">Рhishy@Μicrοsοft.com</a>
+        <p>For example: 
+        <dl>
+            <dt><a class="sample" href="#s=cr%C3%A8me%20br%C3%BBl%C3%A9e">Cre&#x0300;me brûlée</a></dt>
+            <dd>A phrase with accented letters</dd>
+            <dt><a class="sample" href="#s=1%C3%97%20%F0%9F%8D%95%20%C3%A0%20%E2%82%AC1,%E2%80%92">1× 🍕 à €1,‒</a></dt>
+            <dd>More exotic "letters" are possible</dd>
+            <dt><a class="sample" href="#s=%D0%A0hishy@%CE%9Cicr%CE%BFs%CE%BFft.com">Рhishy@Μicrοsοft.com</a></dt>
+            <dd>You can even detect some phishy addresses (look closely at the letters)</dd>
+        </dl>
         </p>
-        <input id="sampleString" type="text" placeholder="Input text to inspect" autofocus required
-               onkeyup="processDecoder(this, 'result2', 'link2')" style="width:100%" />
-        <!--
+        <p>
+            Your text to split in characters:<br />
+            <input id="sampleString" type="text" placeholder="Type in (or copy in) the text to inspect" autofocus required
+                   onkeyup="processDecoder(this, 'result2', 'link2')" style="width:100%" />
+            <!--
       onkeypress reageert niet op "wissen" en geeft oude waarde
       onkeyup reageert ook op cursor keys maar geeft juiste waarde
     -->
+        </p>
         <p><a href="#s=" id="link2">Direct link</a></p>
         <div id="result2" class="result">&hellip;</div>
     </div>
@@ -234,8 +251,11 @@
         <p>When there are too many matches, the list is truncated. Use a more specific search (you can use multiple words in any order) to get a more specific result.</p>
         <p>Examples: <a class="sample" href="#q=phone">phone</a> or 
                      <a class="sample" href="#q=star">star</a></p>
-        <input id="searchString" type="text" placeholder="Input name(s) to find" autofocus required
-               oninput="processSearch(this, 'result3', 'link3')" style="width:100%" />
+        <p>
+            The name or code to search for:<br/>
+            <input id="searchString" type="text" placeholder="Type in words of the name to find" autofocus required
+                   oninput="processSearch(this, 'result3', 'link3')" style="width:100%" />
+        </p>
         <p><a href="#q=" id="link3">Direct link</a></p>
         <div id="result3" class="result">&hellip;</div>
     </div>
@@ -248,7 +268,9 @@
         <p>Examples: <a class="sample" href="#b=259">Emoticons</a>, 
                     <a class="sample" href="#b=255">Playing cards</a> or 
                     <a class="sample" href="#b=42">Runic</a>.</p>
-        <select id="blockSelect" onchange="processBlockSearch(this, 'result4', 'link4')"></select>
+        <p>
+            <select id="blockSelect" onchange="processBlockSearch(this, 'result4', 'link4')"></select>
+        </p>
         <p><a href="#b=0" id="link4">Direct link</a></p>
         <div id="result4" class="result">&hellip;</div>
     </div>
@@ -258,9 +280,9 @@
         {{#each characters}}
         <div class="character">
             <p onclick="cp({{this.codepoint}}, '{{this.name}}')" {{#if this.isLatin}}class="latin"{{/if}}>&#x{{this.hex}};</p>
-            <p><strong>{{this.name}}</strong></p>
+            <p><b>{{this.name}}</b></p>
             <p><a href="#b={{this.blockId}}">{{this.block}}</a></p>
-            <p><em>{{this.category}}</em></p>
+            <p><i>{{this.category}}</i></p>
             <p><a href="#q={{this.hex}}">{{this.hex}}</a> - <a href="#q={{this.codepoint}}">{{this.codepoint}}</a></p>
         </div>
         {{/each}}
@@ -280,6 +302,7 @@
 
             window.addEventListener("hashchange", handleHash);
             handleHash();
+            await setCharCount();
         })();
     </script>
 </body>

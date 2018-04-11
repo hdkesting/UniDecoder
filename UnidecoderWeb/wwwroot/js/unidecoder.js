@@ -217,6 +217,19 @@
         return chars;
     };
 
+    decoder.getCharCount = async function () {
+        var l = await getList();
+        let count = 0;
+        // "characters" is not an array, but an object with numerically named properties.
+        for (let cp in l.characters) {
+            if (l.characters.hasOwnProperty(cp)) {
+                count++;
+            }
+        }
+
+        return count;
+    };
+
     window.decoder = decoder;
 })(window);
 
