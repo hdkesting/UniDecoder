@@ -20,6 +20,14 @@ a.sample {
 dt {
   margin-top: 10px;
 }
+dd {
+  /* ↪ */
+  padding-right: 10px;
+}
+dd:before {
+  content: '↪';
+  font-size: 14pt;
+}
 .result {
   display: flex;
   flex-wrap: wrap;
@@ -47,6 +55,9 @@ dt {
 }
 .result .character p:first-of-type.latin {
   background-color: #C0C0A0;
+}
+.result .character p:first-of-type:not(.latin) {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 #tablist {
   display: flex;

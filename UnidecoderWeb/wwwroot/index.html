@@ -128,9 +128,13 @@
                 elts.item(i).classList.remove("visible");
             }
 
-
             var tab = document.getElementById(tabContentName);
             tab.classList.add("visible");
+
+            var inputs = tab.getElementsByTagName("input");
+            if (inputs.length) {
+                inputs[0].focus();
+            }
         }
 
         function handleHash() {
@@ -183,7 +187,8 @@
     <!-- tab: intro -->
     <div id="tabcontent1" class="tabcontent visible">
         <h2>Introduction</h2>
-        <p>Every character (letter, digit, punctuation, emoji,...) of any language has its own codepoint and name in the Unicode character set.<br/>
+        <p>Every character (letter, digit, punctuation, emoji,...) of any language has its own codepoint and name in the Unicode character set.
+        For more info, see the <a href="https://www.unicode.org/faq/">Unicode FAQ</a>.<br/>
         This app knows details about <span id="charcount">a lot</span> of them.
         </p>
         <p>Use the other tabs to find out about them:
@@ -214,6 +219,11 @@
             <li>The codepoint of the character: both hexadecimal and decimal</li>
         </ul>
         </p>
+        <p style="margin-top: 50px">
+            <a href="https://stackoverflow.com/users/121309/hans-kesting">
+                <img src="https://stackoverflow.com/users/flair/121309.png?theme=default" width="208" height="58" alt="profile for Hans Kesting at Stack Overflow, Q&amp;A for professional and enthusiast programmers" title="profile for Hans Kesting at Stack Overflow, Q&amp;A for professional and enthusiast programmers">
+            </a>
+        </p>
     </div>
 
     <!-- tab: show characters -->
@@ -222,7 +232,7 @@
         <p>Type in (or copy in) some text. Information about all characters in it will be shown.</p>
         <p>For example: 
         <dl>
-            <dt><a class="sample" href="#s=cr%C3%A8me%20br%C3%BBl%C3%A9e">Cre&#x0300;me brûlée</a></dt>
+            <dt><a class="sample" href="#s=cr%65%CC%80me%20br%C3%BBl%C3%A9e">Cre&#x0300;me brûlée</a></dt>
             <dd>A phrase with accented letters</dd>
             <dt><a class="sample" href="#s=1%C3%97%20%F0%9F%8D%95%20%C3%A0%20%E2%82%AC1,%E2%80%92">1× 🍕 à €1,‒</a></dt>
             <dd>More exotic "letters" are possible</dd>
@@ -303,6 +313,8 @@
             window.addEventListener("hashchange", handleHash);
             handleHash();
             await setCharCount();
+
+            console.dir(document.styleSheets[0].cssRules);
         })();
     </script>
 </body>

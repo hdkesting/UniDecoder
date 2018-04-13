@@ -26,6 +26,16 @@ dt {
     margin-top: 10px;
 }
 
+dd {
+    /* ↪ */
+    padding-right: 10px;
+
+    &:before {
+        content: '↪';
+        font-size: 14pt;
+    }
+}
+
 .result {
     display: flex;
     flex-wrap: wrap;
@@ -54,6 +64,10 @@ dt {
 
             &.latin {
                 background-color:#C0C0A0;
+            }
+
+            &:not(.latin) {
+                font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             }
         }
     }
