@@ -134,6 +134,9 @@
             var inputs = tab.getElementsByTagName("input");
             if (inputs.length) {
                 inputs[0].focus();
+            } else {
+                inputs = tab.getElementsByTagName("select");
+                inputs[0].focus();
             }
         }
 
@@ -236,8 +239,8 @@
             <dd>A phrase with accented letters</dd>
             <dt><a class="sample" href="#s=1%C3%97%20%F0%9F%8D%95%20%C3%A0%20%E2%82%AC1,%E2%80%92">1× 🍕 à €1,‒</a></dt>
             <dd>More exotic "letters" are possible</dd>
-            <dt><a class="sample" href="#s=%D0%A0hishy@%CE%9Cicr%CE%BFs%CE%BFft.com">Рhishy@Μicrοsοft.com</a></dt>
-            <dd>You can even detect some phishy addresses (look closely at the letters)</dd>
+            <dt><a class="sample" href="#s=%D0%A0hishy@%CE%9Cicr%CE%BFs%CE%BF%EF%AC%85.com">Рhishy@Μicrοsοﬅ.com</a></dt>
+            <dd>You can even detect some phishy addresses (look closely at the letters &ndash; this is not a Microsoft address)</dd>
         </dl>
         </p>
         <p>

@@ -81,3 +81,7 @@ dd:before {
 .tabcontent.visible {
   display: block;
 }
+input,
+select {
+  font-size: 20pt;
+}
