@@ -2,6 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Uni-decoder</title>
     <script type="text/javascript">
         //if (false && 'serviceWorker' in navigator) {
@@ -19,7 +20,7 @@
         //    console.log("no service worker support");
         //}
     </script>
-    <script type="text/javascript" src="js/unidecoder.js"></script>
+    <script type="text/javascript" src="js/unidecoder.js?v=2"></script>
     <script type="text/javascript" src="js/handlebars.min.js"></script>
     <script>
         var resultTemplate;
@@ -107,7 +108,7 @@
         async function setCharCount() {
             var count = await decoder.getCharCount();
             var targetElement = document.getElementById("charcount");
-            targetElement.innerHTML = count;
+            targetElement.innerHTML = count.toLocaleString(); // current locale, default options
         }
 
         function opentab(tabElement, tabContentName) {
@@ -136,7 +137,9 @@
                 inputs[0].focus();
             } else {
                 inputs = tab.getElementsByTagName("select");
-                inputs[0].focus();
+                if (inputs.length) {
+                    inputs[0].focus();
+                }
             }
         }
 
@@ -166,7 +169,14 @@
                         document.getElementById("blockSelect").value = decodeURI(srch[1]);
                         processBlockSearch('blockSelect', 'result4', 'link4')
                         break;
+                    default:
+                        console.log("show INTRO");
+                        opentab('tab1', 'tabcontent1');
+                        break;
                 }
+            } else {
+                console.log("show INTRO (no #)");
+                opentab('tab1', 'tabcontent1');
             }
         }
 
@@ -175,13 +185,13 @@
             window.prompt("Use Ctrl+C to copy the character '" + name + "'", ch);
         }
         </script>
-    <link type="text/css" rel="stylesheet" href="css/site.min.css" />
+    <link type="text/css" rel="stylesheet" href="css/site.min.css?v=5" />
 </head>
 <body>
     <h1>Unicode decoder</h1>
 
     <div id="tablist">
-        <div class="tab opened" id="tab1" onclick="opentab(this, 'tabcontent1')">Intro</div>
+        <div class="tab opened" id="tab1" onclick="history.pushState(undefined, undefined, '#'); handleHash()">Intro</div>
         <div class="tab" id="tab2" onclick="opentab(this, 'tabcontent2')">Show characters in text</div>
         <div class="tab" id="tab3" onclick="opentab(this, 'tabcontent3')">Find characters by name</div>
         <div class="tab" id="tab4" onclick="opentab(this, 'tabcontent4')">Find characters by block</div>
@@ -190,11 +200,16 @@
     <!-- tab: intro -->
     <div id="tabcontent1" class="tabcontent visible">
         <h2>Introduction</h2>
-        <p>Every character (letter, digit, punctuation, emoji,...) of any language has its own codepoint and name in the Unicode character set.
-        For more info, see the <a href="https://www.unicode.org/faq/">Unicode FAQ</a>.<br/>
-        This app knows details about <span id="charcount">a lot</span> of them.
+        <p>
+            Every character (letter, digit, punctuation, emoji,...) of any language has its own codepoint and name in the Unicode character set. At least, that is what the Unicode Consortium is aiming for.
+            For more info, see the <a href="https://www.unicode.org/faq/">Unicode FAQ</a>.<br/>
+            One complication: before a character can be shown, the font that is used (on this site or wherever you copy the character to) needs to support that character.
         </p>
-        <p>Use the other tabs to find out about them:
+        <p>
+            This app knows details about <span id="charcount">a lot of</span> characters.
+        </p>
+        <p>
+            Use the other tabs to find out about them:
         <ul>
             <li><strong>Show characters</strong>: shows the characters in a text that you maybe copied from somewhere.</li>
             <li><strong>Find characters</strong>: tries to find characters by name or codepoint.</li>
@@ -203,7 +218,7 @@
         </p>
 
         <p>Characters are shown like this:</p>
-        <div class="result">
+        <!--<div class="result">
             <div class="character">
                 <p class="latin">a</p>
                 <p><strong>Latin Small Letter A</strong></p>
@@ -211,15 +226,25 @@
                 <p><em>Lowercase Letter</em></p>
                 <p>0061 - 97</p>
             </div>
+        </div>-->
+        <div id="sample" class="result">
+            <div class="character">
+                <div onclick="cp(97, 'Latin Small Letter A')" class="latin">a</div>
+                <div>
+                    <p><b>Latin Small Letter A</b></p>
+                    <p><a href="#b=0">Basic Latin</a></p>
+                    <p><i>Lowercase Letter</i></p>
+                    <p><a href="#q=0061">0061</a> - <a href="#q=97">97</a></p>
+                </div>
+            </div>
         </div>
-
         <p>Meaning:
         <ul>
-            <li>(big, in grey) The character (if it is available in the current font &ndash; not all are, then it will be a thin rectangle)</li>
+            <li>(big, in (yellowish) grey) The character (in the current font)</li>
             <li>(bold) The name of the character (search for this in tab 3)</li>
-            <li>The block name (see tab 4)</li>
-            <li>(cursive) The category of the character</li>
-            <li>The codepoint of the character: both hexadecimal and decimal</li>
+            <li>The block name (see tab 4). The link leads you there.</li>
+            <li>(cursive) The category of the character.</li>
+            <li>The codepoint of the character: both hexadecimal and decimal. The links show this character and surrounding ones.</li>
         </ul>
         </p>
         <p style="margin-top: 50px">
@@ -279,8 +304,8 @@
         <p>Characters are grouped in blocks. Select a block to see its characters.</p>
         <p>Some characters may be replaced by an empty rectangle: this means that the current font cannot display it.</p>
         <p>Examples: <a class="sample" href="#b=259">Emoticons</a>, 
-                    <a class="sample" href="#b=255">Playing cards</a> or 
-                    <a class="sample" href="#b=42">Runic</a>.</p>
+                    <a class="sample" href="#b=258">Miscellaneous Symbols</a> or 
+                    <a class="sample" href="#b=11">Hebrew</a>.</p>
         <p>
             <select id="blockSelect" onchange="processBlockSearch(this, 'result4', 'link4')"></select>
         </p>
@@ -292,11 +317,13 @@
     <script id="result-template" type="text/x-handlebars-template">
         {{#each characters}}
         <div class="character">
-            <p onclick="cp({{this.codepoint}}, '{{this.name}}')" {{#if this.isLatin}}class="latin"{{/if}}>&#x{{this.hex}};</p>
-            <p><b>{{this.name}}</b></p>
-            <p><a href="#b={{this.blockId}}">{{this.block}}</a></p>
-            <p><i>{{this.category}}</i></p>
-            <p><a href="#q={{this.hex}}">{{this.hex}}</a> - <a href="#q={{this.codepoint}}">{{this.codepoint}}</a></p>
+            <div onclick="cp({{this.codepoint}}, '{{this.name}}')" {{#if this.isLatin}}class="latin"{{/if}}>&#x{{this.hex}};</div>
+            <div>
+                <p><b>{{this.name}}</b></p>
+                <p><a href="#b={{this.blockId}}">{{this.block}}</a></p>
+                <p><i>{{this.category}}</i></p>
+                <p><a href="#q={{this.hex}}">{{this.hex}}</a> - <a href="#q={{this.codepoint}}">{{this.codepoint}}</a></p>            
+            </div>
         </div>
         {{/each}}
     </script>

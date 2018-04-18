@@ -1,4 +1,7 @@
-﻿body {
+﻿@viewport {
+  width: device-width;
+}
+body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 a {
@@ -39,13 +42,19 @@ dd:before {
   flex-basis: auto;
   border-radius: 0 5px 5px 5px;
 }
+.result .character div {
+  float: left;
+  margin: 0;
+}
 .result .character p {
   margin: 0;
 }
-.result .character p:first-of-type {
+.result .character div {
+  padding: 5px;
+}
+.result .character div:first-of-type {
   font-size: 36pt;
   float: left;
-  padding: 5px;
   min-width: 40px;
   min-height: 50px;
   background-color: #C0C0C0;
@@ -53,10 +62,10 @@ dd:before {
   margin-right: 2px;
   cursor: copy;
 }
-.result .character p:first-of-type.latin {
+.result .character div:first-of-type.latin {
   background-color: #C0C0A0;
 }
-.result .character p:first-of-type:not(.latin) {
+.result .character div:first-of-type:not(.latin) {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 #tablist {
@@ -83,5 +92,5 @@ dd:before {
 }
 input,
 select {
-  font-size: 20pt;
+  font-size: 16pt;
 }

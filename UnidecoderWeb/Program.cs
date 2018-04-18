@@ -1,17 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
+﻿// <copyright file="Program.cs" company="Hans Kesting">
+// Copyright (c) Hans Kesting. All rights reserved.
+// </copyright>
 
 namespace UnidecoderWeb
 {
+    using Microsoft.AspNetCore;
+    using Microsoft.AspNetCore.Hosting;
+
+    /// <summary>
+    /// The main program.
+    /// </summary>
     public class Program
     {
+        /// <summary>
+        /// Defines the entry point of the application.
+        /// </summary>
+        /// <param name="args">The arguments.</param>
         public static void Main(string[] args)
         {
             BuildWebHost(args).Run();

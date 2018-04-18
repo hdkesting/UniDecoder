@@ -1,28 +1,45 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json.Linq;
-using UnidecoderWeb.Services;
-using Microsoft.AspNetCore.Hosting;
-using System.IO;
+﻿// <copyright file="UnicodeController.cs" company="Hans Kesting">
+// Copyright (c) Hans Kesting. All rights reserved.
+// </copyright>
 
 namespace UnidecoderWeb.Controllers
 {
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
+    using Microsoft.AspNetCore.Hosting;
+    using Microsoft.AspNetCore.Mvc;
+    using Newtonsoft.Json.Linq;
+    using UnidecoderWeb.Services;
+
+    /// <summary>
+    /// Controller for unicode related info.
+    /// </summary>
+    /// <seealso cref="Microsoft.AspNetCore.Mvc.Controller" />
     [Produces("application/json")]
     [Route("api/Unicode")]
     public class UnicodeController : Controller
     {
-        private static readonly object padlock = new object();
+        private static readonly object Padlock = new object();
 
         private readonly UnicodeService service;
         private readonly IHostingEnvironment environment;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="UnicodeController"/> class.
+        /// </summary>
+        /// <param name="service">The service.</param>
+        /// <param name="environment">The environment.</param>
         public UnicodeController(UnicodeService service, IHostingEnvironment environment)
         {
             this.service = service;
             this.environment = environment;
         }
 
+        /// <summary>
+        /// Gets all unicode blocks.
+        /// </summary>
+        /// <returns>A list of block names.</returns>
         [HttpGet("blocks")]
         public List<string> GetUnicodeBlocks()
         {
@@ -30,13 +47,17 @@ namespace UnidecoderWeb.Controllers
             return list;
         }
 
+        /// <summary>
+        /// Gets all characters.
+        /// </summary>
+        /// <returns>A redirect to the file containing the characters.</returns>
         [HttpGet("characters")]
         public IActionResult GetAllCharacters()
         {
             const string charfile = "characters.json";
-            var path = System.IO.Path.Combine(this.environment.WebRootPath, charfile);
+            var path = Path.Combine(this.environment.WebRootPath, charfile);
 
-            lock (padlock)
+            lock (Padlock)
             {
                 if (!System.IO.File.Exists(path))
                 {
@@ -46,19 +67,22 @@ namespace UnidecoderWeb.Controllers
                     var blocklist = new List<string>();
 
                     JObject charlist = new JObject();
-                    // filtering out "Private Use"characters goes from 40 MB to 22 MB
-                    // category and blocks to separte list reduces to 12 MB (not indented)
+
+                    /* filtering out "Private Use" characters reduces output from 40 MB to 22 MB
+                     * category and blocks to separate list reduces to 12 MB (not indented)
+                     */
                     foreach (var c in list.Where(it =>
                         it.Codepoint >= 32 &&
                         it.Category.IndexOf("Private Use") == -1 &&
-                        it.Name.IndexOf("Surrogate-") == -1))
+                        it.Category != "Surrogate"))
                     {
                         var cp = c.Codepoint;
                         if (!catlist.ContainsKey(c.CategoryId))
                         {
                             catlist.Add(c.CategoryId, c.Category);
                         }
-                        int blockindex = GetIndex(blocklist, c.Block);
+
+                        int blockindex = this.GetIndex(blocklist, c.Block);
 
                         var obj = new JObject
                                         {
@@ -73,7 +97,7 @@ namespace UnidecoderWeb.Controllers
                     JObject result = new JObject
                     {
                         new JProperty("characters", charlist),
-                        new JProperty("categories", GetCategoryList(catlist)),
+                        new JProperty("categories", this.GetCategoryList(catlist)),
                         new JProperty("blocks", new JArray(blocklist))
                     };
 
@@ -92,6 +116,10 @@ namespace UnidecoderWeb.Controllers
             return this.RedirectPermanent("/" + charfile);
         }
 
+        /// <summary>
+        /// Gets the current unicode version.
+        /// </summary>
+        /// <returns>The current unicode version.</returns>
         [HttpGet("version")]
         public string GetVersion()
         {

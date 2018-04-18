@@ -1,14 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Unicode;
-using UniDecoderWeb.Models;
+﻿// <copyright file="UnicodeService.cs" company="Hans Kesting">
+// Copyright (c) Hans Kesting. All rights reserved.
+// </copyright>
 
 namespace UnidecoderWeb.Services
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Unicode;
+    using UniDecoderWeb.Models;
+
+    /// <summary>
+    /// The Unicode Service.
+    /// </summary>
     public class UnicodeService
     {
+        private const int MaxCodepoint = 0x10FFFF;
+
+        /// <summary>
+        /// Shows the characters in the source string.
+        /// </summary>
+        /// <param name="source">The source.</param>
+        /// <returns>A list of characters.</returns>
         public List<BasicInfo> ShowCharactersInString(string source)
         {
             var items = source.AsPermissiveCodePointEnumerable()
@@ -17,10 +30,15 @@ namespace UnidecoderWeb.Services
             return items;
         }
 
+        /// <summary>
+        /// Finds the characters by their name.
+        /// </summary>
+        /// <param name="source">The source.</param>
+        /// <returns>A list of characters.</returns>
         public List<BasicInfo> FindCharactersByName(string source)
         {
             List<BasicInfo> list;
-            if (String.IsNullOrWhiteSpace(source))
+            if (string.IsNullOrWhiteSpace(source))
             {
                 list = new List<BasicInfo>();
                 return list;
@@ -29,8 +47,8 @@ namespace UnidecoderWeb.Services
             {
                 // select the first {limit} existing characters whose name matches
                 int limit = (source.Length > 3) ? 100 : 25;
-                list = Enumerable.Range(0x0000, 0x10FFFF)
-                    .Where(CodepointExists)
+                list = Enumerable.Range(0x0000, MaxCodepoint)
+                    .Where(this.CodepointExists)
                     .Select(UnicodeInfo.GetCharInfo)
                     .Where(x => NameMatches(source, x.Name))
                     .Select(info => new BasicInfo(info))
@@ -39,118 +57,44 @@ namespace UnidecoderWeb.Services
             }
 
             // try and interpret as integer (decimal)
-            if (Int32.TryParse(source, out int code) && CodepointExists(code))
+            if (int.TryParse(source, out int code) && this.CodepointExists(code))
             {
                 try
                 {
                     var i = UnicodeInfo.GetCharInfo(code);
                     list.Insert(0, new BasicInfo(i));
                 }
-                catch { }
+                catch
+                {
+                }
             }
 
             // try and interpret as integer (hex)
-            if (Int32.TryParse(source,
-                                System.Globalization.NumberStyles.HexNumber,
-                                System.Globalization.CultureInfo.InvariantCulture,
-                                out code)
-                        && CodepointExists(code))
+            if (int.TryParse(
+                        source,
+                        System.Globalization.NumberStyles.HexNumber,
+                        System.Globalization.CultureInfo.InvariantCulture,
+                        out code)
+                    && this.CodepointExists(code))
             {
                 try
                 {
                     var i = UnicodeInfo.GetCharInfo(code);
                     list.Insert(0, new BasicInfo(i));
                 }
-                catch { }
+                catch
+                {
+                }
             }
 
             return list;
         }
 
-        //internal IEnumerable<TextRange> SplitInRanges(string text)
-        //{
-        //    if (string.IsNullOrEmpty(text))
-        //    {
-        //        return Enumerable.Empty<TextRange>();
-        //    }
-
-        //    bool isLatin(string block)
-        //    {
-        //        return block.Contains("Latin");
-        //    }
-
-        //    var output = new List<TextRange>();
-
-        //    var list = this.ShowCharactersInString(text);
-        //    var inLatin = isLatin(list[0].Block);
-
-        //    TextRange range = new TextRange { StartIndex = 0 };
-
-        //    int charpos = -1;
-        //    for (int i = 0; i < list.Count; i++)
-        //    {
-        //        charpos++;
-        //        if (isLatin(list[i].Block) != inLatin)
-        //        {
-        //            if (!inLatin)
-        //            {
-        //                range.Length = charpos - range.StartIndex;
-        //                output.Add(range);
-        //            }
-
-        //            range = new TextRange { StartIndex = charpos };
-
-        //            inLatin = isLatin(list[i].Block);
-        //        }
-        //        if (char.IsSurrogate(text[charpos]))
-        //        {
-        //            // TextRange uses character positions and surrogates take two chars to represent one codepoint
-        //            charpos++;
-        //        }
-        //    }
-
-        //    if (!inLatin)
-        //    {
-        //        range.Length = text.Length - range.StartIndex;
-        //        output.Add(range);
-        //    }
-
-        //    return output;
-        //}
-
-        internal List<TextFragment> SplitInBlocks(string text)
-        {
-            var list = ShowCharactersInString(text);
-
-            var output = new List<TextFragment>();
-            string currentBlock = null;
-            string currentFragment = "";
-            foreach (var token in list)
-            {
-                if (token.Block != currentBlock)
-                {
-                    if (!String.IsNullOrEmpty(currentFragment))
-                    {
-                        output.Add(new TextFragment(currentFragment, currentBlock));
-                    }
-
-                    currentBlock = token.Block;
-                    currentFragment = token.Character;
-                }
-                else
-                {
-                    currentFragment += token.Character;
-                }
-            }
-
-            if (!String.IsNullOrEmpty(currentFragment))
-            {
-                output.Add(new TextFragment(currentFragment, currentBlock));
-            }
-
-            return output;
-        }
-
+        /// <summary>
+        /// Gets the characters.
+        /// </summary>
+        /// <param name="list">The list of codepoints.</param>
+        /// <returns>A list of characters.</returns>
         public List<BasicInfo> GetCharacters(List<int> list)
         {
             if (list == null || !list.Any())
@@ -163,10 +107,14 @@ namespace UnidecoderWeb.Services
                     .ToList();
         }
 
+        /// <summary>
+        /// Gets all unicode block names.
+        /// </summary>
+        /// <returns>A list of block names.</returns>
         public List<string> GetUnicodeBlockNames()
         {
-            var list = Enumerable.Range(0x0000, 0x10FFFF)
-                                 .Where(CodepointExists)
+            var list = Enumerable.Range(0x0000, MaxCodepoint)
+                                 .Where(this.CodepointExists)
                                  .Select(UnicodeInfo.GetCharInfo)
                                  .Select(info => info.Block)
                                  .Distinct()
@@ -175,10 +123,15 @@ namespace UnidecoderWeb.Services
             return list;
         }
 
+        /// <summary>
+        /// Gets the characters by block.
+        /// </summary>
+        /// <param name="block">The block.</param>
+        /// <returns>A list of characters.</returns>
         public List<BasicInfo> GetCharactersByBlock(string block)
         {
-            var list = Enumerable.Range(0x0000, 0x10FFFF)
-                                 .Where(CodepointExists)
+            var list = Enumerable.Range(0x0000, MaxCodepoint)
+                                 .Where(this.CodepointExists)
                                  .Select(UnicodeInfo.GetCharInfo)
                                  .Where(x => x.Block == block)
                                  .Select(info => new BasicInfo(info))
@@ -187,23 +140,36 @@ namespace UnidecoderWeb.Services
             return list;
         }
 
+        /// <summary>
+        /// Gets all characters.
+        /// </summary>
+        /// <returns>A list of characters</returns>
         public List<BasicInfo> GetAllCharacters()
         {
-            var list = Enumerable.Range(0x0000, 0x10FFFF)
-                                 .Where(CodepointExists)
+            var list = Enumerable.Range(0x0000, MaxCodepoint)
+                                 .Where(this.CodepointExists)
                                  .Select(UnicodeInfo.GetCharInfo)
                                  .Select(info => new BasicInfo(info))
                                  .ToList();
             return list;
         }
 
+        /// <summary>
+        /// Tries to find out whether this codepoint is a valid character.
+        /// </summary>
+        /// <param name="codepoint">The codepoint.</param>
+        /// <returns><c>true</c> when it is a valid/known character; otherwise <c>false</c>.</returns>
         public bool CodepointExists(int codepoint)
         {
             var cat = UnicodeInfo.GetCategory(codepoint);
             return cat != System.Globalization.UnicodeCategory.OtherNotAssigned;
-            // unfortunately I don't see a more direct/less brittle way
+            //// unfortunately I don't see a more direct/less brittle way
         }
 
+        /// <summary>
+        /// Gets the unicode version supported by the library.
+        /// </summary>
+        /// <returns>The currently supported unicode version.</returns>
         public Version GetUnicodeVersion()
         {
             return UnicodeInfo.UnicodeVersion;

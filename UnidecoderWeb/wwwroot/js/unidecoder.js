@@ -10,7 +10,10 @@
             console.log("fetching");
             var response;
             try {
-                response = await fetch("api/unicode/characters");
+                var version = await fetch("api/unicode/version");
+                version = await version.json();
+                console.log("unicode version: " + version);
+                response = await fetch("api/unicode/characters?" + version);
             } catch (e) {
                 // maybe not found because of caching
                 console.log("error: " + e);

@@ -4,10 +4,23 @@
     <TargetFramework>netcoreapp2.0</TargetFramework>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>bin\Debug\netcoreapp2.0\UnidecoderWeb.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Remove="stylecop.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AdditionalFiles Include="stylecop.json" />
+  </ItemGroup>
+
   <ItemGroup>
     <PackageReference Include="Handlebars.js" Version="3.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.6" />
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.7" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.3" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.0.2" />
     <PackageReference Include="UnicodeInformation" Version="2.2.1" />
   </ItemGroup>
 

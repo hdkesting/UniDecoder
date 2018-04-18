@@ -1,8 +1,14 @@
-﻿using System;
-using System.Text.RegularExpressions;
+﻿// <copyright file="Extensions.cs" company="Hans Kesting">
+// Copyright (c) Hans Kesting. All rights reserved.
+// </copyright>
 
 namespace UniDecoderWeb.Support
 {
+    using System.Text.RegularExpressions;
+
+    /// <summary>
+    /// Some extension methods.
+    /// </summary>
     public static class Extensions
     {
         /// <summary>
@@ -12,11 +18,11 @@ namespace UniDecoderWeb.Support
         /// <returns>The converted string.</returns>
         public static string ToTitleCase(this string input)
         {
-            var ca = (input ?? String.Empty).ToCharArray();
+            var ca = (input ?? string.Empty).ToCharArray();
             bool start = true;
             for (int i = 0; i < ca.Length; i++)
             {
-                if (Char.IsWhiteSpace(ca[i]))
+                if (char.IsWhiteSpace(ca[i]))
                 {
                     start = true;
                 }
@@ -24,15 +30,20 @@ namespace UniDecoderWeb.Support
                 {
                     start = false;
                 }
-                else if (Char.IsLetter(ca[i]))
+                else if (char.IsLetter(ca[i]))
                 {
-                    ca[i] = Char.ToLowerInvariant(ca[i]);
+                    ca[i] = char.ToLowerInvariant(ca[i]);
                 }
             }
 
             return new string(ca);
         }
 
+        /// <summary>
+        /// Splits the PascalCased input into separate words.
+        /// </summary>
+        /// <param name="input">The input.</param>
+        /// <returns>A string with space-separated words.</returns>
         public static string ToSeparateWords(this string input)
         {
             return string.IsNullOrEmpty(input)
