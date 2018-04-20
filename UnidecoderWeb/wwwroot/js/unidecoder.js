@@ -11,7 +11,7 @@
             var response;
             try {
                 var version = await fetch("api/unicode/version");
-                version = await version.json();
+                version = await version.text();
                 console.log("unicode version: " + version);
                 response = await fetch("api/unicode/characters?" + version);
             } catch (e) {

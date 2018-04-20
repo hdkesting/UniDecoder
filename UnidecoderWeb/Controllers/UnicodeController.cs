@@ -73,8 +73,8 @@ namespace UnidecoderWeb.Controllers
                      */
                     foreach (var c in list.Where(it =>
                         it.Codepoint >= 32 &&
-                        it.Category.IndexOf("Private Use") == -1 &&
-                        it.Category != "Surrogate"))
+                        it.Category != "Surrogate" &&
+                        it.Category.IndexOf("Private Use") == -1))
                     {
                         var cp = c.Codepoint;
                         if (!catlist.ContainsKey(c.CategoryId))
@@ -121,9 +121,9 @@ namespace UnidecoderWeb.Controllers
         /// </summary>
         /// <returns>The current unicode version.</returns>
         [HttpGet("version")]
-        public string GetVersion()
+        public IActionResult GetVersion()
         {
-            return this.service.GetUnicodeVersion().ToString();
+            return this.Content(this.service.GetUnicodeVersion().ToString());
         }
 
         private int GetIndex(List<string> list, string name)
