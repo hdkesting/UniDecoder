@@ -202,14 +202,25 @@
         <h2>Introduction</h2>
         <p>
             Every character (letter, digit, punctuation, emoji,...) of any language has its own codepoint and name in the Unicode character set. At least, that is what the Unicode Consortium is aiming for.
-            For more info, see the <a href="https://www.unicode.org/faq/">Unicode FAQ</a>.<br/>
-            One complication: before a character can be shown, the font that is used (on this site or wherever you copy the character to) needs to support that character.
+            For more info, see the <a href="https://www.unicode.org/faq/">Unicode FAQ</a>.
         </p>
         <p>
-            This app knows details about <span id="charcount">a lot of</span> characters.
+            Unicode only describes the name and meaning of a character, <strong>not</strong> how it should be shown on screen or in print. That is the task of the <i>font</i> and leads to some issues:
+            <ul>
+                <li>Specific characters may look the same on one computer (or tablet, or phone) but different on another, because of differences in the installed font.
+                <ul>
+                    <li>An example: "ο" and "o" are different letters</li>
+                    <li>Sometimes &#127475;&#127473; is shown as "NL", sometimes as a flag</li>
+                </ul>
+                </li>
+                <li>Most fonts (probably even <em>all</em>) do not support the full unicode character set - which also includes ancient characters and others that are "not in everyday use".</li>
+            </ul>
         </p>
         <p>
-            Use the other tabs to find out about them:
+            This app knows details about <span id="charcount" title="actual count">a lot of</span> characters.
+        </p>
+        <p>
+            Use the other tabs to find out more:
         <ul>
             <li><strong>Show characters</strong>: shows the characters in a text that you maybe copied from somewhere.</li>
             <li><strong>Find characters</strong>: tries to find characters by name or codepoint.</li>
