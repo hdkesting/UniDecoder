@@ -28,6 +28,10 @@
 <body>
     <h1>Unicode decoder</h1>
 
+    <div id="spinner">
+        <img src="images/spin.svg" alt="busy ..." width="80" height="80" role="spinbutton"/>
+    </div>
+
     <div id="tablist">
         <div class="tab opened" id="tab1" onclick="history.pushState(undefined, undefined, '#'); handleHash()">Intro</div>
         <div class="tab" id="tab2" onclick="opentab(this, 'tabcontent2')">Show characters in text</div>
@@ -104,8 +108,9 @@
             <dd>A phrase with accented letters</dd>
             <dt><a class="sample" href="#s=1%C3%97%20%F0%9F%8D%95%20%C3%A0%20%E2%82%AC1,%E2%80%92">1× 🍕 à €1,‒</a></dt>
             <dd>More exotic "letters" are possible</dd>
-            <dt><a class="sample" href="#s=%D0%A0hishy@%CE%9Cicr%CE%BFs%CE%BF%EF%AC%85.com">Рhishy@Μicrοsοﬅ.com</a></dt>
-            <dd>You can even detect some phishy addresses (look closely at the letters &ndash; this is not a Microsoft address)</dd>
+            <dt><a class="sample" href="#s=%D0%A0hishy@%CE%9Cicr%CE%BFs%CE%BF%EF%AC%85.com">Рhishy@Μicrοsοﬅ.com</a> or
+                <a class="sample" href="#s=https://%D0%B0%D1%80%D1%80%D3%8F%D0%B5.com">https://аррӏе.com</a></dt>
+            <dd>You can even detect some phishy addresses (look closely at the letters)</dd>
         </dl>
         </p>
         <p>
@@ -117,7 +122,7 @@
       onkeyup reageert ook op cursor keys maar geeft juiste waarde
     -->
         </p>
-        <p><a href="#s=" id="link2">Direct link</a></p>
+        <p><a href="#s=" id="link2">Shareable link</a></p>
         <div id="result2" class="result">&hellip;</div>
     </div>
 
@@ -134,7 +139,7 @@
             <input id="searchString" type="text" placeholder="Type in words of the name to find" autofocus required
                    oninput="processSearch(this, 'result3', 'link3')" style="width:100%" />
         </p>
-        <p><a href="#q=" id="link3">Direct link</a></p>
+        <p><a href="#q=" id="link3">Shareable link</a></p>
         <div id="result3" class="result">&hellip;</div>
     </div>
 
@@ -149,7 +154,7 @@
         <p>
             <select id="blockSelect" onchange="processBlockSearch(this, 'result4', 'link4')"></select>
         </p>
-        <p><a href="#b=0" id="link4">Direct link</a></p>
+        <p><a href="#b=0" id="link4">Shareable link</a></p>
         <div id="result4" class="result">&hellip;</div>
     </div>
 
@@ -183,6 +188,8 @@
             window.addEventListener("hashchange", handleHash);
             handleHash();
             await setCharCount();
+
+            document.getElementById("spinner").hidden = true;
         })();
     </script>
 </body>

@@ -4,6 +4,11 @@
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
+#spinner {
+  position: absolute;
+  top: 45%;
+  left: 45%;
+}
 a {
   text-decoration: none;
   color: blue;
