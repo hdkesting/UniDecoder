@@ -4,26 +4,10 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Uni-decoder</title>
-    <script type="text/javascript">
-        //if (false && 'serviceWorker' in navigator) {
-        //    console.log("registering service worker after load");
-        //    window.addEventListener('load', function () {
-        //        navigator.serviceWorker.register('/serviceworker.js').then(function (registration) {
-        //            // Registration was successful
-        //            console.log('ServiceWorker registration successful with scope: ', registration.scope);
-        //        }, function (err) {
-        //            // registration failed :(
-        //            console.log('ServiceWorker registration failed: ', err);
-        //        });
-        //    });
-        //} else {
-        //    console.log("no service worker support");
-        //}
-    </script>
     <script type="text/javascript" src="js/unidecoder.js" integrity="sha256-Me/ebaqFJjkgvyl75LOpKbWdo5MMfS4bAbvv+0Vfsuw="></script>
     <script type="text/javascript" src="js/handlebars.min.js" integrity="sha256-lsnwFhrNhbBmHfkBv9qFeiUVHti2+DmL0F1K5pysQsM= sha256-wetUkueig805IU/+4eQf6AxHuY4qa5v8niBvoVfEH+g="></script>
     <script type="text/javascript" src="js/index.js" integrity="sha256-So0wNo0/D5sBsNBvvpFyXrCZe3/czT8IiO1iXZiNaBo="></script>
-    <link type="text/css" rel="stylesheet" href="css/site.min.css?v=5" />
+    <link type="text/css" rel="stylesheet" href="css/site.min.css?v=6" />
 </head>
 <body>
     <h1>Unicode decoder</h1>
@@ -34,9 +18,9 @@
 
     <div id="tablist">
         <div class="tab opened" id="tab1" onclick="history.pushState(undefined, undefined, '#'); handleHash()">Intro</div>
-        <div class="tab" id="tab2" onclick="opentab(this, 'tabcontent2')">Show characters in text</div>
-        <div class="tab" id="tab3" onclick="opentab(this, 'tabcontent3')">Find characters by name</div>
-        <div class="tab" id="tab4" onclick="opentab(this, 'tabcontent4')">Find characters by block</div>
+        <div class="tab hidden" id="tab2" onclick="opentab(this, 'tabcontent2')">Show characters in text</div>
+        <div class="tab hidden" id="tab3" onclick="opentab(this, 'tabcontent3')">Find characters by name</div>
+        <div class="tab hidden" id="tab4" onclick="opentab(this, 'tabcontent4')">Find characters by block</div>
     </div>
 
     <!-- tab: intro -->
@@ -186,10 +170,14 @@
             await processBlockSearch('blockSelect', 'result4');
 
             window.addEventListener("hashchange", handleHash);
-            handleHash();
             await setCharCount();
 
             document.getElementById("spinner").hidden = true;
+            for (var tab of document.getElementsByClassName("tab")) {
+                tab.classList.remove("hidden");
+            }
+
+            handleHash();
         })();
     </script>
 </body>

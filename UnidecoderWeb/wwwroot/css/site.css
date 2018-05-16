@@ -89,6 +89,9 @@ dd:before {
   border-width: 3px;
   border-bottom-color: white;
 }
+#tablist .tab.hidden {
+  display: none;
+}
 .tabcontent {
   display: none;
 }
