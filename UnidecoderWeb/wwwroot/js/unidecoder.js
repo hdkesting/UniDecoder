@@ -1,4 +1,12 @@
-﻿(async function (window) {
+﻿// startsWith polyfill
+
+if (!String.prototype.startsWith) {
+    String.prototype.startsWith = function (search, pos) {
+        return this.substr(!pos || pos < 0 ? 0 : +pos, search.length) == search;
+    };
+}
+
+(async function (window) {
     'use strict'
 
     var list;
@@ -136,7 +144,12 @@
             }
         }
 
-        cp = makeInt(text, 16);
+        var cleaned = text;
+        if (cleaned.startsWith("0x") || cleaned.startsWith("U+")) {
+            cleaned = cleaned.substr(2);
+        }
+
+        cp = makeInt(cleaned, 16);
         if (cp) {
             for (let i = cp - 5; i <= cp + 5; i++) {
                 c = await getChar(i);
