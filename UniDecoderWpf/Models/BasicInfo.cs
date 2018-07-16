@@ -83,8 +83,7 @@ namespace UniDecoderWpf.Models
 
         public override bool Equals(object obj)
         {
-            var bi = obj as BasicInfo;
-            return bi == null ? false : this.Equals(bi);
+            return !(obj is BasicInfo bi) ? false : this.Equals(bi);
         }
     }
 }

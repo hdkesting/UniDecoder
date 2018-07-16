@@ -37,9 +37,11 @@ namespace UniDecoderWpf.Views
             WindowWrapper.Current().Dispatcher.Dispatch(() =>
             {
                 var modal = Window.Current.Content as ModalDialog;
-                var view = modal.ModalContent as Busy;
-                if (view == null)
+                if (!(modal.ModalContent is Busy view))
+                {
                     modal.ModalContent = view = new Busy();
+                }
+
                 modal.IsModal = view.IsBusy = busy;
                 view.BusyText = text;
             });

@@ -9,7 +9,7 @@ namespace UniDecoderWpf.Services.SettingsServices
     {
         public static SettingsService Instance { get; } = new SettingsService();
 
-        Template10.Services.SettingsService.ISettingsHelper _helper;
+        readonly Template10.Services.SettingsService.ISettingsHelper _helper;
 
         private SettingsService()
         {
