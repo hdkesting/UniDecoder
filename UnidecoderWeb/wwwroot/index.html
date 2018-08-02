@@ -4,10 +4,10 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Uni-decoder</title>
-    <script type="text/javascript" src="js/unidecoder.js?v=7" integrity="sha256-U8cR1yABp/TwKk4nxn/lUjHkABQdCZeCCZFHQZyLePE="></script>
-    <script type="text/javascript" src="js/handlebars.min.js" integrity="sha256-lsnwFhrNhbBmHfkBv9qFeiUVHti2+DmL0F1K5pysQsM= sha256-wetUkueig805IU/+4eQf6AxHuY4qa5v8niBvoVfEH+g="></script>
-    <script type="text/javascript" src="js/index.js?v=7" integrity="sha256-So0wNo0/D5sBsNBvvpFyXrCZe3/czT8IiO1iXZiNaBo="></script>
-    <link type="text/css" rel="stylesheet" href="css/site.min.css?v=7" />
+    <script type="text/javascript" src="js/unidecoder.js" integrity="sha256-U8cR1yABp/TwKk4nxn/lUjHkABQdCZeCCZFHQZyLePE="></script>
+    <script type="text/javascript" src="lib/handlebars.min.js" integrity="sha256-lsnwFhrNhbBmHfkBv9qFeiUVHti2+DmL0F1K5pysQsM= sha256-wetUkueig805IU/+4eQf6AxHuY4qa5v8niBvoVfEH+g="></script>
+    <script type="text/javascript" src="js/index.js" integrity="sha256-So0wNo0/D5sBsNBvvpFyXrCZe3/czT8IiO1iXZiNaBo="></script>
+    <link type="text/css" rel="stylesheet" href="css/site.min.css" />
 </head>
 <body>
     <h1>Unicode decoder</h1>
@@ -62,7 +62,7 @@
                     <p><b>Latin Small Letter A</b></p>
                     <p><a href="#b=0">Basic Latin</a></p>
                     <p><i>Lowercase Letter</i></p>
-                    <p><a href="#q=0061">0061</a> - <a href="#q=97">97</a></p>
+                    <p><a href="#q=0x0061">0061</a> - <a href="#q=97">97</a></p>
                 </div>
             </div>
         </div>
@@ -154,7 +154,7 @@
                 <p><b>{{this.name}}</b></p>
                 <p><a href="#b={{this.blockId}}">{{this.block}}</a></p>
                 <p><i>{{this.category}}</i></p>
-                <p><a href="#q={{this.hex}}">{{this.hex}}</a> - <a href="#q={{this.codepoint}}">{{this.codepoint}}</a></p>            
+                <p><a href="#q=0x{{this.hex}}">{{this.hex}}</a> - <a href="#q={{this.codepoint}}">{{this.codepoint}}</a></p>            
             </div>
         </div>
         {{/each}}
