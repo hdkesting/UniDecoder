@@ -21,11 +21,11 @@ if (!String.prototype.startsWith) {
                 var version = await fetch("api/unicode/version");
                 version = await version.text();
                 console.log("unicode version: " + version);
-                response = await fetch("api/unicode/characters?" + version);
+                response = await fetch("api/unicode/characters?v=" + version);
             } catch (e) {
                 // maybe not found because of caching
                 console.log("error: " + e);
-                response = await fetch("api/unicode/characters?" + new Date());
+                response = await fetch("api/unicode/characters?v=" + new Date());
             }
             
             list = await response.json();

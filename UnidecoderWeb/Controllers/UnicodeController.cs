@@ -50,10 +50,15 @@ namespace UnidecoderWeb.Controllers
         /// <summary>
         /// Gets all characters.
         /// </summary>
-        /// <returns>A redirect to the file containing the characters.</returns>
+        /// <param name="v">The unicode version.</param>
+        /// <returns>
+        /// A redirect to the file containing the characters.
+        /// </returns>
         [HttpGet("characters")]
-        public IActionResult GetAllCharacters()
+        public IActionResult GetAllCharacters(string v = null)
         {
+            string version = v;
+
             const string charfile = "characters.json";
             var path = Path.Combine(this.environment.WebRootPath, charfile);
 
@@ -113,7 +118,12 @@ namespace UnidecoderWeb.Controllers
                 }
             }
 
-            return this.RedirectPermanent("/" + charfile);
+            if (string.IsNullOrWhiteSpace(version))
+            {
+                return this.RedirectPermanent("/" + charfile);
+            }
+
+            return this.RedirectPermanent("/" + charfile + "?v=" + version);
         }
 
         /// <summary>
