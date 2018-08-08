@@ -13,6 +13,11 @@ class CharDef {
     hex: string; // hex version of codepoint
 }
 
+class BlockDef {
+    index: number;
+    name: string;
+}
+
 class DisplayChar {
     codepoint: number;
     hex: string;
@@ -223,7 +228,7 @@ class Decoder {
 
     /** Get a sorted list of blocknames + indices.
      */
-    public getBlockList = async function (): Promise<string[]> {
+    public getBlockList = async function (): Promise<BlockDef[]> {
         var l = await this.getList();
         var blocks = [];
         for (var b = 0; b < l.blocks.length; b++) {
@@ -231,8 +236,12 @@ class Decoder {
         }
 
         // sort the Latin ones first, then alphabetically
-        blocks.sort(function (a, b) {
+        blocks.sort(function (a: BlockDef, b: BlockDef) {
             // a first: return -1; b first: return 1; equal: return 0 (but I don't expect that)
+            if (a.name === b.name) {
+                return 0;
+            }
+
             if (a.name.indexOf("Latin") >= 0) {
                 if (b.name.indexOf("Latin") >= 0) {
                     // both "Latin"
@@ -289,7 +298,7 @@ interface Window {
     decoder: Decoder;
 }
 
-(async function (window) {
+(function (window) {
     'use strict'
 
     var decoder = new Decoder();

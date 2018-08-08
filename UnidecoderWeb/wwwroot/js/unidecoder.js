@@ -14,6 +14,8 @@ if (!String.prototype.startsWith) {
 }
 class CharDef {
 }
+class BlockDef {
+}
 class DisplayChar {
 }
 class CharacterList {
@@ -201,6 +203,9 @@ class Decoder {
                 // sort the Latin ones first, then alphabetically
                 blocks.sort(function (a, b) {
                     // a first: return -1; b first: return 1; equal: return 0 (but I don't expect that)
+                    if (a.name === b.name) {
+                        return 0;
+                    }
                     if (a.name.indexOf("Latin") >= 0) {
                         if (b.name.indexOf("Latin") >= 0) {
                             // both "Latin"
@@ -255,9 +260,7 @@ class Decoder {
 }
 (function (window) {
     'use strict';
-    return __awaiter(this, void 0, void 0, function* () {
-        var decoder = new Decoder();
-        window.decoder = decoder;
-    });
+    var decoder = new Decoder();
+    window.decoder = decoder;
 })(window);
 //# sourceMappingURL=unidecoder.js.map
