@@ -172,11 +172,11 @@
 
     <script type="text/javascript">
         (async function () {
-            // also pre-fetches the charlist
             document.getElementById("spinner").style.display = "block";
             document.getElementById("oldjs").style.display = "none";
-            document.getElementById("tablist").style.display = "flex";
+            document.getElementById("tablist").removeAttribute("style");
 
+            // also pre-fetches the charlist
             await setBlockSelect();
             await processBlockSearch('blockSelect', 'result4');
 
@@ -184,7 +184,9 @@
             await setCharCount();
 
             document.getElementById("spinner").style.display = "none";
-            for (var tab of document.getElementsByClassName("tab")) {
+
+            for (var tabid = 1; tabid <= 4; tabid++) {
+                var tab = document.getElementById("tab"+tabid);
                 tab.classList.remove("hidden");
             }
 
