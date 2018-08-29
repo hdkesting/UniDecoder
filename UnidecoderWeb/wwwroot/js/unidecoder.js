@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 // startsWith polyfill
 if (!String.prototype.startsWith) {
     String.prototype.startsWith = function (search, pos) {
-        return this.substr(!pos || pos < 0 ? 0 : +pos, search.length) == search;
+        return this.substr(!pos || pos < 0 ? 0 : +pos, search.length) === search;
     };
 }
 class CharDef {
@@ -23,6 +23,8 @@ class CharacterList {
 class Decoder {
     constructor() {
         /** Get the local list if available, else get from server (and store locally).
+         * @async
+         * @returns {array} the full character list.
          */
         this.getList = function () {
             return __awaiter(this, void 0, void 0, function* () {
@@ -53,7 +55,9 @@ class Decoder {
             });
         };
         /** Convert a char from the (local) list to a display value.
-         * params: cp = codepoint (int), c = char from list (optional, object)
+         * @param {int} cp - codepoint value
+         * @param {object} c - char from list (optional)
+         * @returns {object} - the codepoint description object
          */
         this.convertChar = function (cp, c) {
             if (!c) {
@@ -70,7 +74,10 @@ class Decoder {
             };
         };
         /** Try and get a character from the list.
-         * params: cp = codepoint (int), fillMissing = when true, create a "missing value" (bool), else use null
+         * @async
+         * @param {int} cp - codepoint value.
+         * @param {bool} fillMissing - when true, create a "missing value" (bool), else use null.
+         * @returns {object} - the codepoint description.
          */
         this.getChar = function (cp, fillMissing) {
             return __awaiter(this, void 0, void 0, function* () {
@@ -97,7 +104,9 @@ class Decoder {
             });
         };
         /** Converts a value to an int, using the supplied radix.
-         * params: value = value to convert (string), radix = base to use for conversion (10 or 16)
+         * @param {string} value - value to convert
+         * @param {int} radix - base to use for conversion (10 or 16).
+         * @returns {int} - the converted value.
          */
         this.makeInt = function (value, radix) {
             // remove any leading 0's
@@ -114,6 +123,9 @@ class Decoder {
             return 0;
         };
         /** Get all characters in the supplied text.
+         * @async
+         * @param {string} text - the text to convert.
+         * @returns {array} - an array with codepoint descriptions.
          */
         this.expandToChars = function (text) {
             return __awaiter(this, void 0, void 0, function* () {
@@ -130,6 +142,9 @@ class Decoder {
             });
         };
         /** Find all (max 80) characters whose name contains the words in the supplied text or match around a numerical value.
+         * @async
+         * @param {string} text - the partial name(s) to search for.
+         * @returns {array} - an array of codepoint descriptions.
          */
         this.findChars = function (text) {
             return __awaiter(this, void 0, void 0, function* () {
@@ -180,7 +195,7 @@ class Decoder {
                         }
                         if (c2) {
                             c = this.convertChar(cp, c2);
-                            characters.push(c2);
+                            characters.push(c);
                             if (characters.length > 80) {
                                 console.log("found enough");
                                 break;
@@ -192,6 +207,8 @@ class Decoder {
             });
         };
         /** Get a sorted list of blocknames + indices.
+         * @async
+         * @returns {array} - a sorted list of block names.
          */
         this.getBlockList = function () {
             return __awaiter(this, void 0, void 0, function* () {
@@ -200,7 +217,7 @@ class Decoder {
                 for (var b = 0; b < l.blocks.length; b++) {
                     blocks.push({ "index": b, "name": l.blocks[b] });
                 }
-                // sort the Latin ones first, then alphabetically
+                // in-place sort: the Latin ones first, then alphabetically
                 blocks.sort(function (a, b) {
                     // a first: return -1; b first: return 1; equal: return 0 (but I don't expect that)
                     if (a.name === b.name) {
@@ -227,6 +244,9 @@ class Decoder {
             });
         };
         /** Find all characters in the specified block.
+         * @async
+         * @param {int} blockId - the internal ID of the block.
+         * @returns {array} - a list of characters in the block.
          */
         this.findCharsByBlock = function (blockId) {
             return __awaiter(this, void 0, void 0, function* () {
@@ -242,6 +262,8 @@ class Decoder {
             });
         };
         /** Count the number of characters in the list.
+         * @async
+         * @returns {int} the total number of character descriptions available.
          */
         this.getCharCount = function () {
             return __awaiter(this, void 0, void 0, function* () {

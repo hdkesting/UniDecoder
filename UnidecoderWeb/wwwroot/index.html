@@ -12,15 +12,19 @@
 <body>
     <h1>Unicode decoder</h1>
 
-    <div id="spinner">
+    <div id="oldjs" class="warning">
+        This app needs modern javascript, which this browser doesn't have. Please use a modern browser.
+    </div>
+
+    <div id="spinner" style="display: none">
         <img src="images/spin.svg" alt="busy ..." width="80" height="80" role="spinbutton"/>
     </div>
 
-    <div id="tablist">
-        <div class="tab opened" id="tab1" onclick="history.pushState(undefined, undefined, '#'); handleHash()">Intro</div>
-        <div class="tab hidden" id="tab2" onclick="opentab(this, 'tabcontent2')">Show characters in text</div>
-        <div class="tab hidden" id="tab3" onclick="opentab(this, 'tabcontent3')">Find characters by name</div>
-        <div class="tab hidden" id="tab4" onclick="opentab(this, 'tabcontent4')">Find characters by block</div>
+    <div id="tablist" style="display: none">
+        <div class="tab opened" id="tab1" onclick="history.pushState(undefined, undefined, '#'); handleHash();">Intro</div>
+        <div class="tab hidden" id="tab2" onclick="opentab(this, 'tabcontent2');">Show characters in text</div>
+        <div class="tab hidden" id="tab3" onclick="opentab(this, 'tabcontent3');">Find characters by name</div>
+        <div class="tab hidden" id="tab4" onclick="opentab(this, 'tabcontent4');">Find characters by block</div>
     </div>
 
     <!-- tab: intro -->
@@ -57,7 +61,7 @@
         <p>Characters are shown like this:</p>
         <div id="sample" class="result">
             <div class="character">
-                <div onclick="cp(97, 'Latin Small Letter A')" class="latin">a</div>
+                <div onclick="cp(97, 'Latin Small Letter A');" class="latin">a</div>
                 <div>
                     <p><b>Latin Small Letter A</b></p>
                     <p><a href="#b=0">Basic Latin</a></p>
@@ -100,7 +104,7 @@
         <p>
             Your text to split in characters:<br />
             <input id="sampleString" type="text" placeholder="Type in (or copy in) the text to inspect" autofocus required
-                   onkeyup="processDecoder(this, 'result2', 'link2')" style="width:100%" />
+                   onkeyup="processDecoder(this, 'result2', 'link2');" style="width:100%" />
             <!--
       onkeypress reageert niet op "wissen" en geeft oude waarde
       onkeyup reageert ook op cursor keys maar geeft juiste waarde
@@ -124,7 +128,7 @@
         <p>
             The name or code to search for:<br/>
             <input id="searchString" type="text" placeholder="Type in words of the name to find" autofocus required
-                   oninput="processSearch(this, 'result3', 'link3')" style="width:100%" />
+                   oninput="processSearch(this, 'result3', 'link3');" style="width:100%" />
         </p>
         <p><a href="#q=" id="link3">Shareable link</a></p>
         <div id="result3" class="result">&hellip;</div>
@@ -139,7 +143,7 @@
                     <a class="sample" href="#b=258">Miscellaneous Symbols</a> or 
                     <a class="sample" href="#b=11">Hebrew</a>.</p>
         <p>
-            <select id="blockSelect" onchange="processBlockSearch(this, 'result4', 'link4')"></select>
+            <select id="blockSelect" onchange="processBlockSearch(this, 'result4', 'link4');"></select>
         </p>
         <p><a href="#b=0" id="link4">Shareable link</a></p>
         <div id="result4" class="result">&hellip;</div>
@@ -169,13 +173,17 @@
     <script type="text/javascript">
         (async function () {
             // also pre-fetches the charlist
+            document.getElementById("spinner").style.display = "block";
+            document.getElementById("oldjs").style.display = "none";
+            document.getElementById("tablist").style.display = "flex";
+
             await setBlockSelect();
             await processBlockSearch('blockSelect', 'result4');
 
             window.addEventListener("hashchange", handleHash);
             await setCharCount();
 
-            document.getElementById("spinner").hidden = true;
+            document.getElementById("spinner").style.display = "none";
             for (var tab of document.getElementsByClassName("tab")) {
                 tab.classList.remove("hidden");
             }

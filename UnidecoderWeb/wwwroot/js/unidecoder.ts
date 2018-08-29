@@ -1,7 +1,7 @@
 ﻿// startsWith polyfill
 if (!String.prototype.startsWith) {
     String.prototype.startsWith = function (search: string, pos: number) {
-        return this.substr(!pos || pos < 0 ? 0 : +pos, search.length) == search;
+        return this.substr(!pos || pos < 0 ? 0 : +pos, search.length) === search;
     };
 }
 
@@ -37,9 +37,11 @@ class CharacterList {
 class Decoder {
     private list: CharacterList;
 
-    /** Get the local list if available, else get from server (and store locally).
-     */ 
-    private getList = async function (): Promise<CharacterList> {
+        /** Get the local list if available, else get from server (and store locally).
+         * @async
+         * @returns {array} the full character list.
+         */
+     private getList = async function (): Promise<CharacterList> {
         if (!this.list) {
             console.log("fetching");
             var response: Response;
@@ -69,9 +71,11 @@ class Decoder {
         return this.list;
     }
 
-    /** Convert a char from the (local) list to a display value.
-     * params: cp = codepoint (int), c = char from list (optional, object)
-     */
+        /** Convert a char from the (local) list to a display value.
+         * @param {int} cp - codepoint value
+         * @param {object} c - char from list (optional)
+         * @returns {object} - the codepoint description object
+         */
     private convertChar = function (cp: number, c: CharDef): DisplayChar {
         if (!c) {
             c = this.list[cp];
@@ -88,9 +92,12 @@ class Decoder {
         };
     }
 
-    /** Try and get a character from the list.
-     * params: cp = codepoint (int), fillMissing = when true, create a "missing value" (bool), else use null
-     */
+        /** Try and get a character from the list.
+         * @async
+         * @param {int} cp - codepoint value.
+         * @param {bool} fillMissing - when true, create a "missing value" (bool), else use null.
+         * @returns {object} - the codepoint description.
+         */
     private getChar = async function (cp: number, fillMissing: boolean): Promise<DisplayChar> {
         if (cp <= 0) {
             return null;
@@ -119,9 +126,11 @@ class Decoder {
         return null;
     }
 
-    /** Converts a value to an int, using the supplied radix.
-     * params: value = value to convert (string), radix = base to use for conversion (10 or 16)
-     */
+        /** Converts a value to an int, using the supplied radix.
+         * @param {string} value - value to convert
+         * @param {int} radix - base to use for conversion (10 or 16).
+         * @returns {int} - the converted value.
+         */
     private makeInt = function (value: string, radix: number): number {
         // remove any leading 0's
         while (value.length && value[0] === '0') {
@@ -140,8 +149,11 @@ class Decoder {
         return 0;
     };
 
-    /** Get all characters in the supplied text.
-     */
+        /** Get all characters in the supplied text.
+         * @async
+         * @param {string} text - the text to convert.
+         * @returns {array} - an array with codepoint descriptions.
+         */
     public expandToChars = async function (text: string): Promise<DisplayChar[]> {
         let characters = new Array<DisplayChar>();
         var list = await this.getList();
@@ -157,8 +169,11 @@ class Decoder {
     };
 
 
-    /** Find all (max 80) characters whose name contains the words in the supplied text or match around a numerical value.
-     */
+        /** Find all (max 80) characters whose name contains the words in the supplied text or match around a numerical value.
+         * @async
+         * @param {string} text - the partial name(s) to search for.
+         * @returns {array} - an array of codepoint descriptions.
+         */
     public findChars = async function (text: string): Promise<DisplayChar[]> {
         console.log("finding " + text);
         if (!text) {
@@ -214,7 +229,7 @@ class Decoder {
 
                 if (c2) {
                     c = this.convertChar(cp, c2);
-                    characters.push(c2);
+                    characters.push(c);
                     if (characters.length > 80) {
                         console.log("found enough");
                         break;
@@ -226,8 +241,10 @@ class Decoder {
         return characters;
     };
 
-    /** Get a sorted list of blocknames + indices.
-     */
+        /** Get a sorted list of blocknames + indices.
+         * @async
+         * @returns {array} - a sorted list of block names.
+         */
     public getBlockList = async function (): Promise<BlockDef[]> {
         var l = await this.getList();
         var blocks = [];
@@ -235,7 +252,7 @@ class Decoder {
             blocks.push({ "index": b, "name": l.blocks[b] });
         }
 
-        // sort the Latin ones first, then alphabetically
+        // in-place sort: the Latin ones first, then alphabetically
         blocks.sort(function (a: BlockDef, b: BlockDef) {
             // a first: return -1; b first: return 1; equal: return 0 (but I don't expect that)
             if (a.name === b.name) {
@@ -261,8 +278,11 @@ class Decoder {
         return blocks;
     };
 
-    /** Find all characters in the specified block.
-     */
+        /** Find all characters in the specified block.
+         * @async
+         * @param {int} blockId - the internal ID of the block.
+         * @returns {array} - a list of characters in the block.
+         */
     public findCharsByBlock = async function (blockId: number): Promise<DisplayChar[]> {
         var l = await this.getList();
         var chars = [];
@@ -277,8 +297,10 @@ class Decoder {
         return chars;
     };
 
-    /** Count the number of characters in the list.
-     */
+        /** Count the number of characters in the list.
+         * @async
+         * @returns {int} the total number of character descriptions available.
+         */
     public getCharCount = async function () {
         var l = await this.getList();
         let count = 0;
