@@ -9,8 +9,7 @@ A simple app with three functions:
 
 Based on the unicode database provided by the [UnicodeInformation](https://www.nuget.org/packages/UnicodeInformation/) nuget package.
 
-Three implementations:
+Two implementations:
 * A winforms app to run locally
-* A WPF app as an attempt to use Template10 as basis
 * A website (currently deployed to https://unidecoder.azurewebsites.net)
 
