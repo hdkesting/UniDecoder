@@ -1,0 +1,111 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Unidecoder.Functions</name>
+    </assembly>
+    <members>
+        <member name="T:Unidecoder.Functions.ListCharacters">
+            <summary>
+            List characters in the supplied string.
+            </summary>
+        </member>
+        <member name="M:Unidecoder.Functions.ListCharacters.Run(System.Net.Http.HttpRequestMessage,Microsoft.Azure.WebJobs.Host.TraceWriter)">
+            <summary>
+            Runs the specified request.
+            </summary>
+            <param name="req">The request.</param>
+            <param name="log">The log.</param>
+            <returns>A list of character definitions.</returns>
+        </member>
+        <member name="T:Unidecoder.Functions.Model.CodepointInfo">
+            <summary>
+            Information about a single unicode codepoint.
+            </summary>
+        </member>
+        <member name="M:Unidecoder.Functions.Model.CodepointInfo.#ctor(System.Unicode.UnicodeCharInfo)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Unidecoder.Functions.Model.CodepointInfo"/> class.
+            </summary>
+            <param name="fullInfo">The full information.</param>
+        </member>
+        <member name="P:Unidecoder.Functions.Model.CodepointInfo.Character">
+            <summary>
+            Gets the character itself.
+            </summary>
+            <value>
+            The character.
+            </value>
+        </member>
+        <member name="P:Unidecoder.Functions.Model.CodepointInfo.Name">
+            <summary>
+            Gets the name of the character.
+            </summary>
+            <value>
+            The name.
+            </value>
+        </member>
+        <member name="P:Unidecoder.Functions.Model.CodepointInfo.Block">
+            <summary>
+            Gets the block where the character appears.
+            </summary>
+            <value>
+            The block.
+            </value>
+        </member>
+        <member name="P:Unidecoder.Functions.Model.CodepointInfo.Codepoint">
+            <summary>
+            Gets the codepoint of the character.
+            </summary>
+            <value>
+            The integer codepoint.
+            </value>
+        </member>
+        <member name="P:Unidecoder.Functions.Model.CodepointInfo.CodepointHex">
+            <summary>
+            Gets the codepoint of the character in hexadecimal.
+            </summary>
+            <value>
+            The hexadecimal codepoint .
+            </value>
+        </member>
+        <member name="P:Unidecoder.Functions.Model.CodepointInfo.Category">
+            <summary>
+            Gets the Unicode category.
+            </summary>
+            <value>
+            The category.
+            </value>
+        </member>
+        <member name="T:Unidecoder.Functions.Services.UnicodeService">
+            <summary>
+            Service for unicode character related information.
+            </summary>
+        </member>
+        <member name="M:Unidecoder.Functions.Services.UnicodeService.ListCharacters(System.String)">
+            <summary>
+            Lists the characters in the supplied <paramref name="input"/>.
+            </summary>
+            <param name="input">The input.</param>
+            <returns>A list of <see cref="T:Unidecoder.Functions.Model.CodepointInfo"/>.</returns>
+        </member>
+        <member name="T:Unidecoder.Functions.Support.Extensions">
+            <summary>
+            Various (string) extensions.
+            </summary>
+        </member>
+        <member name="M:Unidecoder.Functions.Support.Extensions.ToTitleCase(System.String)">
+            <summary>
+            Converts the (upper case) input to Title Case.
+            </summary>
+            <param name="input">The input.</param>
+            <returns>The converted string.</returns>
+        </member>
+        <member name="M:Unidecoder.Functions.Support.Extensions.ToSeparateWords(System.String)">
+            <summary>
+            Converts the PascalCased string into the separate words.
+            </summary>
+            <param name="input">The input.</param>
+            <returns>A string.</returns>
+        </member>
+    </members>
+</doc>
