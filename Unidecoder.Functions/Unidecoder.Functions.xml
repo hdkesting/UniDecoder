@@ -4,9 +4,22 @@
         <name>Unidecoder.Functions</name>
     </assembly>
     <members>
+        <member name="T:Unidecoder.Functions.GetAllBlocks">
+            <summary>
+            Get all unicode block names.
+            </summary>
+        </member>
+        <member name="M:Unidecoder.Functions.GetAllBlocks.Run(System.Net.Http.HttpRequestMessage,Microsoft.Azure.WebJobs.Host.TraceWriter)">
+            <summary>
+            Runs the specified request.
+            </summary>
+            <param name="req">The request.</param>
+            <param name="log">The log.</param>
+            <returns>A list of names and indexes.</returns>
+        </member>
         <member name="T:Unidecoder.Functions.GetAllCategories">
             <summary>
-            Gets all block names and ids.
+            Gets all category names and ids.
             </summary>
         </member>
         <member name="M:Unidecoder.Functions.GetAllCategories.Run(System.Net.Http.HttpRequestMessage,Microsoft.Azure.WebJobs.Host.TraceWriter)">
@@ -29,33 +42,6 @@
             <param name="req">The request.</param>
             <param name="log">The log.</param>
             <returns>A list of character definitions.</returns>
-        </member>
-        <member name="T:Unidecoder.Functions.Model.CategoryInfo">
-            <summary>
-            Information about unicode category.
-            </summary>
-        </member>
-        <member name="M:Unidecoder.Functions.Model.CategoryInfo.#ctor(System.Globalization.UnicodeCategory)">
-            <summary>
-            Initializes a new instance of the <see cref="T:Unidecoder.Functions.Model.CategoryInfo"/> class.
-            </summary>
-            <param name="category">The category.</param>
-        </member>
-        <member name="P:Unidecoder.Functions.Model.CategoryInfo.Id">
-            <summary>
-            Gets the identifier.
-            </summary>
-            <value>
-            The identifier.
-            </value>
-        </member>
-        <member name="P:Unidecoder.Functions.Model.CategoryInfo.Name">
-            <summary>
-            Gets the name.
-            </summary>
-            <value>
-            The name.
-            </value>
         </member>
         <member name="T:Unidecoder.Functions.Model.CodepointInfo">
             <summary>
@@ -132,7 +118,27 @@
             <summary>
             Gets all categories.
             </summary>
-            <returns>A list of <see cref="T:Unidecoder.Functions.Model.CategoryInfo"/>.</returns>
+            <returns>A dictionary combining the id and the name.</returns>
+        </member>
+        <member name="M:Unidecoder.Functions.Services.UnicodeService.GetAllBlocks">
+            <summary>
+            Gets all blocks.
+            </summary>
+            <returns>A dictionary combining the internal id and the name.</returns>
+        </member>
+        <member name="M:Unidecoder.Functions.Services.UnicodeService.FindByName(System.String)">
+            <summary>
+            Finds the characters by their name.
+            </summary>
+            <param name="searchText">The search text.</param>
+            <returns>A list of <see cref="T:Unidecoder.Functions.Model.CodepointInfo"/>.</returns>
+        </member>
+        <member name="M:Unidecoder.Functions.Services.UnicodeService.FindAroundValue(System.Int32)">
+            <summary>
+            Finds characters the around the supplied codepoint value.
+            </summary>
+            <param name="codepoint">The codepoint.</param>
+            <returns>A list of <see cref="T:Unidecoder.Functions.Model.CodepointInfo"/>.</returns>
         </member>
         <member name="T:Unidecoder.Functions.Support.Extensions">
             <summary>

@@ -44,11 +44,51 @@ namespace Unidecoder.Functions.Test
         }
 
         [TestMethod]
-        public void GetAllBlocks_ReturnsAll()
+        public void GetAllCategories_ReturnsAll()
         {
             var result = this.unicodeService.GetAllCategories();
 
             result.Count.Should().BeGreaterThan(20);
+        }
+
+        [TestMethod]
+        public void GetAllBlocks_ReturnsAll()
+        {
+            var result = this.unicodeService.GetAllBlocks();
+
+            result.Count.Should().BeGreaterThan(20);
+        }
+
+        [TestMethod]
+        public void FindByName_NoInput_FindsNothing()
+        {
+            var result = this.unicodeService.FindByName("");
+
+            result.Count.Should().Be(0);
+        }
+
+        [TestMethod]
+        public void FindByName_SearchForStar_ReturnsSome()
+        {
+            var result = this.unicodeService.FindByName("star");
+
+            result.Count.Should().BeGreaterThan(0);
+        }
+
+        [TestMethod]
+        public void FindAroundValue_SearchFor30_Returns16()
+        {
+            var result = this.unicodeService.FindAroundValue(30);
+
+            result.Count.Should().Be(16);
+        }
+
+        [TestMethod]
+        public void FindAroundValue_SearchFor0_Returns8()
+        {
+            var result = this.unicodeService.FindAroundValue(0);
+
+            result.Count.Should().Be(8);
         }
     }
 }

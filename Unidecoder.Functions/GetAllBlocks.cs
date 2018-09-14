@@ -1,4 +1,4 @@
-﻿// <copyright file="GetAllCategories.cs" company="Hans Kesting">
+// <copyright file="GetAllBlocks.cs" company="Hans Kesting">
 // Copyright (c) Hans Kesting. All rights reserved.
 // </copyright>
 
@@ -12,23 +12,23 @@ namespace Unidecoder.Functions
     using Unidecoder.Functions.Services;
 
     /// <summary>
-    /// Gets all category names and ids.
+    /// Get all unicode block names.
     /// </summary>
-    public static class GetAllCategories
+    public static class GetAllBlocks
     {
         /// <summary>
         /// Runs the specified request.
         /// </summary>
-        /// <param name="req">The req.</param>
+        /// <param name="req">The request.</param>
         /// <param name="log">The log.</param>
         /// <returns>A list of names and indexes.</returns>
-        [FunctionName("GetAllCategories")]
+        [FunctionName("GetAllBlocks")]
         public static HttpResponseMessage Run([HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = null)]HttpRequestMessage req, TraceWriter log)
         {
-            log.Info($"{nameof(GetAllCategories)} processing a request.");
+            log.Info($"{nameof(GetAllBlocks)} processing a request.");
 
             var svc = new UnicodeService();
-            var result = svc.GetAllCategories();
+            var result = svc.GetAllBlocks();
 
             return req.CreateResponse(HttpStatusCode.OK, result);
         }
