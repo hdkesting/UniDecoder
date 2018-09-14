@@ -4,6 +4,19 @@
         <name>Unidecoder.Functions</name>
     </assembly>
     <members>
+        <member name="T:Unidecoder.Functions.FindCharacters">
+            <summary>
+            Find characters by id or name.
+            </summary>
+        </member>
+        <member name="M:Unidecoder.Functions.FindCharacters.Run(System.Net.Http.HttpRequestMessage,Microsoft.Azure.WebJobs.Host.TraceWriter)">
+            <summary>
+            Runs the specified request.
+            </summary>
+            <param name="req">The request.</param>
+            <param name="log">The log.</param>
+            <returns>A list of characters.</returns>
+        </member>
         <member name="T:Unidecoder.Functions.GetAllBlocks">
             <summary>
             Get all unicode block names.
