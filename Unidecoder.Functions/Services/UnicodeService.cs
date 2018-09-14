@@ -10,6 +10,7 @@ namespace Unidecoder.Functions.Services
     using System.Text;
     using System.Unicode;
     using Unidecoder.Functions.Model;
+    using Unidecoder.Functions.Support;
 
     /// <summary>
     /// Service for unicode character related information.
@@ -30,6 +31,17 @@ namespace Unidecoder.Functions.Services
 
             var result = input.AsPermissiveCodePointEnumerable().Select(cp => new CodepointInfo(UnicodeInfo.GetCharInfo(cp))).ToList();
             return result;
+        }
+
+        /// <summary>
+        /// Gets all categories.
+        /// </summary>
+        /// <returns>A list of <see cref="CategoryInfo"/>.</returns>
+        public Dictionary<int, string> GetAllCategories()
+        {
+            return Enum.GetValues(typeof(System.Globalization.UnicodeCategory))
+                .Cast<System.Globalization.UnicodeCategory>()
+                .ToDictionary(c => (int)c, c => c.ToString().ToSeparateWords());
         }
     }
 }

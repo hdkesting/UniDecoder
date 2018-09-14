@@ -22,7 +22,8 @@ namespace Unidecoder.Functions.Model
             this.Block = fullInfo.Block;
             this.Codepoint = fullInfo.CodePoint;
             this.Character = UnicodeInfo.GetDisplayText(fullInfo.CodePoint);
-            this.Category = fullInfo.Category.ToString().ToSeparateWords();
+            this.CategoryId = (int)fullInfo.Category;
+            //// this.Category = fullInfo.Category.ToString().ToSeparateWords();
         }
 
         /// <summary>
@@ -66,11 +67,11 @@ namespace Unidecoder.Functions.Model
         public string CodepointHex => this.Codepoint.ToString("X4");
 
         /// <summary>
-        /// Gets the Unicode category.
+        /// Gets the Unicode category identifier.
         /// </summary>
         /// <value>
         /// The category.
         /// </value>
-        public string Category { get; }
+        public int CategoryId { get; }
     }
 }

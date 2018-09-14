@@ -42,5 +42,13 @@ namespace Unidecoder.Functions.Test
             input.Length.Should().Be(2, because: "this codepoint requires 2 16-bit chars");
             result.Count.Should().Be(1, because: "those two chars represent a single character");
         }
+
+        [TestMethod]
+        public void GetAllBlocks_ReturnsAll()
+        {
+            var result = this.unicodeService.GetAllCategories();
+
+            result.Count.Should().BeGreaterThan(20);
+        }
     }
 }

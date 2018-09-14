@@ -32,8 +32,10 @@ namespace Unidecoder.Functions
 
             // parse query parameter
             string text = req.GetQueryNameValuePairs()
-                .FirstOrDefault(q => string.Compare(q.Key, ParameterName, true) == 0)
+                .FirstOrDefault(q => string.Equals(q.Key, ParameterName, System.StringComparison.OrdinalIgnoreCase))
                 .Value;
+
+            log.Info($"{nameof(ListCharacters)} processing a request for '{text}'.");
 
             if (string.IsNullOrEmpty(text))
             {
