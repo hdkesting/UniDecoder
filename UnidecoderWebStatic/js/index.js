@@ -5,6 +5,9 @@
  */
 
 var resultTemplate;
+var activeCallback;
+const delay = 500;
+
 function setResultTemplate() {
     if (!resultTemplate) {
         var templateElement = document.getElementById('result-template');
@@ -22,36 +25,53 @@ function setLink(linkid, tag, value) {
     }
 }
 
-async function processDecoder(source, targetId, linkId) {
+function processDecoder(source, targetId, linkId) {
     setResultTemplate();
     if (typeof source === "string") {
         source = document.getElementById(source);
     }
 
-    // property(-name) "characters" of "data" matches {{#each characters}} in template
-    var data = { characters: await decoder.expandToChars(source.value) };
+    if (activeCallback) {
+        console.log("cancelling previous search");
+        clearTimeout(activeCallback);
+    }
 
-    var targetElement = document.getElementById(targetId);
-    var content = resultTemplate(data);
-    targetElement.innerHTML = content;
+    activeCallback = setTimeout(async function () {
+        // property(-name) "characters" of "data" matches {{#each characters}} in template
+        var data = { characters: await decoder.expandToChars(source.value) };
 
-    setLink(linkId, 's', source.value);
+        var targetElement = document.getElementById(targetId);
+        var content = resultTemplate(data);
+        targetElement.innerHTML = content;
+
+        setLink(linkId, 's', source.value);
+        activeCallback = null;
+    }, delay);
 }
 
-async function processSearch(source, targetId, linkId) {
+function processSearch(source, targetId, linkId) {
     setResultTemplate();
     if (typeof source === "string") {
         source = document.getElementById(source);
     }
 
-    // property(-name) "characters" of "data" matches {{#each characters}} in template
-    var data = { characters: await decoder.findChars(source.value) };
+    if (activeCallback) {
+        console.log("cancelling previous search");
+        clearTimeout(activeCallback);
+    }
 
-    var targetElement = document.getElementById(targetId);
-    var content = resultTemplate(data);
-    targetElement.innerHTML = content;
+    activeCallback = setTimeout(async function () {
+        // property(-name) "characters" of "data" matches {{#each characters}} in template
+        var data = { characters: await decoder.findChars(source.value) };
 
-    setLink(linkId, 'q', source.value);
+        var targetElement = document.getElementById(targetId);
+        var content = resultTemplate(data);
+        targetElement.innerHTML = content;
+
+        setLink(linkId, 'q', source.value);
+        activeCallback = null;
+    }, delay);
+
 }
 
 async function processBlockSearch(source, targetId, linkId) {
