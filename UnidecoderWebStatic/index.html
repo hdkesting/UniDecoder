@@ -159,7 +159,7 @@
             <div onclick="cp({{this.codepoint}}, '{{this.name}}')" {{#if this.isLatin}}class="latin"{{/if}}>&#x{{this.hex}};</div>
             <div>
                 <p><b>{{this.name}}</b></p>
-                <p><a href="#b={{this.blockId}}">{{this.block}}</a></p>
+                <p><a href="#b={{this.block}}">{{this.block}}</a></p>
                 <p><i>{{this.category}}</i></p>
                 <p><a href="#q=0x{{this.hex}}">{{this.hex}}</a> - <a href="#q={{this.codepoint}}">{{this.codepoint}}</a></p>            
             </div>
@@ -169,7 +169,7 @@
 
     <script id="blockselect-template" type="text/x-handlebars-template">
         {{#each blocks}}
-        <option value="{{this.index}}">{{this.name}}</option>
+        <option value="{{this.name}}">{{this.name}}</option>
         {{/each}}
     </script>
 

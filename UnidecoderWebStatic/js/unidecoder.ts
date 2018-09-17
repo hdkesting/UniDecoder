@@ -173,7 +173,7 @@ class Decoder {
 
         var l = this.basics.blocks;
         var blocks = [];
-        for (var b = 0; b < l.length; b++) {
+        for (var b in l) {
             blocks.push({ "index": b, "name": l[b] });
         }
 
