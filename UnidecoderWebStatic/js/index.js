@@ -1,4 +1,9 @@
 ﻿'use strict';
+
+/*
+ * This javascript code has a direct interaction with the page. It uses code in unicoder.js.
+ */
+
 var resultTemplate;
 function setResultTemplate() {
     if (!resultTemplate) {

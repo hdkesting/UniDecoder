@@ -6,7 +6,7 @@
     <title>Uni-decoder</title>
     <script type="text/javascript" src="js/unidecoder.js"></script>
     <script type="text/javascript" src="lib/handlebars.min.js" integrity="sha256-lsnwFhrNhbBmHfkBv9qFeiUVHti2+DmL0F1K5pysQsM= sha256-wetUkueig805IU/+4eQf6AxHuY4qa5v8niBvoVfEH+g="></script>
-    <script type="text/javascript" src="js/index.js" integrity="sha256-So0wNo0/D5sBsNBvvpFyXrCZe3/czT8IiO1iXZiNaBo="></script>
+    <script type="text/javascript" src="js/index.js"></script>
     <link type="text/css" rel="stylesheet" href="css/site.min.css" />
 </head>
 <body>
@@ -179,7 +179,7 @@
             document.getElementById("oldjs").style.display = "none";
             document.getElementById("tablist").removeAttribute("style");
 
-            // also pre-fetches the charlist
+            // also pre-fetches the basic info
             await setBlockSelect();
             await processBlockSearch('blockSelect', 'result4');
 

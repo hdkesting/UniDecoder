@@ -5,12 +5,25 @@ if (!String.prototype.startsWith) {
     };
 }
 
+// definition of a character, as received from the function.
 class CharDef {
+    character: string;
     name: string; // name with mixed casing
-    uname: string; // upper case version of 'name'
-    category: number; // id of category
-    block: number; // index of block
-    hex: string; // hex version of codepoint
+    block: string; // NAME of block
+    codepoint: number;
+    codepointHex: string;
+    categoryId: number; // id of category
+}
+
+// definition of a character for display purposes.
+class DisplayChar {
+    codepoint: number;
+    hex: string;
+    name: string;
+    block: string;
+    // blockId: number;
+    category: string;
+    isLatin: boolean;
 }
 
 class BlockDef {
@@ -18,119 +31,62 @@ class BlockDef {
     name: string;
 }
 
-class DisplayChar {
-    codepoint: number;
-    hex: string;
-    name: string;
-    block: string;
-    blockId: number;
-    category: string;
-    isLatin: boolean;
-}
-
-class CharacterList {
-    characters: Map<number, CharDef>;
+class BasicInformation {
     categories: Map<number, string>;
-    blocks: string[];
+    blocks: Map<number, string>;
+    charCount: number;
+    unicodeVersion: string;
 }
 
 class Decoder {
-    private list: CharacterList;
+    private basics: BasicInformation;
+    private functionUrl = "https://unidecoderfunctions.azurewebsites.net";
 
-        /** Get the local list if available, else get from server (and store locally).
-         * @async
-         * @returns {array} the full character list.
-         */
-     private getList = async function (): Promise<CharacterList> {
-        if (!this.list) {
-            console.log("fetching");
+    /** Get the local list if available, else get from server (and store locally).
+        * @async
+        * @returns {array} the full character list.
+        */
+    private getBasics = async function (): Promise<BasicInformation> {
+        if (!this.basics) {
+            console.log("fetching basics");
             var response: Response;
             try {
-                let versionResponse = await fetch("api/unicode/version");
-                let version = await versionResponse.text();
-                console.log("unicode version: " + version);
-                response = await fetch("api/unicode/characters?v=" + version);
+                response = await fetch(this.functionUrl + "/api/GetBasicInfo");
             } catch (e) {
-                // maybe not found because of caching
+                // maybe not found because of caching??
                 console.log("error: " + e);
-                response = await fetch("api/unicode/characters?v=" + new Date());
+                response = await fetch(this.functionUrl + "/api/GetBasicInfo?v=" + new Date());
             }
 
-            this.list = await response.json();
-            console.log("got the list");
-
-            // make an uppercase copy of all names, for easier searching
-            for (let cp in this.list.characters) {
-                var c = this.list.characters[cp];
-                c.uname = c.name.toUpperCase();
-            }
-
-            console.log("uppercased all the names");
+            this.basics = await response.json();
+            console.log("got the basics");
+            // console.dir(this.basics);
         }
 
-        return this.list;
+        return this.basics;
     }
 
-        /** Convert a char from the (local) list to a display value.
-         * @param {int} cp - codepoint value
-         * @param {object} c - char from list (optional)
-         * @returns {object} - the codepoint description object
-         */
+    /** Convert a char from the (remote) list to a display value.
+        * @param {int} cp - codepoint value
+        * @param {object} c - char from list (optional)
+        * @returns {object} - the codepoint description object
+        */
     private convertChar = function (cp: number, c: CharDef): DisplayChar {
-        if (!c) {
-            c = this.list[cp];
-        }
-
         return {
             codepoint: cp,
-            hex: c.hex,
+            hex: c.codepointHex,
             name: c.name,
-            block: this.list.blocks[c.block],
-            blockId: c.block,
-            category: this.list.categories[c.category],
-            isLatin: this.list.blocks[c.block].indexOf("Latin") >= 0
+            block: c.block,
+            category: this.basics.categories[c.categoryId],
+            isLatin: c.block.indexOf("Latin") >= 0
         };
     }
 
-        /** Try and get a character from the list.
-         * @async
-         * @param {int} cp - codepoint value.
-         * @param {bool} fillMissing - when true, create a "missing value" (bool), else use null.
-         * @returns {object} - the codepoint description.
-         */
-    private getChar = async function (cp: number, fillMissing: boolean): Promise<DisplayChar> {
-        if (cp <= 0) {
-            return null;
-        }
-
-        var l = await this.getList();
-
-        var c = l.characters[cp];
-
-        if (c) {
-            return this.convertChar(cp, c);
-        }
-
-        if (fillMissing) {
-            return {
-                codepoint: cp,
-                hex: 'FFFD', // replacement char
-                name: 'Unknown',
-                block: '?',
-                blockId: 0,
-                category: 'Private Use',
-                isLatin: false
-            };
-        }
-
-        return null;
-    }
-
-        /** Converts a value to an int, using the supplied radix.
-         * @param {string} value - value to convert
-         * @param {int} radix - base to use for conversion (10 or 16).
-         * @returns {int} - the converted value.
-         */
+    /** Converts a value to an int, using the supplied radix.
+        * @param {string} value - value to convert
+        * @param {int} radix - base to use for conversion (10 or 16).
+        * @returns {int} - the converted value.
+        */
     private makeInt = function (value: string, radix: number): number {
         // remove any leading 0's
         while (value.length && value[0] === '0') {
@@ -149,107 +105,76 @@ class Decoder {
         return 0;
     };
 
-        /** Get all characters in the supplied text.
-         * @async
-         * @param {string} text - the text to convert.
-         * @returns {array} - an array with codepoint descriptions.
-         */
+    /** Get all characters in the supplied text.
+        * @async
+        * @param {string} text - the text to convert.
+        * @returns {array} - an array with codepoint descriptions.
+        */
     public expandToChars = async function (text: string): Promise<DisplayChar[]> {
-        let characters = new Array<DisplayChar>();
-        var list = await this.getList();
-        for (let i = 0; i < text.length; i++) {
-            var cp = text.codePointAt(i);
-            var c2 = await this.getChar(cp, true);
-
-            characters.push(c2);
-            if (cp > 65536) i++; // skip other half of surrogate pair
-        }
-
-        return characters;
-    };
-
-
-        /** Find all (max 80) characters whose name contains the words in the supplied text or match around a numerical value.
-         * @async
-         * @param {string} text - the partial name(s) to search for.
-         * @returns {array} - an array of codepoint descriptions.
-         */
-    public findChars = async function (text: string): Promise<DisplayChar[]> {
-        console.log("finding " + text);
+        console.log("Calling function ListCharacters to parse: " + text);
         if (!text) {
             return [];
         }
 
-        var characters = new Array<DisplayChar>();
-        var c: DisplayChar;
+        // ensure basics
+        await this.getBasics();
 
-        // try integer value
-        var cp = this.makeInt(text, 10);
-        if (cp) {
-            for (let i = cp - 5; i <= cp + 5; i++) {
-                c = await this.getChar(i, false);
-                if (c) {
-                    characters.push(c);
-                }
-            }
+        var response: Response;
+
+        try {
+            response = await fetch(this.functionUrl + "/api/ListCharacters?text=" + encodeURIComponent(text));
+        }
+        catch (e) {
+            console.log("error: " + e);
+            return null;
         }
 
-        // try hex value
-        var cleaned = text;
-        if (cleaned.startsWith("0x") || cleaned.startsWith("U+")) {
-            cleaned = cleaned.substr(2);
-        }
-
-        cp = this.makeInt(cleaned, 16);
-        if (cp) {
-            for (let i = cp - 5; i <= cp + 5; i++) {
-                c = await this.getChar(i);
-                if (c) {
-                    characters.push(c);
-                }
-            }
-        }
-
-        // plain search
-        var words = text.toUpperCase().split(' ');
-        var list = await this.getList();
-
-        for (cp in list.characters) {
-            if (list.characters.hasOwnProperty(cp)) {
-                let c2 = list.characters[cp];
-                for (var t of words) {
-                    var idx = c2.uname.indexOf(t);
-                    /* eslint no-extra-parens: ["error", "all", { "nestedBinaryExpressions": false }] */
-                    if (idx < 0 || (idx > 0 && c2.uname[idx - 1] !== ' ')) {
-                        // either not found at all, or the character just before (if any) is not a space: no match
-                        c2 = null;
-                        break;
-                    }
-                }
-
-                if (c2) {
-                    c = this.convertChar(cp, c2);
-                    characters.push(c);
-                    if (characters.length > 80) {
-                        console.log("found enough");
-                        break;
-                    }
-                }
-            }
-        }
-
-        return characters;
+        var chars: CharDef[] = await response.json();
+        return chars.map(c => this.convertChar(c.codepoint, c));
     };
 
-        /** Get a sorted list of blocknames + indices.
-         * @async
-         * @returns {array} - a sorted list of block names.
-         */
+
+    /** Find all (max 80) characters whose name contains the words in the supplied text or match around a numerical value.
+        * @async
+        * @param {string} text - the partial name(s) to search for.
+        * @returns {array} - an array of codepoint descriptions.
+        */
+    public findChars = async function (text: string): Promise<DisplayChar[]> {
+        console.log("Calling function FindCharacters to search for: " + text);
+        if (!text) {
+            return [];
+        }
+
+        // ensure basics
+        await this.getBasics();
+
+        var response: Response;
+
+        try {
+            response = await fetch(this.functionUrl + "/api/FindCharacters?search=" + encodeURIComponent(text));
+        }
+        catch (e) {
+            console.log("error: " + e);
+            return null;
+        }
+
+        var chars: CharDef[] = await response.json();
+        var res = chars.map(c => this.convertChar(c.codepoint, c));
+        return res;
+    };
+
+    /** Get a sorted list of blocknames + indices.
+        * @async
+        * @returns {array} - a sorted list of block names.
+        */
     public getBlockList = async function (): Promise<BlockDef[]> {
-        var l = await this.getList();
+
+        await this.getBasics();
+
+        var l = this.basics.blocks;
         var blocks = [];
-        for (var b = 0; b < l.blocks.length; b++) {
-            blocks.push({ "index": b, "name": l.blocks[b] });
+        for (var b = 0; b < l.length; b++) {
+            blocks.push({ "index": b, "name": l[b] });
         }
 
         // in-place sort: the Latin ones first, then alphabetically
@@ -278,40 +203,34 @@ class Decoder {
         return blocks;
     };
 
-        /** Find all characters in the specified block.
-         * @async
-         * @param {int} blockId - the internal ID of the block.
-         * @returns {array} - a list of characters in the block.
-         */
+    /** Find all characters in the specified block.
+        * @async
+        * @param {int} blockId - the internal ID of the block.
+        * @returns {array} - a list of characters in the block.
+        */
     public findCharsByBlock = async function (blockId: number): Promise<DisplayChar[]> {
-        var l = await this.getList();
+        await this.getBasics();
         var chars = [];
 
-        for (let cp in l.characters) {
-            var c = l.characters[cp];
-            if (c && c.block === blockId) {
-                chars.push(this.convertChar(cp, c));
-            }
-        }
+        // TODO
+        //for (let cp in l.characters) {
+        //    var c = l.characters[cp];
+        //    if (c && c.block === blockId) {
+        //        chars.push(this.convertChar(cp, c));
+        //    }
+        //}
 
         return chars;
     };
 
-        /** Count the number of characters in the list.
-         * @async
-         * @returns {int} the total number of character descriptions available.
-         */
+    /** Count the number of characters in the list.
+        * @async
+        * @returns {int} the total number of character descriptions available.
+        */
     public getCharCount = async function () {
-        var l = await this.getList();
-        let count = 0;
-        // "characters" is not an array, but an object with numerically named properties.
-        for (let cp in l.characters) {
-            if (l.characters.hasOwnProperty(cp)) {
-                count++;
-            }
-        }
+        var l = await this.getBasics();
 
-        return count;
+        return l.charCount;
     };
 }
 
