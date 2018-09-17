@@ -22,7 +22,9 @@ namespace Unidecoder.Functions
         /// <param name="log">The log.</param>
         /// <returns>A response message.</returns>
         [FunctionName("GetBasicInfo")]
-        public static HttpResponseMessage Run([HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = null)]HttpRequestMessage req, TraceWriter log)
+        public static HttpResponseMessage Run(
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = null)]HttpRequestMessage req,
+            TraceWriter log)
         {
             log.Info("C# HTTP trigger function processed a request for basic information.");
 
@@ -34,7 +36,7 @@ namespace Unidecoder.Functions
             result.CharCount = svc.GetTotalCharacterCount();
             result.UnicodeVersion = svc.GetUnicodeVersion().ToString(3);
 
-            return req.CreateResponse(HttpStatusCode.OK, result);
+            return req.CreateResponse(HttpStatusCode.OK, result, Support.Settings.JsonFormatter);
         }
     }
 }

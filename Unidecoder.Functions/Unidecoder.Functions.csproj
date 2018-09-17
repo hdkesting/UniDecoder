@@ -4,10 +4,10 @@
     <AzureFunctionsVersion>v1</AzureFunctionsVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>C:\w\Prive\UniDecoder\Unidecoder.Functions\Unidecoder.Functions.xml</DocumentationFile>
+    <DocumentationFile>bin\Unidecoder.Functions.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>C:\w\Prive\UniDecoder\Unidecoder.Functions\Unidecoder.Functions.xml</DocumentationFile>
+    <DocumentationFile>bin\Unidecoder.Functions.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <None Remove="stylecop.json" />

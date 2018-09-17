@@ -26,10 +26,10 @@ namespace Unidecoder.Functions
         /// <param name="log">The log.</param>
         /// <returns>A list of character definitions.</returns>
         [FunctionName("ListCharacters")]
-        public static HttpResponseMessage Run([HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = null)]HttpRequestMessage req, TraceWriter log)
+        public static HttpResponseMessage Run(
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = null)]HttpRequestMessage req,
+            TraceWriter log)
         {
-            log.Info("C# HTTP trigger function processed a request.");
-
             // parse query parameter
             string text = req.GetQueryNameValuePairs()
                 .FirstOrDefault(q => string.Equals(q.Key, ParameterName, System.StringComparison.OrdinalIgnoreCase))
@@ -45,7 +45,7 @@ namespace Unidecoder.Functions
             var svc = new UnicodeService();
             var list = svc.ListCharacters(text);
 
-            return req.CreateResponse(HttpStatusCode.OK, list);
+            return req.CreateResponse(HttpStatusCode.OK, list, Support.Settings.JsonFormatter);
         }
     }
 }

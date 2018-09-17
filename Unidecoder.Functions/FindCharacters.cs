@@ -28,14 +28,16 @@ namespace Unidecoder.Functions
         /// <param name="log">The log.</param>
         /// <returns>A list of characters.</returns>
         [FunctionName("FindCharacters")]
-        public static HttpResponseMessage Run([HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = null)]HttpRequestMessage req, TraceWriter log)
+        public static HttpResponseMessage Run(
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = null)]HttpRequestMessage req,
+            TraceWriter log)
         {
-            log.Info("C# HTTP trigger function processed a request.");
-
             // parse query parameter
             string searchText = req.GetQueryNameValuePairs()
                 .FirstOrDefault(q => string.Equals(q.Key, ParameterName, System.StringComparison.OrdinalIgnoreCase))
                 .Value;
+
+            log.Info($"C# HTTP trigger function processing a request to find '{searchText}'.");
 
             if (string.IsNullOrWhiteSpace(searchText))
             {
@@ -58,7 +60,7 @@ namespace Unidecoder.Functions
                 list = svc.FindByName(searchText);
             }
 
-            return req.CreateResponse(HttpStatusCode.OK, list);
+            return req.CreateResponse(HttpStatusCode.OK, list, Support.Settings.JsonFormatter);
         }
 
         private static int? ParseAsDecimal(string value)
