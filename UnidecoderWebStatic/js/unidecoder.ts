@@ -203,25 +203,60 @@ class Decoder {
         return blocks;
     };
 
+    /** Get a list of categories
+     * @returns {array} - a list of categories
+     */
+    public getCategoryList = async function (): Promise<BlockDef[]> {
+        // just to be sure
+        await this.getBasics();
+
+        var l = this.basics.categories;
+        var cats = [];
+        for (var c in l) {
+            cats.push({ "index": c, "name": l[c] });
+        }
+
+        return cats;
+    }
+
     /** Find all characters in the specified block.
         * @async
-        * @param {int} blockId - the internal ID of the block.
+        * @param {int} blockName - the full name of the block.
         * @returns {array} - a list of characters in the block.
         */
-    public findCharsByBlock = async function (blockId: number): Promise<DisplayChar[]> {
+    public findCharsByBlock = async function (blockName: string): Promise<DisplayChar[]> {
         await this.getBasics();
-        var chars = [];
+        var response: Response;
 
-        // TODO
-        //for (let cp in l.characters) {
-        //    var c = l.characters[cp];
-        //    if (c && c.block === blockId) {
-        //        chars.push(this.convertChar(cp, c));
-        //    }
-        //}
+        try {
+            response = await fetch(this.functionUrl + "/api/GetCharactersByType?block=" + encodeURIComponent(blockName));
+        }
+        catch (e) {
+            console.log("error: " + e);
+            return null;
+        }
 
-        return chars;
+        var chars: CharDef[] = await response.json();
+        var res = chars.map(c => this.convertChar(c.codepoint, c));
+        return res;
     };
+
+    public findCharsByCategory = async function (categoryName: string): Promise<DisplayChar[]> {
+        await this.getBasics();
+        var response: Response;
+
+        try {
+            response = await fetch(this.functionUrl + "/api/GetCharactersByType?category=" + encodeURIComponent(categoryName));
+        }
+        catch (e) {
+            console.log("error: " + e);
+            return null;
+        }
+
+        var chars: CharDef[] = await response.json();
+        var res = chars.map(c => this.convertChar(c.codepoint, c));
+        return res;
+    }
 
     /** Count the number of characters in the list.
         * @async

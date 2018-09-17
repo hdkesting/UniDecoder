@@ -17,7 +17,7 @@
     </div>
 
     <div id="spinner" style="display: none">
-        <img src="images/spin.svg" alt="busy ..." width="80" height="80" role="spinbutton"/>
+        <img src="images/spin.svg" alt="busy ..." width="80" height="80" role="spinbutton" />
     </div>
 
     <div id="tablist" style="display: none">
@@ -25,6 +25,7 @@
         <div class="tab hidden" id="tab2" onclick="opentab(this, 'tabcontent2');">Show characters in text</div>
         <div class="tab hidden" id="tab3" onclick="opentab(this, 'tabcontent3');">Find characters by name</div>
         <div class="tab hidden" id="tab4" onclick="opentab(this, 'tabcontent4');">Find characters by block</div>
+        <div class="tab hidden" id="tab5" onclick="opentab(this, 'tabcontent5');">Find characters by category</div>
     </div>
 
     <!-- tab: intro -->
@@ -37,11 +38,12 @@
         <p>
             Unicode only describes the name and meaning of a character, <strong>not</strong> how it should be shown on screen or in print. That is the task of the <i>font</i> and leads to some issues:
             <ul>
-                <li>Specific characters may look the same on one computer (or tablet, or phone) but different on another, because of differences in the installed font.
-                <ul>
-                    <li>An example: "ο" and "o" are different letters</li>
-                    <li>Sometimes &#127475;&#127473; is shown as "NL" (for instance on Windows), sometimes as a flag (for instance on Android)</li>
-                </ul>
+                <li>
+                    Specific characters may look the same on one computer (or tablet, or phone) but different on another, because of differences in the installed font.
+                    <ul>
+                        <li>An example: "ο" and "o" are different letters</li>
+                        <li>Sometimes &#127475;&#127473; is shown as "NL" (for instance on Windows), sometimes as a flag (for instance on Android)</li>
+                    </ul>
                 </li>
                 <li>Most fonts (probably even <em>all</em>) do not support the full unicode character set - which after all also includes ancient characters and others that are "not in everyday use".</li>
             </ul>
@@ -51,11 +53,11 @@
         </p>
         <p>
             Use the other tabs to find out more:
-        <ul>
-            <li><strong>Show characters</strong>: shows the characters in a text that you maybe copied from somewhere.</li>
-            <li><strong>Find characters</strong>: tries to find characters by name or codepoint.</li>
-            <li><strong>Find by block</strong>: shows all characters that belong to a selected block.</li>
-        </ul>
+            <ul>
+                <li><strong>Show characters</strong>: shows the characters in a text that you maybe copied from somewhere.</li>
+                <li><strong>Find characters</strong>: tries to find characters by name or codepoint.</li>
+                <li><strong>Find by block</strong>: shows all characters that belong to a selected block.</li>
+            </ul>
         </p>
 
         <p>Characters are shown like this:</p>
@@ -70,14 +72,15 @@
                 </div>
             </div>
         </div>
-        <p>Meaning:
-        <ul>
-            <li>(big, on a dark background) The character (in the current font). Click to copy.</li>
-            <li>(bold) The name of the character (search for this in tab 3)</li>
-            <li>The block name (see tab 4). The link leads you there.</li>
-            <li>(cursive) The category of the character.</li>
-            <li>The codepoint of the character: both hexadecimal and decimal. The links show this character and surrounding ones.</li>
-        </ul>
+        <p>
+            Meaning:
+            <ul>
+                <li>(big, on a dark background) The character (in the current font). Click to copy.</li>
+                <li>(bold) The name of the character (search for this in tab 3)</li>
+                <li>The block name (see tab 4). The link leads you there.</li>
+                <li>(cursive) The category of the character.</li>
+                <li>The codepoint of the character: both hexadecimal and decimal. The links show this character and surrounding ones.</li>
+            </ul>
         </p>
         <p style="margin-top: 50px">
             <a href="https://stackoverflow.com/users/121309/hans-kesting">
@@ -90,25 +93,28 @@
     <div id="tabcontent2" class="tabcontent">
         <h2>Character details</h2>
         <p>Type in (or copy in) some text. Information about all characters in it will be shown.</p>
-        <p>For example: 
-        <dl>
-            <dt><a class="sample" href="#s=cr%65%CC%80me%20br%C3%BBl%C3%A9e">Cre&#x0300;me brûlée</a></dt>
-            <dd>A phrase with accented letters</dd>
-            <dt><a class="sample" href="#s=1%C3%97%20%F0%9F%8D%95%20%C3%A0%20%E2%82%AC1,%E2%80%92">1× 🍕 à €1,‒</a></dt>
-            <dd>More exotic "letters" are possible</dd>
-            <dt><a class="sample" href="#s=%D0%A0hishy@%CE%9Cicr%CE%BFs%CE%BF%EF%AC%85.com">Рhishy@Μicrοsοﬅ.com</a> or
-                <a class="sample" href="#s=https://%D0%B0%D1%80%D1%80%D3%8F%D0%B5.com">https://аррӏе.com</a></dt>
-            <dd>You can even detect some phishy addresses (look closely at the letters)</dd>
-        </dl>
+        <p>
+            For example:
+            <dl>
+                <dt><a class="sample" href="#s=cr%65%CC%80me%20br%C3%BBl%C3%A9e">Cre&#x0300;me brûlée</a></dt>
+                <dd>A phrase with accented letters</dd>
+                <dt><a class="sample" href="#s=1%C3%97%20%F0%9F%8D%95%20%C3%A0%20%E2%82%AC1,%E2%80%92">1× 🍕 à €1,‒</a></dt>
+                <dd>More exotic "letters" are possible</dd>
+                <dt>
+                    <a class="sample" href="#s=%D0%A0hishy@%CE%9Cicr%CE%BFs%CE%BF%EF%AC%85.com">Рhishy@Μicrοsοﬅ.com</a> or
+                    <a class="sample" href="#s=https://%D0%B0%D1%80%D1%80%D3%8F%D0%B5.com">https://аррӏе.com</a>
+                </dt>
+                <dd>You can even detect some phishy addresses (look closely at the letters)</dd>
+            </dl>
         </p>
         <p>
             Your text to split in characters:<br />
             <input id="sampleString" type="text" placeholder="Type in (or copy in) the text to inspect" autofocus required
                    onkeyup="processDecoder(this, 'result2', 'link2');" style="width:100%" />
             <!--
-      onkeypress reageert niet op "wissen" en geeft oude waarde
-      onkeyup reageert ook op cursor keys maar geeft juiste waarde
-    -->
+              onkeypress reageert niet op "wissen" en geeft oude waarde
+              onkeyup reageert ook op cursor keys maar geeft juiste waarde
+            -->
         </p>
         <p><a href="#s=" id="link2">Shareable link</a></p>
         <div id="result2" class="result">&hellip;</div>
@@ -117,19 +123,25 @@
     <!-- tab: search by name -->
     <div id="tabcontent3" class="tabcontent">
         <h2>Search by name</h2>
-        <p>Type in a partial name of a character or type in its code to find out about it. 
-            When you type in a numerical code (decimal or hexadecimal), some characters around it will also be shown. 
-            Note that some values are recognized as both decimal and hexadecimal - you get more results.</p>
-        <p>When there are too many matches, the list is truncated. Use a more specific search (you can use multiple words in any order) 
-            to get a more specific result.</p>
-        <p>Examples: <a class="sample" href="#q=phone">phone</a>, 
-                     <a class="sample" href="#q=star">star</a> or
-                    <a class="sample" href="#q=twelve">twelve</a></p>
+        <p>
+            Type in a partial name of a character or type in its code to find out about it.
+            When you type in a numerical code (decimal or hexadecimal), some characters around it will also be shown.
+            Note that some values are recognized as both decimal and hexadecimal - you get more results.
+        </p>
+        <p>
+            When there are too many matches, the list is truncated. Use a more specific search (you can use multiple words in any order)
+            to get a more specific result.
+        </p>
+        <p>
+            Examples: <a class="sample" href="#q=phone">phone</a>,
+            <a class="sample" href="#q=star">star</a> or
+            <a class="sample" href="#q=twelve">twelve</a>
+        </p>
         <p>
             Or multiple words: <a class="sample" href="#q=digit%20circled">digit circled</a>
         </p>
         <p>
-            The name or code to search for:<br/>
+            The name or code to search for:<br />
             <input id="searchString" type="text" placeholder="Type in words of the name to find" autofocus required
                    oninput="processSearch(this, 'result3', 'link3');" style="width:100%" />
         </p>
@@ -137,14 +149,16 @@
         <div id="result3" class="result">&hellip;</div>
     </div>
 
-    <!-- tab: select block -->
+    <!-- tab: select by block -->
     <div id="tabcontent4" class="tabcontent">
         <h2>Search by block</h2>
         <p>Characters are grouped in blocks. Select a block to see its characters.</p>
         <p>Some characters may be replaced by an empty rectangle: this means that the current font cannot display it.</p>
-        <p>Examples: <a class="sample" href="#b=259">Emoticons</a>, 
-                    <a class="sample" href="#b=258">Miscellaneous Symbols</a> or 
-                    <a class="sample" href="#b=11">Hebrew</a>.</p>
+        <p>
+            Examples: <a class="sample" href="#b=Emoticons">Emoticons</a>,
+            <a class="sample" href="#b=Miscellaneous%20Symbols">Miscellaneous Symbols</a> or
+            <a class="sample" href="#b=Hebrew">Hebrew</a>.
+        </p>
         <p>
             <select id="blockSelect" onchange="processBlockSearch(this, 'result4', 'link4');"></select>
         </p>
@@ -152,16 +166,33 @@
         <div id="result4" class="result">&hellip;</div>
     </div>
 
+    <!-- tab: select by category -->
+    <div id="tabcontent5" class="tabcontent">
+        <h2>Search by category</h2>
+        <p>Characters belong to one category. Select a category to see its characters.</p>
+        <p>Some characters may be replaced by an empty rectangle: this means that the current font cannot display it.</p>
+        <p>
+            Examples: <a class="sample" href="#c=UppercaseLetter">Uppercase letter</a>,
+            <a class="sample" href="#c=OtherNumber">Other Number</a> or
+            <a class="sample" href="#c=MathSymbol">Math Symbol</a>.
+        </p>
+        <p>
+            <select id="categorySelect" onchange="processCategorySearch(this, 'result5', 'link5');"></select>
+        </p>
+        <p><a href="#c=0" id="link5">Shareable link</a></p>
+        <div id="result5" class="result">&hellip;</div>
+    </div>
+
 
     <script id="result-template" type="text/x-handlebars-template">
         {{#each characters}}
         <div class="character">
-            <div onclick="cp({{this.codepoint}}, '{{this.name}}')" {{#if this.isLatin}}class="latin"{{/if}}>&#x{{this.hex}};</div>
+            <div onclick="cp({{this.codepoint}}, '{{this.name}}')" {{#if this.isLatin}} class="latin" {{/if}}>&#x{{this.hex}};</div>
             <div>
                 <p><b>{{this.name}}</b></p>
                 <p><a href="#b={{this.block}}">{{this.block}}</a></p>
                 <p><i>{{this.category}}</i></p>
-                <p><a href="#q=0x{{this.hex}}">{{this.hex}}</a> - <a href="#q={{this.codepoint}}">{{this.codepoint}}</a></p>            
+                <p><a href="#q=0x{{this.hex}}">{{this.hex}}</a> - <a href="#q={{this.codepoint}}">{{this.codepoint}}</a></p>
             </div>
         </div>
         {{/each}}
@@ -173,23 +204,36 @@
         {{/each}}
     </script>
 
+    <script id="categoryselect-template" type="text/x-handlebars-template">
+        {{#each categories}}
+        <option value="{{this.name}}">{{this.name}}</option>
+        {{/each}}
+    </script>
+
     <script type="text/javascript">
         (async function () {
             document.getElementById("spinner").style.display = "block";
             document.getElementById("oldjs").style.display = "none";
             document.getElementById("tablist").removeAttribute("style");
 
-            // also pre-fetches the basic info
+            // populate the block dropdown (also pre-fetches the basic info)
             await setBlockSelect();
-            await processBlockSearch('blockSelect', 'result4');
+            // and show the initial list
+            await processBlockSearch('blockSelect', 'result4', 'link4');
+
+            // populate the category dropdown
+            await setCategorySelect();
+            // and show the initial list
+            activeCallback = null;
+            await processCategorySearch('categorySelect', 'result5', 'link5');
 
             window.addEventListener("hashchange", handleHash);
             await setCharCount();
 
             document.getElementById("spinner").style.display = "none";
 
-            for (var tabid = 1; tabid <= 4; tabid++) {
-                var tab = document.getElementById("tab"+tabid);
+            for (var tabid = 1; tabid <= 5; tabid++) {
+                var tab = document.getElementById("tab" + tabid);
                 tab.classList.remove("hidden");
             }
 

@@ -7,6 +7,7 @@
 var resultTemplate;
 var activeCallback;
 const delay = 500;
+const selectDelay = 300;
 
 function setResultTemplate() {
     if (!resultTemplate) {
@@ -74,25 +75,66 @@ function processSearch(source, targetId, linkId) {
 
 }
 
-async function processBlockSearch(source, targetId, linkId) {
+// block dropdown was changed, handle that.
+function processBlockSearch(source, targetId, linkId) {
     setResultTemplate();
     if (typeof source === "string") {
         source = document.getElementById(source);
     }
 
-    var blockId = 1 * source.value; // make sure it's a number
-    console.log("finding block " + blockId);
+    if (activeCallback) {
+        console.log("cancelling previous search");
+        clearTimeout(activeCallback);
+    }
 
-    var data = { characters: await decoder.findCharsByBlock(blockId) };
-    console.log("got block " + blockId);
+    var block = source.value;
 
-    var targetElement = document.getElementById(targetId);
-    var content = resultTemplate(data);
-    targetElement.innerHTML = content;
+    activeCallback = setTimeout(async function () {
+        console.log("finding block " + block);
 
-    setLink(linkId, 'b', source.value);
+        var data = { characters: await decoder.findCharsByBlock(block) };
+        console.log("got block " + block);
+
+        var targetElement = document.getElementById(targetId);
+        var content = resultTemplate(data);
+        targetElement.innerHTML = content;
+
+        setLink(linkId, 'b', block);
+        activeCallback = null;
+    }, selectDelay);
 }
 
+// block dropdown was changed, handle that.
+function processCategorySearch(source, targetId, linkId) {
+    setResultTemplate();
+    if (typeof source === "string") {
+        source = document.getElementById(source);
+    }
+
+    if (activeCallback) {
+        console.log("cancelling previous search");
+        clearTimeout(activeCallback);
+    }
+
+    var category = source.value;
+
+    activeCallback = setTimeout(async function () {
+        console.log("finding category " + category);
+
+        var data = { characters: await decoder.findCharsByCategory(category) };
+        console.log("got category " + category);
+
+        var targetElement = document.getElementById(targetId);
+        var content = resultTemplate(data);
+        targetElement.innerHTML = content;
+
+        setLink(linkId, 'c', category);
+        activeCallback = null;
+    }, selectDelay);
+}
+
+
+// fill the "block" dropdown
 async function setBlockSelect() {
     var templateElement = document.getElementById('blockselect-template');
     var templateSource = templateElement.innerHTML;
@@ -103,6 +145,20 @@ async function setBlockSelect() {
     var content = blockTemplate(data);
 
     var targetElement = document.getElementById("blockSelect");
+    targetElement.innerHTML = content;
+}
+
+// fill the "category" dropdown
+async function setCategorySelect() {
+    var templateElement = document.getElementById('categoryselect-template');
+    var templateSource = templateElement.innerHTML;
+    var categoryTemplate = Handlebars.compile(templateSource);
+
+    var list = await decoder.getCategoryList();
+    var data = { categories: list };
+    var content = categoryTemplate(data);
+
+    var targetElement = document.getElementById("categorySelect");
     targetElement.innerHTML = content;
 }
 
@@ -170,6 +226,12 @@ function handleHash() {
                 document.getElementById("blockSelect").value = decodeURI(srch[1]);
                 processBlockSearch('blockSelect', 'result4', 'link4');
                 break;
+            case 'c':
+                console.log("show category" + srch[1]);
+                opentab('tab5', 'tabcontent5');
+                document.getElementById("categorySelect").value = decodeURI(srch[1]);
+                processBlockSearch('categorySelect', 'result5', 'link5');
+
             default:
                 console.log("show INTRO");
                 opentab('tab1', 'tabcontent1');

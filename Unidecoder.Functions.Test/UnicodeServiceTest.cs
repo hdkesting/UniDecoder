@@ -98,5 +98,35 @@ namespace Unidecoder.Functions.Test
 
             result.Should().BeGreaterThan(100_000);
         }
+
+        [TestMethod]
+        public void GetCharactersOfBlock_BasicLatin_ReturnsMany()
+        {
+            var result = this.unicodeService.GetCharactersOfBlock("Basic Latin");
+
+            result.Count.Should().Be(128);
+        }
+
+        [TestMethod]
+        public void GetCharactersOfBlock_Unknown_ReturnsNone()
+        {
+            var result = this.unicodeService.GetCharactersOfBlock("Unknown block");
+
+            result.Count.Should().Be(0);
+        }
+
+        [TestMethod]
+        public void GetCharactersOfCategory_Unknown_ReturnsNone()
+        {
+            var result = this.unicodeService.GetCharactersOfCategory("Unknown category");
+            result.Count.Should().Be(0);
+        }
+
+        [TestMethod]
+        public void GetCharactersOfCategory_OtherNumber_ReturnsMany()
+        {
+            var result = this.unicodeService.GetCharactersOfCategory("other number");
+            result.Count.Should().BeGreaterThan(50);
+        }
     }
 }

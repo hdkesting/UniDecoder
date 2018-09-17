@@ -45,6 +45,8 @@ namespace Unidecoder.Functions.Services
         {
             return Enum.GetValues(typeof(System.Globalization.UnicodeCategory))
                 .Cast<System.Globalization.UnicodeCategory>()
+                .Where(uc => uc != System.Globalization.UnicodeCategory.PrivateUse)
+                .Where(uc => uc != System.Globalization.UnicodeCategory.Surrogate)
                 .ToDictionary(c => (int)c, c => c.ToString().ToSeparateWords());
         }
 
@@ -122,6 +124,53 @@ namespace Unidecoder.Functions.Services
                 .ToList();
 
             return list;
+        }
+
+        /// <summary>
+        /// Gets all the characters of a named block.
+        /// </summary>
+        /// <param name="blockName">Name of the block.</param>
+        /// <returns>A list of <see cref="CodepointInfo"/>.</returns>
+        public List<CodepointInfo> GetCharactersOfBlock(string blockName)
+        {
+            var block = UnicodeInfo.GetBlocks().FirstOrDefault(b => b.Name.Equals(blockName, StringComparison.OrdinalIgnoreCase));
+
+            if (block.Name is null)
+            {
+                return new List<CodepointInfo>();
+            }
+
+            var list = block.CodePointRange
+                .Select(UnicodeInfo.GetCharInfo)
+                .Select(it => new CodepointInfo(it))
+                .ToList();
+
+            return list;
+        }
+
+        /// <summary>
+        /// Gets all the characters in the specified category.
+        /// </summary>
+        /// <param name="categoryName">Name of the category.</param>
+        /// <returns>A list of <see cref="CodepointInfo"/>.</returns>
+        public List<CodepointInfo> GetCharactersOfCategory(string categoryName)
+        {
+            categoryName = categoryName.Replace(" ", string.Empty); // remove all spaces
+            System.Globalization.UnicodeCategory cat;
+            if (Enum.TryParse(categoryName, true, out cat))
+            {
+                var list = Enumerable.Range(LowestPossibleCodepoint, HighestPossibleCodepoint - LowestPossibleCodepoint)
+                    .Where(this.CodepointExists)
+                    .Where(cp => UnicodeInfo.GetCategory(cp) == cat)
+                    .Select(UnicodeInfo.GetCharInfo)
+                    .Select(it => new CodepointInfo(it))
+                    .Take(200)
+                    .ToList();
+
+                return list;
+            }
+
+            return new List<CodepointInfo>();
         }
 
         private bool CodepointExists(int codepoint)

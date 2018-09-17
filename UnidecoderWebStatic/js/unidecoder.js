@@ -172,23 +172,56 @@ class Decoder {
                 return blocks;
             });
         };
+        /** Get a list of categories
+         * @returns {array} - a list of categories
+         */
+        this.getCategoryList = function () {
+            return __awaiter(this, void 0, void 0, function* () {
+                // just to be sure
+                yield this.getBasics();
+                var l = this.basics.categories;
+                var cats = [];
+                for (var c in l) {
+                    cats.push({ "index": c, "name": l[c] });
+                }
+                return cats;
+            });
+        };
         /** Find all characters in the specified block.
             * @async
-            * @param {int} blockId - the internal ID of the block.
+            * @param {int} blockName - the full name of the block.
             * @returns {array} - a list of characters in the block.
             */
-        this.findCharsByBlock = function (blockId) {
+        this.findCharsByBlock = function (blockName) {
             return __awaiter(this, void 0, void 0, function* () {
                 yield this.getBasics();
-                var chars = [];
-                // TODO
-                //for (let cp in l.characters) {
-                //    var c = l.characters[cp];
-                //    if (c && c.block === blockId) {
-                //        chars.push(this.convertChar(cp, c));
-                //    }
-                //}
-                return chars;
+                var response;
+                try {
+                    response = yield fetch(this.functionUrl + "/api/GetCharactersByType?block=" + encodeURIComponent(blockName));
+                }
+                catch (e) {
+                    console.log("error: " + e);
+                    return null;
+                }
+                var chars = yield response.json();
+                var res = chars.map(c => this.convertChar(c.codepoint, c));
+                return res;
+            });
+        };
+        this.findCharsByCategory = function (categoryName) {
+            return __awaiter(this, void 0, void 0, function* () {
+                yield this.getBasics();
+                var response;
+                try {
+                    response = yield fetch(this.functionUrl + "/api/GetCharactersByType?category=" + encodeURIComponent(categoryName));
+                }
+                catch (e) {
+                    console.log("error: " + e);
+                    return null;
+                }
+                var chars = yield response.json();
+                var res = chars.map(c => this.convertChar(c.codepoint, c));
+                return res;
             });
         };
         /** Count the number of characters in the list.
