@@ -17,31 +17,18 @@
             <param name="log">The log.</param>
             <returns>A list of characters.</returns>
         </member>
-        <member name="T:Unidecoder.Functions.GetAllBlocks">
+        <member name="T:Unidecoder.Functions.GetBasicInfo">
             <summary>
-            Get all unicode block names.
+            Gets basic information: blocks and categories, character count.
             </summary>
         </member>
-        <member name="M:Unidecoder.Functions.GetAllBlocks.Run(System.Net.Http.HttpRequestMessage,Microsoft.Azure.WebJobs.Host.TraceWriter)">
+        <member name="M:Unidecoder.Functions.GetBasicInfo.Run(System.Net.Http.HttpRequestMessage,Microsoft.Azure.WebJobs.Host.TraceWriter)">
             <summary>
             Runs the specified request.
             </summary>
             <param name="req">The request.</param>
             <param name="log">The log.</param>
-            <returns>A list of names and indexes.</returns>
-        </member>
-        <member name="T:Unidecoder.Functions.GetAllCategories">
-            <summary>
-            Gets all category names and ids.
-            </summary>
-        </member>
-        <member name="M:Unidecoder.Functions.GetAllCategories.Run(System.Net.Http.HttpRequestMessage,Microsoft.Azure.WebJobs.Host.TraceWriter)">
-            <summary>
-            Runs the specified request.
-            </summary>
-            <param name="req">The req.</param>
-            <param name="log">The log.</param>
-            <returns>A list of names and indexes.</returns>
+            <returns>A response message.</returns>
         </member>
         <member name="T:Unidecoder.Functions.ListCharacters">
             <summary>
@@ -55,6 +42,43 @@
             <param name="req">The request.</param>
             <param name="log">The log.</param>
             <returns>A list of character definitions.</returns>
+        </member>
+        <member name="T:Unidecoder.Functions.Model.BasicInfo">
+            <summary>
+            Gets basic information about the system.
+            </summary>
+        </member>
+        <member name="P:Unidecoder.Functions.Model.BasicInfo.Blocks">
+            <summary>
+            Gets or sets the list of Unicode blocks.
+            </summary>
+            <value>
+            The blocks.
+            </value>
+        </member>
+        <member name="P:Unidecoder.Functions.Model.BasicInfo.Categories">
+            <summary>
+            Gets or sets the list of Unicode categories.
+            </summary>
+            <value>
+            The categories.
+            </value>
+        </member>
+        <member name="P:Unidecoder.Functions.Model.BasicInfo.CharCount">
+            <summary>
+            Gets or sets the character count.
+            </summary>
+            <value>
+            The character count.
+            </value>
+        </member>
+        <member name="P:Unidecoder.Functions.Model.BasicInfo.UnicodeVersion">
+            <summary>
+            Gets or sets the unicode version.
+            </summary>
+            <value>
+            The unicode version.
+            </value>
         </member>
         <member name="T:Unidecoder.Functions.Model.CodepointInfo">
             <summary>
@@ -138,6 +162,18 @@
             Gets all blocks.
             </summary>
             <returns>A dictionary combining the internal id and the name.</returns>
+        </member>
+        <member name="M:Unidecoder.Functions.Services.UnicodeService.GetTotalCharacterCount">
+            <summary>
+            Gets the count of all known characters.
+            </summary>
+            <returns>The count.</returns>
+        </member>
+        <member name="M:Unidecoder.Functions.Services.UnicodeService.GetUnicodeVersion">
+            <summary>
+            Gets the supported unicode version.
+            </summary>
+            <returns>The version.</returns>
         </member>
         <member name="M:Unidecoder.Functions.Services.UnicodeService.FindByName(System.String)">
             <summary>

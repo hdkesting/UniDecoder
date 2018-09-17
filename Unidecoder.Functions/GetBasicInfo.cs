@@ -1,4 +1,4 @@
-// <copyright file="GetAllBlocks.cs" company="Hans Kesting">
+// <copyright file="GetBasicInfo.cs" company="Hans Kesting">
 // Copyright (c) Hans Kesting. All rights reserved.
 // </copyright>
 
@@ -9,26 +9,30 @@ namespace Unidecoder.Functions
     using Microsoft.Azure.WebJobs;
     using Microsoft.Azure.WebJobs.Extensions.Http;
     using Microsoft.Azure.WebJobs.Host;
-    using Unidecoder.Functions.Services;
 
     /// <summary>
-    /// Get all unicode block names.
+    /// Gets basic information: blocks and categories, character count.
     /// </summary>
-    public static class GetAllBlocks
+    public static class GetBasicInfo
     {
         /// <summary>
         /// Runs the specified request.
         /// </summary>
         /// <param name="req">The request.</param>
         /// <param name="log">The log.</param>
-        /// <returns>A list of names and indexes.</returns>
-        [FunctionName("GetAllBlocks")]
+        /// <returns>A response message.</returns>
+        [FunctionName("GetBasicInfo")]
         public static HttpResponseMessage Run([HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = null)]HttpRequestMessage req, TraceWriter log)
         {
-            log.Info($"{nameof(GetAllBlocks)} processing a request.");
+            log.Info("C# HTTP trigger function processed a request for basic information.");
 
-            var svc = new UnicodeService();
-            var result = svc.GetAllBlocks();
+            var svc = new Services.UnicodeService();
+
+            var result = new Model.BasicInfo();
+            result.Blocks = svc.GetAllBlocks();
+            result.Categories = svc.GetAllCategories();
+            result.CharCount = svc.GetTotalCharacterCount();
+            result.UnicodeVersion = svc.GetUnicodeVersion().ToString(3);
 
             return req.CreateResponse(HttpStatusCode.OK, result);
         }

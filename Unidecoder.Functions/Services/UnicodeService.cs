@@ -60,6 +60,26 @@ namespace Unidecoder.Functions.Services
         }
 
         /// <summary>
+        /// Gets the count of all known characters.
+        /// </summary>
+        /// <returns>The count.</returns>
+        public int GetTotalCharacterCount()
+        {
+            return Enumerable.Range(LowestPossibleCodepoint, HighestPossibleCodepoint - LowestPossibleCodepoint)
+                .Where(this.CodepointExists)
+                .Count();
+        }
+
+        /// <summary>
+        /// Gets the supported unicode version.
+        /// </summary>
+        /// <returns>The version.</returns>
+        public Version GetUnicodeVersion()
+        {
+            return UnicodeInfo.UnicodeVersion;
+        }
+
+        /// <summary>
         /// Finds the characters by their name.
         /// </summary>
         /// <param name="searchText">The search text.</param>

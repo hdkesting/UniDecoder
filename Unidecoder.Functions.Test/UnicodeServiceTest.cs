@@ -90,5 +90,13 @@ namespace Unidecoder.Functions.Test
 
             result.Count.Should().Be(8);
         }
+
+        [TestMethod]
+        public void GetCharacterCount_ReturnsMany()
+        {
+            var result = this.unicodeService.GetTotalCharacterCount();
+
+            result.Should().BeGreaterThan(100_000);
+        }
     }
 }
