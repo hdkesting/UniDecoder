@@ -1,0 +1,14 @@
+[
+  {
+    "outputFileName": "js/unidecoder.min.js",
+    "inputFiles": [
+      "js/unidecoder.js"
+    ]
+  },
+  {
+    "outputFileName": "js/index.min.js",
+    "inputFiles": [
+      "js/index.js"
+    ]
+  }
+]
