@@ -25,6 +25,7 @@ class BasicInformation {
 class Decoder {
     constructor() {
         this.functionUrl = "https://unidecoderfunctions.azurewebsites.net";
+        // private functionUrl = "http://localhost:7071";
         /** Get the local list if available, else get from server (and store locally).
             * @async
             * @returns {array} the full character list.

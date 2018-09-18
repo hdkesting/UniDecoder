@@ -4,9 +4,9 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Uni-decoder</title>
-    <script type="text/javascript" src="js/unidecoder.js"></script>
-    <script type="text/javascript" src="lib/handlebars.min.js" integrity="sha256-lsnwFhrNhbBmHfkBv9qFeiUVHti2+DmL0F1K5pysQsM= sha256-wetUkueig805IU/+4eQf6AxHuY4qa5v8niBvoVfEH+g="></script>
-    <script type="text/javascript" src="js/index.js"></script>
+    <script type="text/javascript" src="js/unidecoder.min.js?v=2"></script>
+    <script type="text/javascript" src="lib/handlebars.min.js"></script>
+    <script type="text/javascript" src="js/index.js?v=2"></script>
     <link type="text/css" rel="stylesheet" href="css/site.min.css" />
 </head>
 <body>
@@ -172,9 +172,9 @@
         <p>Characters belong to one category. Select a category to see its characters.</p>
         <p>Some characters may be replaced by an empty rectangle: this means that the current font cannot display it.</p>
         <p>
-            Examples: <a class="sample" href="#c=UppercaseLetter">Uppercase letter</a>,
-            <a class="sample" href="#c=OtherNumber">Other Number</a> or
-            <a class="sample" href="#c=MathSymbol">Math Symbol</a>.
+            Examples: <a class="sample" href="#c=Uppercase%20Letter">Uppercase letter</a>,
+            <a class="sample" href="#c=Other%20Number">Other Number</a> or
+            <a class="sample" href="#c=Math%20Symbol">Math Symbol</a>.
         </p>
         <p>
             <select id="categorySelect" onchange="processCategorySearch(this, 'result5', 'link5');"></select>
@@ -212,20 +212,22 @@
 
     <script type="text/javascript">
         (async function () {
+            // show spinner
             document.getElementById("spinner").style.display = "block";
+            // hide "old js" message
             document.getElementById("oldjs").style.display = "none";
             document.getElementById("tablist").removeAttribute("style");
 
             // populate the block dropdown (also pre-fetches the basic info)
             await setBlockSelect();
             // and show the initial list
-            await processBlockSearch('blockSelect', 'result4', 'link4');
+            await processBlockSearch('blockSelect', 'result4', 'link4', true);
 
             // populate the category dropdown
             await setCategorySelect();
             // and show the initial list
             activeCallback = null;
-            await processCategorySearch('categorySelect', 'result5', 'link5');
+            await processCategorySearch('categorySelect', 'result5', 'link5', true);
 
             window.addEventListener("hashchange", handleHash);
             await setCharCount();

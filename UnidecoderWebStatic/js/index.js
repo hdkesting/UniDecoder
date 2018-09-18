@@ -26,7 +26,8 @@ function setLink(linkid, tag, value) {
     }
 }
 
-function processDecoder(source, targetId, linkId) {
+// find all characters in the string
+function processDecoder(source, targetId, linkId, skipdelay) {
     setResultTemplate();
     if (typeof source === "string") {
         source = document.getElementById(source);
@@ -47,10 +48,11 @@ function processDecoder(source, targetId, linkId) {
 
         setLink(linkId, 's', source.value);
         activeCallback = null;
-    }, delay);
+    }, skipdelay ? 1 : delay);
 }
 
-function processSearch(source, targetId, linkId) {
+// search for characters by name
+function processSearch(source, targetId, linkId, skipdelay) {
     setResultTemplate();
     if (typeof source === "string") {
         source = document.getElementById(source);
@@ -71,12 +73,12 @@ function processSearch(source, targetId, linkId) {
 
         setLink(linkId, 'q', source.value);
         activeCallback = null;
-    }, delay);
+    }, skipdelay ? 1 : delay);
 
 }
 
 // block dropdown was changed, handle that.
-function processBlockSearch(source, targetId, linkId) {
+function processBlockSearch(source, targetId, linkId, skipdelay) {
     setResultTemplate();
     if (typeof source === "string") {
         source = document.getElementById(source);
@@ -101,11 +103,11 @@ function processBlockSearch(source, targetId, linkId) {
 
         setLink(linkId, 'b', block);
         activeCallback = null;
-    }, selectDelay);
+    }, skipdelay ? 1 : selectDelay);
 }
 
 // block dropdown was changed, handle that.
-function processCategorySearch(source, targetId, linkId) {
+function processCategorySearch(source, targetId, linkId, skipdelay) {
     setResultTemplate();
     if (typeof source === "string") {
         source = document.getElementById(source);
@@ -130,7 +132,7 @@ function processCategorySearch(source, targetId, linkId) {
 
         setLink(linkId, 'c', category);
         activeCallback = null;
-    }, selectDelay);
+    }, skipdelay ? 1 : selectDelay);
 }
 
 
@@ -211,27 +213,27 @@ function handleHash() {
                 console.log("show chars of " + srch[1]);
                 opentab('tab2', 'tabcontent2');
                 document.getElementById("sampleString").value = decodeURI(srch[1]);
-                processDecoder('sampleString', 'result2', 'link2');
+                processDecoder('sampleString', 'result2', 'link2', true);
                 break;
             case 'q':
                 console.log("search chars by " + srch[1]);
                 opentab('tab3', 'tabcontent3');
                 document.getElementById("searchString").value = decodeURI(srch[1]);
-                processSearch('searchString', 'result3', 'link3');
+                processSearch('searchString', 'result3', 'link3', true);
                 break;
             case 'b':
                 console.log("show block " + srch[1]);
                 opentab('tab4', 'tabcontent4');
                 // value is internal ID of block
                 document.getElementById("blockSelect").value = decodeURI(srch[1]);
-                processBlockSearch('blockSelect', 'result4', 'link4');
+                processBlockSearch('blockSelect', 'result4', 'link4', true);
                 break;
             case 'c':
-                console.log("show category" + srch[1]);
+                console.log("show category " + srch[1]);
                 opentab('tab5', 'tabcontent5');
-                document.getElementById("categorySelect").value = decodeURI(srch[1]);
-                processBlockSearch('categorySelect', 'result5', 'link5');
-
+                document.getElementById("categorySelect").value = decodeURI(srch[1]); // set value of dropdown, has to be exact match
+                processCategorySearch('categorySelect', 'result5', 'link5', true);
+                break;
             default:
                 console.log("show INTRO");
                 opentab('tab1', 'tabcontent1');
