@@ -61,50 +61,10 @@ class Decoder {
 
             this.basics = await response.json();
             console.log("got the basics");
-            // console.dir(this.basics);
         }
 
         return this.basics;
     }
-
-    /** Convert a char from the (remote) list to a display value.
-        * @param {int} cp - codepoint value
-        * @param {object} c - char from list (optional)
-        * @returns {object} - the codepoint description object
-        */
-    private convertChar = function (cp: number, c: CharDef): DisplayChar {
-        return {
-            codepoint: cp,
-            hex: c.codepointHex,
-            name: c.name,
-            block: c.block,
-            category: this.basics.categories[c.categoryId],
-            isLatin: c.block.indexOf("Latin") >= 0
-        };
-    }
-
-    /** Converts a value to an int, using the supplied radix.
-        * @param {string} value - value to convert
-        * @param {int} radix - base to use for conversion (10 or 16).
-        * @returns {int} - the converted value.
-        */
-    private makeInt = function (value: string, radix: number): number {
-        // remove any leading 0's
-        while (value.length && value[0] === '0') {
-            value = value.substr(1);
-        }
-
-        var i = parseInt(value, radix);
-
-        if (isNaN(i)) return 0;
-
-        // parseInt already succeeds when *some* characters can be parsed, it will ignore an unparsable rest. I want a *full* parse.
-        if (i.toString(radix).toUpperCase() === value.toUpperCase()) {
-            return i;
-        }
-
-        return 0;
-    };
 
     /** Get all characters in the supplied text.
         * @async
@@ -120,17 +80,7 @@ class Decoder {
         // ensure basics
         await this.getBasics();
 
-        var response: Response;
-
-        try {
-            response = await fetch(this.functionUrl + "/api/ListCharacters?text=" + encodeURIComponent(text));
-        }
-        catch (e) {
-            console.log("error: " + e);
-            return null;
-        }
-
-        var chars: CharDef[] = await response.json();
+        var chars: CharDef[] = await this.fetchJson("/api/ListCharacters?text=", text);
         return chars.map(c => this.convertChar(c.codepoint, c));
     };
 
@@ -149,17 +99,7 @@ class Decoder {
         // ensure basics
         await this.getBasics();
 
-        var response: Response;
-
-        try {
-            response = await fetch(this.functionUrl + "/api/FindCharacters?search=" + encodeURIComponent(text));
-        }
-        catch (e) {
-            console.log("error: " + e);
-            return null;
-        }
-
-        var chars: CharDef[] = await response.json();
+        var chars: CharDef[] = await this.fetchJson("/api/FindCharacters?search=", text);
         var res = chars.map(c => this.convertChar(c.codepoint, c));
         return res;
     };
@@ -227,34 +167,16 @@ class Decoder {
         */
     public findCharsByBlock = async function (blockName: string): Promise<DisplayChar[]> {
         await this.getBasics();
-        var response: Response;
 
-        try {
-            response = await fetch(this.functionUrl + "/api/GetCharactersByType?block=" + encodeURIComponent(blockName));
-        }
-        catch (e) {
-            console.log("error: " + e);
-            return null;
-        }
-
-        var chars: CharDef[] = await response.json();
+        var chars: CharDef[] = await this.fetchJson("/api/GetCharactersByType?block=", blockName)
         var res = chars.map(c => this.convertChar(c.codepoint, c));
         return res;
     };
 
     public findCharsByCategory = async function (categoryName: string): Promise<DisplayChar[]> {
         await this.getBasics();
-        var response: Response;
+        var chars: CharDef[] = await this.fetchJson("/api/GetCharactersByType?category=", categoryName)
 
-        try {
-            response = await fetch(this.functionUrl + "/api/GetCharactersByType?category=" + encodeURIComponent(categoryName));
-        }
-        catch (e) {
-            console.log("error: " + e);
-            return null;
-        }
-
-        var chars: CharDef[] = await response.json();
         var res = chars.map(c => this.convertChar(c.codepoint, c));
         return res;
     }
@@ -268,6 +190,20 @@ class Decoder {
 
         return l.charCount;
     };
+
+    private fetchJson = async function (url: string, value: string) {
+        var response: Response;
+
+        try {
+            response = await fetch(this.functionUrl + url + encodeURIComponent(value));
+        }
+        catch (e) {
+            console.log("error fetching json from: " + url + "; error: " + e);
+            return null;
+        }
+
+        return await response.json();
+    }
 }
 
 // make sure TS knows that I can set it

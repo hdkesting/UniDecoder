@@ -4,9 +4,9 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Uni-decoder</title>
-    <script type="text/javascript" src="js/unidecoder.min.js?v=2"></script>
+    <script type="text/javascript" src="js/unidecoder.min.js?v=3"></script>
     <script type="text/javascript" src="lib/handlebars.min.js"></script>
-    <script type="text/javascript" src="js/index.js?v=2"></script>
+    <script type="text/javascript" src="js/index.js?v=3"></script>
     <link type="text/css" rel="stylesheet" href="css/site.min.css" />
 </head>
 <body>
@@ -45,20 +45,22 @@
                         <li>Sometimes &#127475;&#127473; is shown as "NL" (for instance on Windows), sometimes as a flag (for instance on Android)</li>
                     </ul>
                 </li>
-                <li>Most fonts (probably even <em>all</em>) do not support the full unicode character set - which after all also includes ancient characters and others that are "not in everyday use".</li>
+                <li>Most fonts (probably even <em>all</em>) do not support the full unicode character set 
+                - which after all also includes ancient characters and others that are "not in everyday use", such as <a href="#b=Cuneiform">Cuneiform</a> and <a href="#b=Domino%20Tiles">Domino Tiles</a>.</li>
             </ul>
         </p>
         <p>
-            This app knows details about <span id="charcount" title="actual count">a lot of</span> characters.
+            This app knows details about <span id="charcount" title="actual count"><q>a lot of</q></span> characters.
         </p>
-        <p>
+        <div class="hidden">
             Use the other tabs to find out more:
             <ul>
                 <li><strong>Show characters</strong>: shows the characters in a text that you maybe copied from somewhere.</li>
                 <li><strong>Find characters</strong>: tries to find characters by name or codepoint.</li>
                 <li><strong>Find by block</strong>: shows all characters that belong to a selected block.</li>
+                <li><strong>Find by category</strong>: shows all characters that belong to a selected category.</li>
             </ul>
-        </p>
+        </div>
 
         <p>Characters are shown like this:</p>
         <div id="sample" class="result">
@@ -238,6 +240,8 @@
                 var tab = document.getElementById("tab" + tabid);
                 tab.classList.remove("hidden");
             }
+
+            document.querySelector("div.hidden").classList.remove("hidden");
 
             handleHash();
         })();

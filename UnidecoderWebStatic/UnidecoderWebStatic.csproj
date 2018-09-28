@@ -95,8 +95,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="css\site.css" />
-    <Content Include="css\site.min.css" />
+    <Content Include="css\site.css">
+      <DependentUpon>site.less</DependentUpon>
+    </Content>
+    <Content Include="css\site.min.css">
+      <DependentUpon>site.css</DependentUpon>
+    </Content>
     <Content Include="images\spin.svg" />
     <Content Include="index.html" />
     <Content Include="js\index.js" />
@@ -125,6 +129,10 @@
   <ItemGroup>
     <Content Include="css\site.less" />
     <None Include="bundleconfig.json" />
+    <None Include="compilerconfig.json" />
+    <None Include="compilerconfig.json.defaults">
+      <DependentUpon>compilerconfig.json</DependentUpon>
+    </None>
     <None Include="packages.config" />
     <None Include="Properties\PublishProfiles\unidecoder - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\unidecoder - Web Deploy.pubxml" />

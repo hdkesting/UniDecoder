@@ -2,6 +2,7 @@
 
 /*
  * This javascript code has a direct interaction with the page. It uses code in unicoder.js.
+ * Because of the "async/await", the VS minifier errors out. https://github.com/madskristensen/BundlerMinifier/issues/311
  */
 
 var resultTemplate;
@@ -142,12 +143,18 @@ async function setBlockSelect() {
     var templateSource = templateElement.innerHTML;
     var blockTemplate = Handlebars.compile(templateSource);
 
-    var blocklist = await decoder.getBlockList();
-    var data = { blocks: blocklist };
-    var content = blockTemplate(data);
+    try {
+        var blocklist = await decoder.getBlockList();
+        var data = { blocks: blocklist };
+        var content = blockTemplate(data);
 
-    var targetElement = document.getElementById("blockSelect");
-    targetElement.innerHTML = content;
+        var targetElement = document.getElementById("blockSelect");
+        targetElement.innerHTML = content;
+    } catch (e) {
+        console.log("An error occurred fetching the basic info");
+        console.log(e);
+        document.location.reload(true);
+    }
 }
 
 // fill the "category" dropdown

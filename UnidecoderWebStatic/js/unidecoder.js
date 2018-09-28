@@ -45,44 +45,9 @@ class Decoder {
                     }
                     this.basics = yield response.json();
                     console.log("got the basics");
-                    // console.dir(this.basics);
                 }
                 return this.basics;
             });
-        };
-        /** Convert a char from the (remote) list to a display value.
-            * @param {int} cp - codepoint value
-            * @param {object} c - char from list (optional)
-            * @returns {object} - the codepoint description object
-            */
-        this.convertChar = function (cp, c) {
-            return {
-                codepoint: cp,
-                hex: c.codepointHex,
-                name: c.name,
-                block: c.block,
-                category: this.basics.categories[c.categoryId],
-                isLatin: c.block.indexOf("Latin") >= 0
-            };
-        };
-        /** Converts a value to an int, using the supplied radix.
-            * @param {string} value - value to convert
-            * @param {int} radix - base to use for conversion (10 or 16).
-            * @returns {int} - the converted value.
-            */
-        this.makeInt = function (value, radix) {
-            // remove any leading 0's
-            while (value.length && value[0] === '0') {
-                value = value.substr(1);
-            }
-            var i = parseInt(value, radix);
-            if (isNaN(i))
-                return 0;
-            // parseInt already succeeds when *some* characters can be parsed, it will ignore an unparsable rest. I want a *full* parse.
-            if (i.toString(radix).toUpperCase() === value.toUpperCase()) {
-                return i;
-            }
-            return 0;
         };
         /** Get all characters in the supplied text.
             * @async
@@ -97,15 +62,7 @@ class Decoder {
                 }
                 // ensure basics
                 yield this.getBasics();
-                var response;
-                try {
-                    response = yield fetch(this.functionUrl + "/api/ListCharacters?text=" + encodeURIComponent(text));
-                }
-                catch (e) {
-                    console.log("error: " + e);
-                    return null;
-                }
-                var chars = yield response.json();
+                var chars = yield this.fetchJson("/api/ListCharacters?text=", text);
                 return chars.map(c => this.convertChar(c.codepoint, c));
             });
         };
@@ -122,15 +79,7 @@ class Decoder {
                 }
                 // ensure basics
                 yield this.getBasics();
-                var response;
-                try {
-                    response = yield fetch(this.functionUrl + "/api/FindCharacters?search=" + encodeURIComponent(text));
-                }
-                catch (e) {
-                    console.log("error: " + e);
-                    return null;
-                }
-                var chars = yield response.json();
+                var chars = yield this.fetchJson("/api/FindCharacters?search=", text);
                 var res = chars.map(c => this.convertChar(c.codepoint, c));
                 return res;
             });
@@ -196,15 +145,7 @@ class Decoder {
         this.findCharsByBlock = function (blockName) {
             return __awaiter(this, void 0, void 0, function* () {
                 yield this.getBasics();
-                var response;
-                try {
-                    response = yield fetch(this.functionUrl + "/api/GetCharactersByType?block=" + encodeURIComponent(blockName));
-                }
-                catch (e) {
-                    console.log("error: " + e);
-                    return null;
-                }
-                var chars = yield response.json();
+                var chars = yield this.fetchJson("/api/GetCharactersByType?block=", blockName);
                 var res = chars.map(c => this.convertChar(c.codepoint, c));
                 return res;
             });
@@ -212,15 +153,7 @@ class Decoder {
         this.findCharsByCategory = function (categoryName) {
             return __awaiter(this, void 0, void 0, function* () {
                 yield this.getBasics();
-                var response;
-                try {
-                    response = yield fetch(this.functionUrl + "/api/GetCharactersByType?category=" + encodeURIComponent(categoryName));
-                }
-                catch (e) {
-                    console.log("error: " + e);
-                    return null;
-                }
-                var chars = yield response.json();
+                var chars = yield this.fetchJson("/api/GetCharactersByType?category=", categoryName);
                 var res = chars.map(c => this.convertChar(c.codepoint, c));
                 return res;
             });
@@ -233,6 +166,19 @@ class Decoder {
             return __awaiter(this, void 0, void 0, function* () {
                 var l = yield this.getBasics();
                 return l.charCount;
+            });
+        };
+        this.fetchJson = function (url, value) {
+            return __awaiter(this, void 0, void 0, function* () {
+                var response;
+                try {
+                    response = yield fetch(this.functionUrl + url + encodeURIComponent(value));
+                }
+                catch (e) {
+                    console.log("error fetching json from: " + url + "; error: " + e);
+                    return null;
+                }
+                return yield response.json();
             });
         };
     }
