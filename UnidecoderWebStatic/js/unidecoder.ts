@@ -66,6 +66,22 @@ class Decoder {
         return this.basics;
     }
 
+    /** Convert a char from the (remote) list to a display value.
+    * @param {int} cp - codepoint value
+    * @param {object} c - char from list (optional)
+    * @returns {object} - the codepoint description object
+    */
+    private convertChar = function (cp: number, c: CharDef): DisplayChar {
+        return {
+            codepoint: cp,
+            hex: c.codepointHex,
+            name: c.name,
+            block: c.block,
+            category: this.basics.categories[c.categoryId],
+            isLatin: c.block.indexOf("Latin") >= 0
+        };
+    }
+
     /** Get all characters in the supplied text.
         * @async
         * @param {string} text - the text to convert.
