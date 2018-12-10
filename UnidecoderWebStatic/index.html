@@ -42,7 +42,7 @@
                     Specific characters may look the same on one computer (or tablet, or phone) but different on another, because of differences in the installed font.
                     <ul>
                         <li>An example: "ο" and "o" are different letters</li>
-                        <li>Sometimes &#127475;&#127473; is shown as "NL" (for instance on Windows), sometimes as a flag (for instance on Android)</li>
+                        <li>Sometimes <a href="#s=%F0%9F%87%B3%F0%9F%87%B1">&#127475;&#127473;</a> is shown as "NL" (for instance on Windows), sometimes as a flag (for instance on Android)</li>
                     </ul>
                 </li>
                 <li>Most fonts (probably even <em>all</em>) do not support the full unicode character set 
@@ -189,7 +189,7 @@
     <script id="result-template" type="text/x-handlebars-template">
         {{#each characters}}
         <div class="character">
-            <div onclick="cp({{this.codepoint}}, '{{this.name}}')" {{#if this.isLatin}} class="latin" {{/if}}>&#x{{this.hex}};</div>
+            <div onclick="cp({{this.codepoint}}, '{{this.name}}')" {{#if this.isLatin}} class="latin" {{/if}}>&#x{{this.hex}};&#xFE0F;</div>
             <div>
                 <p><b>{{this.name}}</b></p>
                 <p><a href="#b={{this.block}}">{{this.block}}</a></p>
