@@ -41,7 +41,18 @@ class Decoder {
                     catch (e) {
                         // maybe not found because of caching??
                         console.log("error: " + e);
-                        response = yield fetch(this.functionUrl + "/api/GetBasicInfo?v=" + new Date());
+                        try {
+                            response = yield fetch(this.functionUrl + "/api/GetBasicInfo?v=" + new Date());
+                        }
+                        catch (_a) {
+                            this.basics = {
+                                categories: [],
+                                blocks: [],
+                                charCount: -1,
+                                unicodeVersion: "0.0"
+                            };
+                            return this.basics;
+                        }
                     }
                     this.basics = yield response.json();
                     console.log("got the basics");
@@ -63,6 +74,12 @@ class Decoder {
                 category: this.basics.categories[c.categoryId],
                 isLatin: c.block.indexOf("Latin") >= 0
             };
+        };
+        this.hasConnection = function () {
+            return __awaiter(this, void 0, void 0, function* () {
+                var basics = yield this.getBasics();
+                return basics.charCount > 0;
+            });
         };
         /** Get all characters in the supplied text.
             * @async

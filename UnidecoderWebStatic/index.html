@@ -4,9 +4,9 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Uni-decoder</title>
-    <script type="text/javascript" src="js/unidecoder.min.js?v=3"></script>
+    <script type="text/javascript" src="js/unidecoder.min.js?v=4"></script>
     <script type="text/javascript" src="lib/handlebars.min.js"></script>
-    <script type="text/javascript" src="js/index.js?v=3"></script>
+    <script type="text/javascript" src="js/index.js?v=4"></script>
     <link type="text/css" rel="stylesheet" href="css/site.min.css" />
 </head>
 <body>
@@ -214,36 +214,48 @@
 
     <script type="text/javascript">
         (async function () {
+
             // show spinner
             document.getElementById("spinner").style.display = "block";
             // hide "old js" message
             document.getElementById("oldjs").style.display = "none";
             document.getElementById("tablist").removeAttribute("style");
 
-            // populate the block dropdown (also pre-fetches the basic info)
-            await setBlockSelect();
-            // and show the initial list
-            await processBlockSearch('blockSelect', 'result4', 'link4', true);
+            if (await hasConnection()) {
+                try {
+                    // populate the block dropdown (also pre-fetches the basic info)
+                    await setBlockSelect();
+                    // and show the initial list
+                    await processBlockSearch('blockSelect', 'result4', 'link4', true);
 
-            // populate the category dropdown
-            await setCategorySelect();
-            // and show the initial list
-            activeCallback = null;
-            await processCategorySearch('categorySelect', 'result5', 'link5', true);
+                    // populate the category dropdown
+                    await setCategorySelect();
+                    // and show the initial list
+                    activeCallback = null;
+                    await processCategorySearch('categorySelect', 'result5', 'link5', true);
 
-            window.addEventListener("hashchange", handleHash);
-            await setCharCount();
+                    window.addEventListener("hashchange", handleHash);
+                    await setCharCount();
 
-            document.getElementById("spinner").style.display = "none";
+                    document.getElementById("spinner").style.display = "none";
 
-            for (var tabid = 1; tabid <= 5; tabid++) {
-                var tab = document.getElementById("tab" + tabid);
-                tab.classList.remove("hidden");
+                    for (var tabid = 1; tabid <= 5; tabid++) {
+                        var tab = document.getElementById("tab" + tabid);
+                        tab.classList.remove("hidden");
+                    }
+
+                    document.querySelector("div.hidden").classList.remove("hidden");
+
+                    handleHash();
+                } catch (e) {
+                    document.getElementById("spinner").style.display = "none";
+                    alert("Error calling backend code: " + e);
+                }
+            } else {
+                document.getElementById("spinner").style.display = "none";
+                alert("There is no connection to the backend!");
             }
 
-            document.querySelector("div.hidden").classList.remove("hidden");
-
-            handleHash();
         })();
     </script>
 </body>

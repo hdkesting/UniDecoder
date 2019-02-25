@@ -10,6 +10,11 @@ var activeCallback;
 const delay = 500;
 const selectDelay = 300;
 
+async function hasConnection() {
+    console.log("Testing connection");
+    return await decoder.hasConnection();
+}
+
 function setResultTemplate() {
     if (!resultTemplate) {
         var templateElement = document.getElementById('result-template');

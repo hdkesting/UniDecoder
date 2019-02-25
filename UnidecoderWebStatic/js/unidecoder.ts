@@ -56,7 +56,18 @@ class Decoder {
             } catch (e) {
                 // maybe not found because of caching??
                 console.log("error: " + e);
-                response = await fetch(this.functionUrl + "/api/GetBasicInfo?v=" + new Date());
+
+                try {
+                    response = await fetch(this.functionUrl + "/api/GetBasicInfo?v=" + new Date());
+                } catch {
+                    this.basics = {
+                        categories: [],
+                        blocks: [],
+                        charCount: -1,
+                        unicodeVersion: "0.0"
+                    }
+                    return this.basics;
+                }
             }
 
             this.basics = await response.json();
@@ -81,6 +92,12 @@ class Decoder {
             isLatin: c.block.indexOf("Latin") >= 0
         };
     }
+
+    public hasConnection = async function (): Promise<boolean> {
+        var basics = await this.getBasics();
+
+        return basics.charCount > 0;
+    } 
 
     /** Get all characters in the supplied text.
         * @async
