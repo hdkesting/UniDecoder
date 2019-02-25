@@ -207,6 +207,12 @@ class Decoder {
         return l.charCount;
     };
 
+    public getVersion = async function () {
+        var b = await this.getBasics();
+
+        return b.unicodeVersion;
+    }
+
     private fetchJson = async function (url: string, value: string) {
         var response: Response;
 

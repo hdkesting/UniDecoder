@@ -175,6 +175,10 @@ async function setCharCount() {
     var count = await decoder.getCharCount();
     var targetElement = document.getElementById("charcount");
     targetElement.innerHTML = count.toLocaleString(); // current locale, default options
+
+    targetElement = document.getElementById("version");
+    var vers = await decoder.getVersion();
+    targetElement.innerHTML = " of Unicode version " + vers;
 }
 
 function opentab(tabElement, tabContentName) {

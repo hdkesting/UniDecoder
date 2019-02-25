@@ -183,6 +183,12 @@ class Decoder {
                 return l.charCount;
             });
         };
+        this.getVersion = function () {
+            return __awaiter(this, void 0, void 0, function* () {
+                var b = yield this.getBasics();
+                return b.unicodeVersion;
+            });
+        };
         this.fetchJson = function (url, value) {
             return __awaiter(this, void 0, void 0, function* () {
                 var response;
