@@ -17,11 +17,11 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="1.0.24" />
-    <PackageReference Include="StyleCop.Analyzers" Version="1.0.2">
+    <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="UnicodeInformation" Version="2.2.1" />
+    <PackageReference Include="UnicodeInformation" Version="2.3.0.26" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />

@@ -68,8 +68,7 @@ namespace Unidecoder.Functions.Services
         public int GetTotalCharacterCount()
         {
             return Enumerable.Range(LowestPossibleCodepoint, HighestPossibleCodepoint - LowestPossibleCodepoint)
-                .Where(this.CodepointExists)
-                .Count();
+                .Count(this.CodepointExists);
         }
 
         /// <summary>
@@ -156,8 +155,8 @@ namespace Unidecoder.Functions.Services
         public List<CodepointInfo> GetCharactersOfCategory(string categoryName)
         {
             categoryName = categoryName.Replace(" ", string.Empty); // remove all spaces
-            System.Globalization.UnicodeCategory cat;
-            if (Enum.TryParse(categoryName, true, out cat))
+
+            if (Enum.TryParse(categoryName, true, out System.Globalization.UnicodeCategory cat))
             {
                 var list = Enumerable.Range(LowestPossibleCodepoint, HighestPossibleCodepoint - LowestPossibleCodepoint)
                     .Where(this.CodepointExists)

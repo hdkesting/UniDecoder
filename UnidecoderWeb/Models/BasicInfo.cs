@@ -12,7 +12,7 @@ namespace UniDecoderWeb.Models
     /// <summary>
     /// Basic information about a unicode codepoint, for display in the grid.
     /// </summary>
-    public class BasicInfo : IEquatable<BasicInfo>
+    public sealed class BasicInfo : IEquatable<BasicInfo>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="BasicInfo"/> class.

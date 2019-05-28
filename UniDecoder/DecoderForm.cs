@@ -92,7 +92,10 @@ namespace UniDecoder
                     var i = UnicodeInfo.GetCharInfo(code);
                     list.Insert(0, new BasicInfo(i));
                 }
-                catch { }
+                catch
+                {
+                    // just ignore problematic codepoints
+                }
             }
 
             if (Int32.TryParse(source,
@@ -106,7 +109,10 @@ namespace UniDecoder
                     var i = UnicodeInfo.GetCharInfo(code);
                     list.Insert(0, new BasicInfo(i));
                 }
-                catch { }
+                catch
+                {
+                    // just ignore problematic codepoints
+                }
             }
 
             return list;

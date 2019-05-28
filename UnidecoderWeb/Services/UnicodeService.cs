@@ -66,6 +66,7 @@ namespace UnidecoderWeb.Services
                 }
                 catch
                 {
+                    // just ignore problematic codepoints
                 }
             }
 
@@ -84,6 +85,7 @@ namespace UnidecoderWeb.Services
                 }
                 catch
                 {
+                    // just ignore problematic codepoints
                 }
             }
 
@@ -143,7 +145,7 @@ namespace UnidecoderWeb.Services
         /// <summary>
         /// Gets all characters.
         /// </summary>
-        /// <returns>A list of characters</returns>
+        /// <returns>A list of characters.</returns>
         public List<BasicInfo> GetAllCharacters()
         {
             var list = Enumerable.Range(0x0000, MaxCodepoint)

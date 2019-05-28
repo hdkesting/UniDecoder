@@ -23,7 +23,7 @@ namespace Unidecoder.Functions.Support
         {
             ContractResolver = new CamelCasePropertyNamesContractResolver(),
             Formatting = Formatting.None,
-            NullValueHandling = NullValueHandling.Ignore
+            NullValueHandling = NullValueHandling.Ignore,
         };
 
         /// <summary>
@@ -35,7 +35,7 @@ namespace Unidecoder.Functions.Support
         public static MediaTypeFormatter JsonFormatter => new JsonMediaTypeFormatter
         {
             SerializerSettings = JsonSerializerSettings,
-            UseDataContractJsonSerializer = false
+            UseDataContractJsonSerializer = false,
         };
     }
 }

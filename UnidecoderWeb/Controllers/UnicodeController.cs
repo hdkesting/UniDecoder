@@ -103,7 +103,7 @@ namespace UnidecoderWeb.Controllers
                     {
                         new JProperty("characters", charlist),
                         new JProperty("categories", this.GetCategoryList(catlist)),
-                        new JProperty("blocks", new JArray(blocklist))
+                        new JProperty("blocks", new JArray(blocklist)),
                     };
 
                     // write both as plain (JSON) text and as gzipped version

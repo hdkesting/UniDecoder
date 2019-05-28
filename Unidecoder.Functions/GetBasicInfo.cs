@@ -30,11 +30,13 @@ namespace Unidecoder.Functions
 
             var svc = new Services.UnicodeService();
 
-            var result = new Model.BasicInfo();
-            result.Blocks = svc.GetAllBlocks();
-            result.Categories = svc.GetAllCategories();
-            result.CharCount = svc.GetTotalCharacterCount();
-            result.UnicodeVersion = svc.GetUnicodeVersion().ToString(3);
+            var result = new Model.BasicInfo
+            {
+                Blocks = svc.GetAllBlocks(),
+                Categories = svc.GetAllCategories(),
+                CharCount = svc.GetTotalCharacterCount(),
+                UnicodeVersion = svc.GetUnicodeVersion().ToString(3),
+            };
 
             return req.CreateResponse(HttpStatusCode.OK, result, Support.Settings.JsonFormatter);
         }

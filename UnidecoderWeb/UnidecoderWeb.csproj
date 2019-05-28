@@ -26,8 +26,11 @@
     <PackageReference Include="Handlebars.js" Version="3.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.1.6" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.6" />
-    <PackageReference Include="StyleCop.Analyzers" Version="1.0.2" />
-    <PackageReference Include="UnicodeInformation" Version="2.2.1" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="UnicodeInformation" Version="2.3.0.26" />
   </ItemGroup>
 
   <ItemGroup>
