@@ -1,4 +1,10 @@
-﻿@viewport {
+@-ms-viewport {
+  width: device-width;
+}
+@-o-viewport {
+  width: device-width;
+}
+@viewport {
   width: device-width;
 }
 body {
@@ -17,8 +23,10 @@ a:visited {
   color: blue;
 }
 a:hover {
-  text-decoration-line: underline;
-  text-decoration-style: solid;
+  -webkit-text-decoration-line: underline;
+          text-decoration-line: underline;
+  -webkit-text-decoration-style: solid;
+          text-decoration-style: solid;
 }
 a.sample {
   padding: 2px;
@@ -110,4 +118,7 @@ select {
 }
 div.hidden {
   display: none;
+}
+p.no-result {
+  font-style: italic;
 }

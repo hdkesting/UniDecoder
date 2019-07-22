@@ -128,5 +128,12 @@ namespace Unidecoder.Functions.Test
             var result = this.unicodeService.GetCharactersOfCategory("other number");
             result.Count.Should().BeGreaterThan(50);
         }
+
+        [TestMethod]
+        public void GetVersion_ShouldReturnValue()
+        {
+            var result = this.unicodeService.GetUnicodeVersion();
+            result.Should().Be(new System.Version("12.1.0"));
+        }
     }
 }

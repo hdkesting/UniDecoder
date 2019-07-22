@@ -23,14 +23,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Handlebars.js" Version="3.0.0" />
+    <PackageReference Include="Handlebars.js" Version="4.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.All" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.6" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.3" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="UnicodeInformation" Version="2.3.0.26" />
+    <PackageReference Include="UnicodeInformation" Version="2.4.0" />
   </ItemGroup>
 
   <ItemGroup>
