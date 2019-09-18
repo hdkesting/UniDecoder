@@ -25,6 +25,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core+JS", "Core+JS", "{0C46
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "JS+Functions", "JS+Functions", "{47DA37B2-288A-4BFB-B8BD-60A9E2E3FEA6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unidecoder.FunctionsCore", "Unidecoder.FunctionsCore\Unidecoder.FunctionsCore.csproj", "{96BB15B8-AFB9-4637-9119-89758D6718ED}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -117,6 +119,22 @@ Global
 		{6E850A80-A68C-437F-AF60-7244A2C7F38F}.Release|x64.Build.0 = Release|Any CPU
 		{6E850A80-A68C-437F-AF60-7244A2C7F38F}.Release|x86.ActiveCfg = Release|Any CPU
 		{6E850A80-A68C-437F-AF60-7244A2C7F38F}.Release|x86.Build.0 = Release|Any CPU
+		{96BB15B8-AFB9-4637-9119-89758D6718ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{96BB15B8-AFB9-4637-9119-89758D6718ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{96BB15B8-AFB9-4637-9119-89758D6718ED}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{96BB15B8-AFB9-4637-9119-89758D6718ED}.Debug|ARM.Build.0 = Debug|Any CPU
+		{96BB15B8-AFB9-4637-9119-89758D6718ED}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{96BB15B8-AFB9-4637-9119-89758D6718ED}.Debug|x64.Build.0 = Debug|Any CPU
+		{96BB15B8-AFB9-4637-9119-89758D6718ED}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{96BB15B8-AFB9-4637-9119-89758D6718ED}.Debug|x86.Build.0 = Debug|Any CPU
+		{96BB15B8-AFB9-4637-9119-89758D6718ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{96BB15B8-AFB9-4637-9119-89758D6718ED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{96BB15B8-AFB9-4637-9119-89758D6718ED}.Release|ARM.ActiveCfg = Release|Any CPU
+		{96BB15B8-AFB9-4637-9119-89758D6718ED}.Release|ARM.Build.0 = Release|Any CPU
+		{96BB15B8-AFB9-4637-9119-89758D6718ED}.Release|x64.ActiveCfg = Release|Any CPU
+		{96BB15B8-AFB9-4637-9119-89758D6718ED}.Release|x64.Build.0 = Release|Any CPU
+		{96BB15B8-AFB9-4637-9119-89758D6718ED}.Release|x86.ActiveCfg = Release|Any CPU
+		{96BB15B8-AFB9-4637-9119-89758D6718ED}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -127,9 +145,10 @@ Global
 		{4C6FFCDE-8926-4609-B7ED-FB904398B698} = {47DA37B2-288A-4BFB-B8BD-60A9E2E3FEA6}
 		{78262D82-684B-4DF4-B760-EA28341F6128} = {47DA37B2-288A-4BFB-B8BD-60A9E2E3FEA6}
 		{6E850A80-A68C-437F-AF60-7244A2C7F38F} = {47DA37B2-288A-4BFB-B8BD-60A9E2E3FEA6}
+		{96BB15B8-AFB9-4637-9119-89758D6718ED} = {47DA37B2-288A-4BFB-B8BD-60A9E2E3FEA6}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		LessCompiler = 4c6ffcde-8926-4609-b7ed-fb904398b698
 		SolutionGuid = {C2CB8706-01F8-4103-874C-A154B69811A5}
+		LessCompiler = 4c6ffcde-8926-4609-b7ed-fb904398b698
 	EndGlobalSection
 EndGlobal
