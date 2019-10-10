@@ -1,10 +1,12 @@
 <h2>Introduction</h2>
 <div>
-  Every character (letter, digit, punctuation, emoji,...) of any language has its own codepoint and name in the Unicode character set. At least, that is what the Unicode Consortium is aiming for.
+  Every character (letter, digit, punctuation, emoji,...) of any language has its own codepoint and name in the Unicode character set.
+  At least, that is what the Unicode Consortium is aiming for.<br/>
   For more info, see the <a href="https://www.unicode.org/faq/">Unicode FAQ</a>.
 </div>
 <div>
-  Unicode only describes the name and meaning of a character, <strong>not</strong> how it should be shown on screen or in print. That is the task of the <i>font</i> and leads to some issues:
+  Unicode only describes the name and meaning of a character, <strong>not</strong> how it should be shown on screen or in print.
+  That is the task of the <i>font</i> and leads to some issues:
   <ul>
     <li>
       Specific characters may look the same on one computer (or tablet, or phone) but different on another, because of differences in the installed font.
@@ -20,7 +22,7 @@
   </ul>
 </div>
 <div>
-  This app knows details about <span id="charcount" title="actual count"><q>a lot of</q></span> characters<span id="version"></span>.
+  This app knows details about {{ characterCount }} characters {{ versionTag }}.
 </div>
 <div class="hidden">
   Use the other tabs to find out more:
