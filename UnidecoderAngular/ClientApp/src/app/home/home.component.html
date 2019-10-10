@@ -2,7 +2,7 @@
 <div>
   Every character (letter, digit, punctuation, emoji,...) of any language has its own codepoint and name in the Unicode character set.
   At least, that is what the Unicode Consortium is aiming for.<br/>
-  For more info, see the <a href="https://www.unicode.org/faq/">Unicode FAQ</a>.
+  For more info, see the <a href="https://www.unicode.org/faq/" target="_blank">Unicode FAQ</a>.
 </div>
 <div>
   Unicode only describes the name and meaning of a character, <strong>not</strong> how it should be shown on screen or in print.
@@ -12,12 +12,12 @@
       Specific characters may look the same on one computer (or tablet, or phone) but different on another, because of differences in the installed font.
       <ul>
         <li>An example: "ο" and "o" are different letters</li>
-        <li>Sometimes <a href="#s=%F0%9F%87%B3%F0%9F%87%B1">&#127475;&#127473;</a> is shown as "NL" (for instance on Windows), sometimes as a flag (for instance on Android)</li>
+        <li>Sometimes <a [routerLink]="['text', '%F0%9F%87%B3%F0%9F%87%B1']">&#127475;&#127473;</a> is shown as "NL" (for instance on Windows), sometimes as a flag (for instance on Android)</li>
       </ul>
     </li>
     <li>
       Most fonts (probably even <em>all</em>) do not support the full unicode character set
-      &ndash; which after all also includes ancient characters like <a href="#b=Cuneiform">Cuneiform</a> and others that are "not in everyday use", such as <a href="#b=Domino%20Tiles">Domino Tiles</a>.
+      &ndash; which after all also includes ancient characters like <a [routerLink]="['block', 'Cuneiform']">Cuneiform</a> and others that are "not in everyday use", such as <a [routerLink]="['block', 'Domino Tiles']">Domino Tiles</a>.
     </li>
   </ul>
 </div>
@@ -49,7 +49,7 @@
   </ul>
 </div>
 <div style="margin-top: 50px">
-  <a href="https://stackoverflow.com/users/121309/hans-kesting">
+  <a href="https://stackoverflow.com/users/121309/hans-kesting" target="_blank">
     <img src="https://stackoverflow.com/users/flair/121309.png?theme=default" width="208" height="58" alt="profile for Hans Kesting at Stack Overflow, Q&amp;A for professional and enthusiast programmers" title="profile for Hans Kesting at Stack Overflow, Q&amp;A for professional and enthusiast programmers">
   </a>
 </div>

@@ -16,3 +16,12 @@ html {
 .box-shadow {
   box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
 }
+
+.nav-item {
+  margin: 2px;
+  border: solid black 1px;
+}
+.link-active {
+  font-weight: bolder;
+  border-bottom: solid white 2px;
+}
