@@ -9,8 +9,7 @@ import { CategoryComponent } from './category/category.component';
 
 const routes: Routes = [
     { path: '', component: HomeComponent },
-    { path: 'text', redirectTo: 'text/' },
-    { path: 'text/:text', component: TextComponent },
+    { path: 'text', component: TextComponent },
     { path: 'name', redirectTo: 'name/' },
     { path: 'name/:name', component: NameComponent },
     { path: 'block', redirectTo: 'block/' },

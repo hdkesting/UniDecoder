@@ -14,23 +14,33 @@ export class HomeComponent implements OnInit {
     basicInfo: Observable<object>;
     characterCount: string = '\"a lot of\"';
     versionTag: string;
+    ready: boolean;
 
     constructor(
         private unidecoder: UnidecoderService 
     ) {
-        this.sampleChars = [getCharSample()];
+        //this.sampleChars = [getCharSample()];
     }
 
     ngOnInit() {
-        this.basicInfo = this.unidecoder.getBasics();
+        setTimeout(() => this.getBasics(this.unidecoder), 100);
+    }
+
+    getBasics(svc: UnidecoderService): void {
+        console.log("getBasics - start")
         const myObserver = {
             next: (x: Basics) => {
                 this.characterCount = x.charCount.toLocaleString();
-                this.versionTag = "of Unicode version " + x.unicodeVersion;
+                this.versionTag = " of Unicode version " + x.unicodeVersion;
             },
             error: err => { console.error('Observer got an error: ' + err); console.dir(err); },
-            complete: () => console.log('Observer got a complete notification'),
+            complete: () => {
+                this.ready = true;
+                this.sampleChars = [getCharSample()];
+                console.log("getBasics - done")
+            },
         };
+        this.basicInfo = svc.getBasics();
         this.basicInfo.subscribe(myObserver);
     }
 }

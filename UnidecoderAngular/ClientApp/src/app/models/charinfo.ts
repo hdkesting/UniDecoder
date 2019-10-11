@@ -6,10 +6,6 @@ export class Charinfo {
     codepointHex: string;
     categoryId: number;
     categoryName: string;
-
-    isLatin(): boolean {
-        return this.name.indexOf('Latin') !== -1;
-    }
 }
 
 export function getCharSample(): Charinfo {

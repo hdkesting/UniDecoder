@@ -1,17 +1,17 @@
-<div class="result">
+<div>
   <div *ngIf="!characters || !characters.length">
     <p class="no-result">No results found.</p>
   </div>
 
-  <div *ngIf="characters && characters.length">
+  <div *ngIf="characters && characters.length" class="result">
     <div class="character" *ngFor="let character of characters">
-      <div [ngClass]="{'latin': character.isLatin(), 'sample': true }">{{character.character}}</div>
+      <div [ngClass]="{'latin': isLatin(character), 'sample': true }">{{character.character}}</div>
       <div>
         <p><b>{{character.name}}</b></p>
-        <p><a [routerLink]="['block', character.block]">{{character.block}}</a></p>
-        <p><a [routerLink]="['cat', character.categoryName]"><i>{{character.categoryName}}</i></a></p>
-        <p><a [routerLink]="['name', '0x' + character.codepointHex]">{{character.codepointHex}}</a> &ndash;
-          <a [routerLink]="['name', character.codepoint]">{{character.codepoint}}</a></p>
+        <p><a [routerLink]="['/block']" [queryParams]="{block: character.block}">{{character.block}}</a></p>
+      <!--  <p><a [routerLink]="['/cat']" [queryParams]="{cat: character.categoryId}" ><i>{{categoryName(character) | async}}</i></a></p>-->
+        <p><a [routerLink]="['/name']" [queryParams]="{name: '0x' + character.codepointHex}">{{character.codepointHex}}</a> &ndash;
+          <a [routerLink]="['/name']" [queryParams]="{name: character.codepoint}">{{character.codepoint}}</a></p>
       </div>
 
     </div>

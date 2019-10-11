@@ -26,11 +26,13 @@
   <ItemGroup>
     <None Remove="ClientApp\src\app\models\basics.ts" />
     <None Remove="ClientApp\src\app\models\charinfo.ts" />
+    <None Remove="ClientApp\src\app\models\single-line.ts" />
   </ItemGroup>
 
   <ItemGroup>
     <TypeScriptCompile Include="ClientApp\src\app\models\basics.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\models\charinfo.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\models\single-line.ts" />
   </ItemGroup>
 
   <ItemGroup>

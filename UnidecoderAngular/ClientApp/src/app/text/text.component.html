@@ -1,1 +1,30 @@
-<p>text works!</p>
+<h2>Character details</h2>
+<div>Type in (or copy in) some text in the field below. Information about all characters in it will then be shown.</div>
+<div>
+  For example:
+  <dl>
+    <dt><a class="sample" [routerLink]="['/text']" [queryParams]="{text: 'Cre&#x0300;me brûlée'}">Cre&#x0300;me brûlée</a></dt>
+    <dd>A phrase with accented letters</dd>
+    <dt><a class="sample" [routerLink]="['/text']" [queryParams]="{text: '1× 🍕 à €1,‒'}">1× 🍕 à €1,‒</a></dt>
+    <dd>More exotic "letters" are possible</dd>
+    <dt>
+      <a class="sample" [routerLink]="['/text']" [queryParams]="{text: 'Рhishy@Μicrοsοﬅ.com'}">Рhishy@Μicrοsοﬅ.com</a> or
+      <a class="sample" [routerLink]="['/text']" [queryParams]="{text: 'https://аррӏе.com'}">https://аррӏе.com</a>
+    </dt>
+    <dd>You can even detect some phishy addresses (look closely at the letters)</dd>
+  </dl>
+</div>
+<div>
+  Your text to split into characters:<br />
+  <form #heroForm="ngForm" name="">
+    <input id="text" type="text" placeholder="Type in (or copy in) the text to inspect" autofocus required
+          class="form-control" [(ngModel)]="model.value" name="text" (keyup)="keyup()"/>
+  </form>
+  <!--
+    onkeypress reageert niet op "wissen" en geeft oude waarde
+    onkeyup reageert ook op cursor keys maar geeft juiste waarde
+  -->
+</div>
+<div><a href="#s=" id="link2">Shareable link</a></div>
+<app-char-list [characters]="result | async">&hellip;</app-char-list>
+
