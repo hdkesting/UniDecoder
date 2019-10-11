@@ -8,18 +8,18 @@ import { Basics } from './models/basics';
   providedIn: 'root'
 })
 export class UnidecoderService {
-    private basicInfo: Observable<object>;
+    private basicInfo: Observable<Basics>;
 
     constructor(
         private http: HttpClient
     ) { }
 
 
-    getBasics(): Observable<object> {
+    getBasics(): Observable<Basics> {
         if (!this.basicInfo) {
             const url = environment.api + '/api/GetBasicInfo';
             console.log("GETting " + url);
-            this.basicInfo = this.http.get(url);
+            this.basicInfo = this.http.get<Basics>(url);
         }
 
         return this.basicInfo;

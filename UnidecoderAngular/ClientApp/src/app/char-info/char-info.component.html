@@ -1,9 +1,0 @@
-<div class="character">
-  <div [ngClass]="{'latin': character.isLatin(), 'sample': true }">{{character.character}}</div>
-  <div>
-    <p><b>{{character.name}}</b></p>
-    <p><a [routerLink]="['block', character.block]">{{character.block}}</a></p>
-    <p><i>{{character.categoryName}}</i></p>
-    <p><a [routerLink]="['name', '0x' + this.codepointHex]">{{this.codepointHex}}</a> - <a [routerLink]="['name', this.codepoint]">{{this.codepoint}}</a></p>
-  </div>
-</div>
