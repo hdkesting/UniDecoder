@@ -40,6 +40,10 @@ export class UnidecoderService {
     }
 
     listCharacters(text: string): Observable<Charinfo[]> {
+        if (!text) {
+            return of([]);
+        }
+
         const uri = environment.api + '/api/ListCharacters?text=' + encodeURIComponent(text);
         console.log("listCharacters GET " + uri);
         return this.http.get<Charinfo[]>(uri);
@@ -57,5 +61,15 @@ export class UnidecoderService {
 
         console.log("getCategoryById: no info or categories");
         return null;
+    }
+
+    findCharacters(search: string): Observable<Charinfo[]> {
+        if (!search) {
+            return of([]);
+        }
+
+        const uri = environment.api + '/api/FindCharacters?search=' + encodeURIComponent(search);
+        console.log("findCharacters GET " + uri);
+        return this.http.get<Charinfo[]>(uri);
     }
 }

@@ -23,7 +23,7 @@ export class HomeComponent implements OnInit {
     }
 
     ngOnInit() {
-        setTimeout(() => this.getBasics(this.unidecoder), 100);
+        setTimeout(() => this.getBasics(this.unidecoder), 500);
     }
 
     getBasics(svc: UnidecoderService): void {

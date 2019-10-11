@@ -16,7 +16,7 @@
 </div>
 <div>
   Your text to split into characters:<br />
-  <form #heroForm="ngForm" name="">
+  <form>
     <input id="text" type="text" placeholder="Type in (or copy in) the text to inspect" autofocus required
           class="form-control" [(ngModel)]="model.value" name="text" (keyup)="keyup()"/>
   </form>
