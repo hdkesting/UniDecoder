@@ -16,7 +16,7 @@ export class CharListComponent implements OnInit {
     }
 
     public isLatin(char: Charinfo): boolean {
-        return char.name.indexOf('Latin') !== -1;
+        return char.block.indexOf('Latin') !== -1;
     }
 
     public async categoryName(char: Charinfo): Promise<string> {

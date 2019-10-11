@@ -4,6 +4,7 @@ import { Observable, of } from 'rxjs';
 import { environment } from '../environments/environment';
 import { Basics } from './models/basics';
 import { Charinfo } from './models/charinfo';
+import { BlockDef } from './models/blockdef';
 
 @Injectable({
   providedIn: 'root'
@@ -49,6 +50,36 @@ export class UnidecoderService {
         return this.http.get<Charinfo[]>(uri);
     }
 
+    findCharacters(search: string): Observable<Charinfo[]> {
+        if (!search) {
+            return of([]);
+        }
+
+        const uri = environment.api + '/api/FindCharacters?search=' + encodeURIComponent(search);
+        console.log("findCharacters GET " + uri);
+        return this.http.get<Charinfo[]>(uri);
+    }
+
+    findCharsByBlock(blockname: string): Observable<Charinfo[]> {
+        if (!blockname) {
+            return of([]);
+        }
+
+        const uri = environment.api + '/api/GetCharactersByType?block=' + encodeURIComponent(blockname);
+        console.log("findCharsByBlock GET " + uri);
+        return this.http.get<Charinfo[]>(uri);
+    }
+
+    findCharsByCategory(categoryname: string): Observable<Charinfo[]> {
+        if (!categoryname) {
+            return of([]);
+        }
+
+        const uri = environment.api + '/api/GetCharactersByType?category=' + encodeURIComponent(categoryname);
+        console.log("findCharsByCategory GET " + uri);
+        return this.http.get<Charinfo[]>(uri);
+    }
+
     async getCategoryById(id: number): Promise<string> {
         console.log("getCategoryById: Getting category name for " + id);
         const info = await this.getBasics().toPromise();
@@ -63,13 +94,50 @@ export class UnidecoderService {
         return null;
     }
 
-    findCharacters(search: string): Observable<Charinfo[]> {
-        if (!search) {
-            return of([]);
+    async getBlockList(): Promise<BlockDef[]> {
+        const basics = await this.getBasics().toPromise();
+
+        var l = basics.blocks;
+        var blocks: BlockDef[] = [];
+        for (var b in l) {
+            blocks.push(new BlockDef(Number(b), l[b]));
         }
 
-        const uri = environment.api + '/api/FindCharacters?search=' + encodeURIComponent(search);
-        console.log("findCharacters GET " + uri);
-        return this.http.get<Charinfo[]>(uri);
+        // in-place sort: the Latin ones first, then alphabetically
+        blocks.sort(function (a: BlockDef, b: BlockDef) {
+            // a first: return -1; b first: return 1; equal: return 0 (but I don't expect that)
+            if (a.name === b.name) {
+                return 0;
+            }
+
+            if (a.name.indexOf("Latin") >= 0) {
+                if (b.name.indexOf("Latin") >= 0) {
+                    // both "Latin"
+                    return a.name < b.name ? -1 : 1;
+                }
+                else {
+                    return -1; // latin a before non-latin b
+                }
+            } else if (b.name.indexOf("Latin") >= 0) {
+                return 1; // latin b before non-latin a
+            } else {
+                // both "non-Latin"
+                return a.name < b.name ? -1 : 1;
+            }
+        });
+
+        return blocks;
+    }
+
+    async getCategoryList(): Promise<BlockDef[]> {
+        const basics = await this.getBasics().toPromise();
+
+        var l = basics.categories;
+        var categories: BlockDef[] = [];
+        for (var b in l) {
+            categories.push(new BlockDef(Number(b), l[b]));
+        }
+
+        return categories;
     }
 }
