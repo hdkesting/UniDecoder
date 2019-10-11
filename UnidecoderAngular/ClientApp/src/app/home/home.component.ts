@@ -10,7 +10,7 @@ import { UnidecoderService } from '../unidecoder.service';
   templateUrl: './home.component.html',
 })
 export class HomeComponent implements OnInit {
-    sampleChar: Charinfo;
+    sampleChars: Charinfo[];
     basicInfo: Observable<object>;
     characterCount: string = '\"a lot of\"';
     versionTag: string;
@@ -18,7 +18,7 @@ export class HomeComponent implements OnInit {
     constructor(
         private unidecoder: UnidecoderService 
     ) {
-        this.sampleChar = getCharSample();
+        this.sampleChars = [getCharSample()];
     }
 
     ngOnInit() {

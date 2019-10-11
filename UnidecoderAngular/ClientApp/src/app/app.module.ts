@@ -15,6 +15,7 @@ import { TextComponent } from './text/text.component';
 import { NameComponent } from './name/name.component';
 import { BlockComponent } from './block/block.component';
 import { CategoryComponent } from './category/category.component';
+import { CharListComponent } from './char-list/char-list.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { CategoryComponent } from './category/category.component';
     TextComponent,
     NameComponent,
     BlockComponent,
-    CategoryComponent
+    CategoryComponent,
+    CharListComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
