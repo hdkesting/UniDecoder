@@ -9,7 +9,7 @@
       <div>
         <p><b>{{character.name}}</b></p>
         <p><a [routerLink]="['/block']" [queryParams]="{block: character.block}">{{character.block}}</a></p>
-      <!--  <p><a [routerLink]="['/cat']" [queryParams]="{cat: character.categoryId}" ><i>{{categoryName(character) | async}}</i></a></p>-->
+        <p><a [routerLink]="['/cat']" [queryParams]="{cat: character.categoryName}" ><i>{{character.categoryName}}</i></a></p>
         <p><a [routerLink]="['/name']" [queryParams]="{name: '0x' + character.codepointHex}">{{character.codepointHex}}</a> &ndash;
           <a [routerLink]="['/name']" [queryParams]="{name: character.codepoint}">{{character.codepoint}}</a></p>
       </div>

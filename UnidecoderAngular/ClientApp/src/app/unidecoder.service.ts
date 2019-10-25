@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { environment } from '../environments/environment';
 import { Basics } from './models/basics';
 import { Charinfo } from './models/charinfo';
 import { BlockDef } from './models/blockdef';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class UnidecoderService {
     private static basicInfo: Basics;
@@ -47,7 +48,7 @@ export class UnidecoderService {
 
         const uri = environment.api + '/api/ListCharacters?text=' + encodeURIComponent(text);
         console.log("listCharacters GET " + uri);
-        return this.http.get<Charinfo[]>(uri);
+        return this.getCharacters(uri);
     }
 
     findCharacters(search: string): Observable<Charinfo[]> {
@@ -57,7 +58,7 @@ export class UnidecoderService {
 
         const uri = environment.api + '/api/FindCharacters?search=' + encodeURIComponent(search);
         console.log("findCharacters GET " + uri);
-        return this.http.get<Charinfo[]>(uri);
+        return this.getCharacters(uri);
     }
 
     findCharsByBlock(blockname: string): Observable<Charinfo[]> {
@@ -67,7 +68,7 @@ export class UnidecoderService {
 
         const uri = environment.api + '/api/GetCharactersByType?block=' + encodeURIComponent(blockname);
         console.log("findCharsByBlock GET " + uri);
-        return this.http.get<Charinfo[]>(uri);
+        return this.getCharacters(uri);
     }
 
     findCharsByCategory(categoryname: string): Observable<Charinfo[]> {
@@ -77,7 +78,7 @@ export class UnidecoderService {
 
         const uri = environment.api + '/api/GetCharactersByType?category=' + encodeURIComponent(categoryname);
         console.log("findCharsByCategory GET " + uri);
-        return this.http.get<Charinfo[]>(uri);
+        return this.getCharacters(uri);
     }
 
     async getCategoryById(id: number): Promise<string> {
@@ -92,6 +93,17 @@ export class UnidecoderService {
 
         console.log("getCategoryById: no info or categories");
         return null;
+    }
+
+    private getCharacters(uri: string): Observable<Charinfo[]> {
+        return this.http.get<Charinfo[]>(uri)
+            .pipe(map((cia: Charinfo[]) => {
+                for (let ci of cia) {
+                    ci.categoryName = UnidecoderService.basicInfo.categories[ci.categoryId];
+                    console.log(ci.categoryId + "=" + ci.categoryName);
+                }
+                return cia;
+            }));
     }
 
     async getBlockList(): Promise<BlockDef[]> {
