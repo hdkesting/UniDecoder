@@ -25,7 +25,7 @@ dd {
 }
 
   dd:before {
-    content: '↪';
+    content: '☞';
     font-size: 14pt;
   }
 

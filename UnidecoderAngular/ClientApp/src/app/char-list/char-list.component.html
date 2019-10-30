@@ -5,7 +5,7 @@
 
   <div *ngIf="characters && characters.length" class="result">
     <div class="character" *ngFor="let character of characters">
-      <div [ngClass]="{'latin': isLatin(character), 'sample': true }">{{character.character}}</div>
+      <div [ngClass]="{'latin': isLatin(character), 'sample': true }" (click)="cp(character.codepoint, character.name)">{{character.character}}</div>
       <div>
         <p><b>{{character.name}}</b></p>
         <p><a [routerLink]="['/block']" [queryParams]="{block: character.block}">{{character.block}}</a></p>

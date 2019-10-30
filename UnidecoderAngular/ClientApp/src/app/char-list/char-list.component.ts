@@ -24,4 +24,9 @@ export class CharListComponent implements OnInit {
 
         return "n/a";
     }
+
+    public cp(cp: number, name: string): void {
+      let ch = String.fromCodePoint(cp);
+      window.prompt("Use Ctrl+C to copy the character '" + name + "'", ch);
+    }
 }

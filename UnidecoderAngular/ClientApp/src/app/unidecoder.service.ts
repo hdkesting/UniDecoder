@@ -22,6 +22,7 @@ export class UnidecoderService {
 
 
     getBasics(): Observable<Basics> {
+        // TODO always invoke to make sure the basicInfo exists
         if (!UnidecoderService.basicInfo && !this.basicGetter) {
             const url = environment.api + '/api/GetBasicInfo';
             console.log("getBasics GET " + url);
@@ -100,7 +101,7 @@ export class UnidecoderService {
             .pipe(map((cia: Charinfo[]) => {
                 for (let ci of cia) {
                     ci.categoryName = UnidecoderService.basicInfo.categories[ci.categoryId];
-                    console.log(ci.categoryId + "=" + ci.categoryName);
+                    // console.log(ci.categoryId + "=" + ci.categoryName);
                 }
                 return cia;
             }));
