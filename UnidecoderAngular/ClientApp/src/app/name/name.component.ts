@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Charinfo } from '../models/charinfo';
-import { Observable, of } from 'rxjs';
+import { Observable, of, fromEvent } from 'rxjs';
+import { map, filter, debounceTime, distinctUntilChanged, switchMap, flatMap } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
-import { SingleLine } from '../models/single-line';
 import { UnidecoderService } from '../unidecoder.service';
 
 @Component({
@@ -11,9 +11,11 @@ import { UnidecoderService } from '../unidecoder.service';
     styleUrls: ['./name.component.less']
 })
 export class NameComponent implements OnInit {
-    result: Observable<Charinfo[]>;
-    readonly model: SingleLine = new SingleLine();
+    result: Charinfo[];
     activeCallback;
+    searchBox: HTMLElement;
+    getter$: Observable<Charinfo[]>;
+    getting: boolean;
 
     constructor(
         private route: ActivatedRoute,
@@ -22,33 +24,41 @@ export class NameComponent implements OnInit {
     ngOnInit() {
         // keep reacting to changes in ('name') param
         this.route.queryParamMap.subscribe(parms => {
-            this.model.value = parms.get('name');
-            console.log("got NEW name param: '" + this.model.value + "'")
-            this.findCharacters(this.model);
+            const paramname = parms.get('name');
+            if (paramname) {
+                console.log("got NEW name param: '" + paramname + "'")
+                this.findCharacters(paramname);
+            }
+        });
+
+        this.searchBox = document.getElementById('searchString');
+        console.log("Got searchbox? " + this.searchBox);
+
+        this.getter$ = fromEvent(this.searchBox, 'input').pipe(
+            map((e: KeyboardEvent) => {
+                return e.target.value;
+            }),
+            filter(text => text.length > 1),
+            debounceTime(500),
+            distinctUntilChanged(),
+            flatMap((text: string) => this.findCharacters(text)),
+          );
+
+        this.getter$.subscribe(data => {
+            this.getting = false;
+            console.log("got " + data.length + " characters");
+            this.result = data;
         });
      }
 
-    keyup(): void {
-        if (this.activeCallback) {
-            console.log("cancelling previous search");
-            clearTimeout(this.activeCallback);
-            this.activeCallback = null;
-        }
+    findCharacters(text: string): Observable<Charinfo[]> {
+        console.log('getting characters for "' + text + '"');
 
-        if (this.model.value) {
-            // get results, but wait after half a second for further changes
-            this.activeCallback = setTimeout(() => this.findCharacters(this.model), 500);
-        }
-    }
-
-    findCharacters(model: SingleLine): void {
-        if (model.value) {
-            console.log("key up, value=" + model.value);
-            this.result = this.unidecoder.findCharacters(model.value);
-            console.log("got results");
+        if (text) {
+            this.getting = true;
+            return this.unidecoder.findCharacters(text);
         } else {
-            this.result = of([]);
+            return of([]);
         }
     }
-
 }
