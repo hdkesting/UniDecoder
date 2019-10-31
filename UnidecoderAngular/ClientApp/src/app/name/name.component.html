@@ -29,6 +29,6 @@
     </form>
 
   <p><a href="#q=" id="link3">Shareable link</a></p>
-  <p [hidden]="!getting">Working ...</p>
-  <app-char-list [characters]="result">&hellip;</app-char-list>
+  <p [hidden]="!getting">Working ↻</p>
+  <app-char-list [characters]="result | async">&hellip;</app-char-list>
 </div>
