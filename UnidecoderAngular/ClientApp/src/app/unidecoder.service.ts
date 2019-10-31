@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, of, pipe } from 'rxjs';
+import { map, first } from 'rxjs/operators';
 import { environment } from '../environments/environment';
 import { Basics } from './models/basics';
 import { Charinfo } from './models/charinfo';
@@ -12,7 +12,7 @@ import { BlockDef } from './models/blockdef';
 })
 export class UnidecoderService {
     private static basicInfo: Basics;
-    private basicGetter: Observable<Basics>;
+    private basicInfo$: Observable<Basics>;
 
     constructor(
         private http: HttpClient
@@ -23,10 +23,10 @@ export class UnidecoderService {
 
     getBasics(): Observable<Basics> {
         // TODO always invoke to make sure the basicInfo exists
-        if (!UnidecoderService.basicInfo && !this.basicGetter) {
+        if (!UnidecoderService.basicInfo && !this.basicInfo$) {
             const url = environment.api + '/api/GetBasicInfo';
             console.log("getBasics GET " + url);
-            this.basicGetter = this.http.get<Basics>(url);
+            this.basicInfo$ = this.http.get<Basics>(url);
 
             const myObserver = {
                 next: (x: Basics) => {
@@ -35,8 +35,8 @@ export class UnidecoderService {
                 }
             };
 
-            this.basicGetter.subscribe(myObserver);
-            return this.basicGetter;
+            this.basicInfo$.subscribe(myObserver);
+            return this.basicInfo$;
         }
 
         return of(UnidecoderService.basicInfo);
@@ -82,6 +82,7 @@ export class UnidecoderService {
         return this.getCharacters(uri);
     }
 
+    /*
     async getCategoryById(id: number): Promise<string> {
         console.log("getCategoryById: Getting category name for " + id);
         const info = await this.getBasics().toPromise();
@@ -95,22 +96,27 @@ export class UnidecoderService {
         console.log("getCategoryById: no info or categories");
         return null;
     }
+    */
 
     private getCharacters(uri: string): Observable<Charinfo[]> {
+        let localbasics: Basics;
+        this.getBasics().pipe(first()).subscribe(b => localbasics = b);
+
         return this.http.get<Charinfo[]>(uri)
             .pipe(map((cia: Charinfo[]) => {
                 for (let ci of cia) {
-                    ci.categoryName = UnidecoderService.basicInfo.categories[ci.categoryId];
+                    ci.categoryName = localbasics.categories[ci.categoryId];
                     // console.log(ci.categoryId + "=" + ci.categoryName);
                 }
                 return cia;
             }));
     }
 
-    async getBlockList(): Promise<BlockDef[]> {
-        const basics = await this.getBasics().toPromise();
+    getBlockList(): Observable<BlockDef[]> {
+        let localbasics: Basics;
+        this.getBasics().pipe(first()).subscribe(b => localbasics = b);
 
-        var l = basics.blocks;
+        var l = localbasics.blocks;
         var blocks: BlockDef[] = [];
         for (var b in l) {
             blocks.push(new BlockDef(Number(b), l[b]));
@@ -139,18 +145,19 @@ export class UnidecoderService {
             }
         });
 
-        return blocks;
+        return of(blocks);
     }
 
-    async getCategoryList(): Promise<BlockDef[]> {
-        const basics = await this.getBasics().toPromise();
+    getCategoryList(): Observable<BlockDef[]> {
+        let localbasics: Basics;
+        this.getBasics().pipe(first()).subscribe(b => localbasics = b);
 
-        var l = basics.categories;
+        var l = localbasics.categories;
         var categories: BlockDef[] = [];
         for (var b in l) {
             categories.push(new BlockDef(Number(b), l[b]));
         }
 
-        return categories;
+        return of (categories);
     }
 }

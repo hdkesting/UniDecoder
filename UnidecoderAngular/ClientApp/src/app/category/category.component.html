@@ -9,7 +9,7 @@
   </p>
   <form>
     <select id="catSelect" (change)="processChange()" class="form-control" [(ngModel)]="categoryName" name="catName">
-      <option *ngFor="let category of categories" value="{{category.name}}">{{category.name}}</option>
+      <option *ngFor="let category of categories | async" value="{{category.name}}">{{category.name}}</option>
     </select>
   </form>
   <p><a href="#b=0" id="link4">Shareable link</a></p>

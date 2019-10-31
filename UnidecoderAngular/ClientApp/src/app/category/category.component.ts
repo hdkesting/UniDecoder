@@ -11,7 +11,7 @@ import { BlockDef } from '../models/blockdef';
   styleUrls: ['./category.component.css']
 })
 export class CategoryComponent implements OnInit {
-    categories: BlockDef[];
+    categories: Observable<BlockDef[]>;
     activeCallback;
     categoryName: string;
     result: Observable<Charinfo[]>;
@@ -20,9 +20,10 @@ export class CategoryComponent implements OnInit {
         private route: ActivatedRoute,
         private unidecoder: UnidecoderService) { }
 
-    async ngOnInit() {
-        this.categories = await this.unidecoder.getCategoryList();
-        this.categoryName = this.categories[0].name;
+    ngOnInit() {
+        this.categories = this.unidecoder.getCategoryList();
+        this.categories.subscribe({ next: cats => this.categoryName = cats[0].name });
+//        this.categoryName = this.categories[0].name;
 
         this.route.queryParamMap.subscribe(parms => {
             this.categoryName = parms.get('cat');

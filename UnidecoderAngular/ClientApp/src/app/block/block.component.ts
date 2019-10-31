@@ -11,7 +11,7 @@ import { Charinfo } from '../models/charinfo';
     styleUrls: ['./block.component.css']
 })
 export class BlockComponent implements OnInit {
-    blocks: BlockDef[];
+    blocks: Observable<BlockDef[]>;
     activeCallback;
     blockName: string;
     result: Observable<Charinfo[]>;
@@ -20,9 +20,10 @@ export class BlockComponent implements OnInit {
         private route: ActivatedRoute,
         private unidecoder: UnidecoderService) { }
 
-    async ngOnInit() {
-        this.blocks = await this.unidecoder.getBlockList();
-        this.blockName = this.blocks[0].name;
+    ngOnInit() {
+        this.blocks = this.unidecoder.getBlockList();
+        this.blocks.subscribe({ next: x => this.blockName = x[0].name });
+//        this.blockName = this.blocks[0].name;
 
         this.route.queryParamMap.subscribe(parms => {
             this.blockName = parms.get('block');

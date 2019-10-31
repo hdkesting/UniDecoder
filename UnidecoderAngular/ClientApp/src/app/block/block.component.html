@@ -10,7 +10,7 @@
   </p>
   <form>
     <select id="blockSelect" (change)="processChange()" class="form-control" [(ngModel)]="blockName" name="blockName">
-      <option *ngFor="let block of blocks" value="{{block.name}}">{{block.name}}</option>
+      <option *ngFor="let block of blocks | async" value="{{block.name}}">{{block.name}}</option>
     </select>
   </form>
   <p><a href="#b=0" id="link4">Shareable link</a></p>
