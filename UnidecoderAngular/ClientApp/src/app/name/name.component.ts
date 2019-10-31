@@ -36,7 +36,7 @@ export class NameComponent implements OnInit {
 
         this.getter$ = fromEvent(this.searchBox, 'input').pipe(
             map((e: KeyboardEvent) => {
-                return e.target.value;
+                return (e.target as HTMLInputElement).value;
             }),
             filter(text => text.length > 1),
             debounceTime(500),
