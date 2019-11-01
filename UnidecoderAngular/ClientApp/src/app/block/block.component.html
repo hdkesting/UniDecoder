@@ -9,11 +9,12 @@
     <a class="sample" [routerLink]="['/block']" [queryParams]="{block: 'Hebrew'}">Hebrew</a>.
   </p>
   <form>
-    <select id="blockSelect" (change)="processChange()" class="form-control" [(ngModel)]="blockName" name="blockName">
+    <select id="blockSelect" class="form-control" [(ngModel)]="blockName" name="blockName">
       <option *ngFor="let block of blocks | async" value="{{block.name}}">{{block.name}}</option>
     </select>
   </form>
   <p><a href="#b=0" id="link4">Shareable link</a></p>
+  <p [hidden]="!getting">Working ↻</p>
   <app-char-list [characters]="result | async">&hellip;</app-char-list>
 </div>
 

@@ -113,51 +113,50 @@ export class UnidecoderService {
     }
 
     getBlockList(): Observable<BlockDef[]> {
-        let localbasics: Basics;
-        this.getBasics().pipe(first()).subscribe(b => localbasics = b);
-
-        var l = localbasics.blocks;
-        var blocks: BlockDef[] = [];
-        for (var b in l) {
-            blocks.push(new BlockDef(Number(b), l[b]));
-        }
-
-        // in-place sort: the Latin ones first, then alphabetically
-        blocks.sort(function (a: BlockDef, b: BlockDef) {
-            // a first: return -1; b first: return 1; equal: return 0 (but I don't expect that)
-            if (a.name === b.name) {
-                return 0;
-            }
-
-            if (a.name.indexOf("Latin") >= 0) {
-                if (b.name.indexOf("Latin") >= 0) {
-                    // both "Latin"
-                    return a.name < b.name ? -1 : 1;
+        return this.getBasics().pipe(
+            map(localbasics => {
+                var l = localbasics.blocks;
+                var blocks: BlockDef[] = [];
+                for (var b in l) {
+                    blocks.push(new BlockDef(Number(b), l[b]));
                 }
-                else {
-                    return -1; // latin a before non-latin b
-                }
-            } else if (b.name.indexOf("Latin") >= 0) {
-                return 1; // latin b before non-latin a
-            } else {
-                // both "non-Latin"
-                return a.name < b.name ? -1 : 1;
-            }
-        });
 
-        return of(blocks);
+                // in-place sort: the Latin ones first, then alphabetically
+                blocks.sort(function (a: BlockDef, b: BlockDef) {
+                    // a first: return -1; b first: return 1; equal: return 0 (but I don't expect that)
+                    if (a.name === b.name) {
+                        return 0;
+                    }
+
+                    if (a.name.indexOf("Latin") >= 0) {
+                        if (b.name.indexOf("Latin") >= 0) {
+                            // both "Latin"
+                            return a.name < b.name ? -1 : 1;
+                        }
+                        else {
+                            return -1; // latin a before non-latin b
+                        }
+                    } else if (b.name.indexOf("Latin") >= 0) {
+                        return 1; // latin b before non-latin a
+                    } else {
+                        // both "non-Latin"
+                        return a.name < b.name ? -1 : 1;
+                    }
+                });
+
+                return blocks;
+            }));
     }
 
     getCategoryList(): Observable<BlockDef[]> {
-        let localbasics: Basics;
-        this.getBasics().pipe(first()).subscribe(b => localbasics = b);
-
-        var l = localbasics.categories;
-        var categories: BlockDef[] = [];
-        for (var b in l) {
-            categories.push(new BlockDef(Number(b), l[b]));
-        }
-
-        return of (categories);
+        return this.getBasics().pipe(
+            map(localbasics => {
+                var l = localbasics.categories;
+                var categories: BlockDef[] = [];
+                for (var b in l) {
+                    categories.push(new BlockDef(Number(b), l[b]));
+                }
+                return categories;
+           }));
     }
 }

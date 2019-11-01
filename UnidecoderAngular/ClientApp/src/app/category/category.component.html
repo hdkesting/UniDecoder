@@ -8,11 +8,12 @@
     <a class="sample" [routerLink]="['/cat']" [queryParams]="{cat: 'Math Symbol'}">Math Symbol</a>.
   </p>
   <form>
-    <select id="catSelect" (change)="processChange()" class="form-control" [(ngModel)]="categoryName" name="catName">
+    <select id="catSelect" class="form-control" [(ngModel)]="categoryName" name="catName">
       <option *ngFor="let category of categories | async" value="{{category.name}}">{{category.name}}</option>
     </select>
   </form>
   <p><a href="#b=0" id="link4">Shareable link</a></p>
+  <p [hidden]="!getting">Working ↻</p>
   <app-char-list [characters]="result | async">&hellip;</app-char-list>
 </div>
 

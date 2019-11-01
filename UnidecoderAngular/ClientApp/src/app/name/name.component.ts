@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Charinfo } from '../models/charinfo';
-import { Observable, of, fromEvent } from 'rxjs';
-import { map, filter, debounceTime, distinctUntilChanged, switchMap, flatMap } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
+import { Observable, of, fromEvent } from 'rxjs';
+import { map, debounceTime, distinctUntilChanged, flatMap } from 'rxjs/operators';
+import { Charinfo } from '../models/charinfo';
 import { UnidecoderService } from '../unidecoder.service';
 
 @Component({
@@ -12,9 +12,7 @@ import { UnidecoderService } from '../unidecoder.service';
 })
 export class NameComponent implements OnInit {
     result: Observable<Charinfo[]>;
-    activeCallback;
     searchBox: HTMLInputElement;
-    getter$: Observable<Charinfo[]>;
     getting: boolean;
 
     constructor(
@@ -35,25 +33,14 @@ export class NameComponent implements OnInit {
         });
 
         this.result = fromEvent(this.searchBox, 'input').pipe(
-            map((e: KeyboardEvent) => {
-                return (e.target as HTMLInputElement).value;
-            }),
+            map((e: KeyboardEvent) => (e.target as HTMLInputElement).value),
             debounceTime(500),
             distinctUntilChanged(),
             flatMap((text: string) => this.findCharacters(text)),
-          );
+        );
 
-        //this.getter$.subscribe(this.processResults);
+        this.result.subscribe({ next: () => this.getting = false });
     }
-
-    /*
-    private processResults(data: Charinfo[]) {
-        this.getting = false;
-        this.result = data;
-
-        console.log("got " + this.result.length + " characters");
-    }
-    */
 
     findCharacters(text: string): Observable<Charinfo[]> {
         console.log('getting characters for "' + text + '"');
