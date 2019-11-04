@@ -28,7 +28,7 @@
              class="form-control" name="text" />
     </form>
 
-  <p><a href="#q=" id="link3">Shareable link</a></p>
+    <p *ngIf="searchname">Shareable link to search for "<a class="sample" [routerLink]="['/name']" [queryParams]="{name: searchname}">{{searchname}}</a>"</p>
   <p [hidden]="!getting">Working ↻</p>
   <app-char-list [characters]="result | async">&hellip;</app-char-list>
 </div>

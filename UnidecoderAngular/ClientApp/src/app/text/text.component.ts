@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Charinfo } from '../models/charinfo';
-import { Observable, of } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
+import { Observable, of, fromEvent } from 'rxjs';
+import { map, debounceTime, distinctUntilChanged, flatMap } from 'rxjs/operators';
 import { SingleLine } from '../models/single-line';
+import { Charinfo } from '../models/charinfo';
 import { UnidecoderService } from '../unidecoder.service';
 
 @Component({
@@ -13,41 +14,50 @@ import { UnidecoderService } from '../unidecoder.service';
 export class TextComponent implements OnInit {
     result: Observable<Charinfo[]>;
     readonly model: SingleLine = new SingleLine();
-    activeCallback;
+    searchBox: HTMLInputElement;
+    searchname: string;
+    getting: boolean;
 
     constructor(
         private route: ActivatedRoute,
         private unidecoder: UnidecoderService) { }
 
     ngOnInit() {
+        const eventName = 'input';
+        this.searchBox = document.getElementById('text') as HTMLInputElement;
+
+        // keep reacting to changes in the searchbox
+        this.result = fromEvent(this.searchBox, eventName).pipe(
+            map((e: Event) => (e.target as HTMLInputElement).value.trim()),
+            debounceTime(500),
+            distinctUntilChanged(),
+            flatMap((text: string) => this.findCharacters(text)),
+        );
+
         // keep reacting to changes in ('text') param
         this.route.queryParamMap.subscribe(parms => {
-            this.model.value = parms.get('text');
-            console.log("got NEW text param: '" + this.model.value + "'")
-            this.findCharacters(this.model);
+            this.searchname = parms.get('text');
+            if (this.searchname) {
+                this.searchBox.value = this.searchname;
+                this.searchBox.dispatchEvent(new Event(eventName));
+            }
         });
+
+        // extra (delayed) dispatch for on-start event
+        setTimeout(() => this.searchBox.dispatchEvent(new Event(eventName)), 100);
     }
 
-    keyup() {
-        if (this.activeCallback) {
-            console.log("cancelling previous search");
-            clearTimeout(this.activeCallback);
-            this.activeCallback = null;
-        }
+    findCharacters(text: string): Observable<Charinfo[]> {
+        this.searchname = text;
 
-        if (this.model.value) {
-            // get results, but wait after half a second for further changes
-            this.activeCallback = setTimeout(() => this.findCharacters(this.model), 500);
-        }
-    }
-
-    findCharacters(model: SingleLine) {
-        if (model.value) {
-            console.log("key up, value=" + model.value);
-            this.result = this.unidecoder.listCharacters(model.value);
-            console.log("got results");
+        if (text) {
+            console.log("key up, value=" + text);
+            this.getting = true;
+            let obs = this.unidecoder.listCharacters(text);
+            obs.subscribe({ next: () => this.getting = false });
+            return obs;
         } else {
-            this.result = of([]);
+            return of([]);
         }
     }
 }

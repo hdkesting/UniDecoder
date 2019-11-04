@@ -18,13 +18,13 @@
   Your text to split into characters:<br />
   <form>
     <input id="text" type="text" placeholder="Type in (or copy in) the text to inspect" autofocus required
-          class="form-control" [(ngModel)]="model.value" name="text" (keyup)="keyup()"/>
+          class="form-control" name="text" />
   </form>
   <!--
     onkeypress reageert niet op "wissen" en geeft oude waarde
     onkeyup reageert ook op cursor keys maar geeft juiste waarde
   -->
 </div>
-<div><a href="#s=" id="link2">Shareable link</a></div>
+<div *ngIf="searchname">Shareable link for <a class="sample" [routerLink]="['/text']" [queryParams]="{text: searchname}">{{searchname}}</a></div>
 <app-char-list [characters]="result | async">&hellip;</app-char-list>
 

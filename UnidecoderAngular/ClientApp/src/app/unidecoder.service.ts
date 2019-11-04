@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of, pipe } from 'rxjs';
-import { map, first } from 'rxjs/operators';
+import { map, flatMap } from 'rxjs/operators';
 import { environment } from '../environments/environment';
 import { Basics } from './models/basics';
 import { Charinfo } from './models/charinfo';
@@ -82,34 +82,17 @@ export class UnidecoderService {
         return this.getCharacters(uri);
     }
 
-    /*
-    async getCategoryById(id: number): Promise<string> {
-        console.log("getCategoryById: Getting category name for " + id);
-        const info = await this.getBasics().toPromise();
-        console.log("getCategoryById: got basics")
-        if (info && info.categories && info.categories.get) {
-            const name = info.categories.get(id);
-            console.log("getCategoryById: found " + name);
-            return name;
-        }
-
-        console.log("getCategoryById: no info or categories");
-        return null;
-    }
-    */
-
     private getCharacters(uri: string): Observable<Charinfo[]> {
-        let localbasics: Basics;
-        this.getBasics().pipe(first()).subscribe(b => localbasics = b);
-
-        return this.http.get<Charinfo[]>(uri)
-            .pipe(map((cia: Charinfo[]) => {
-                for (let ci of cia) {
-                    ci.categoryName = localbasics.categories[ci.categoryId];
-                    // console.log(ci.categoryId + "=" + ci.categoryName);
-                }
-                return cia;
-            }));
+        return this.getBasics().pipe(
+            flatMap(localbasics => this.http.get<Charinfo[]>(uri)
+                .pipe(map((cia: Charinfo[]) => {
+                    for (let ci of cia) {
+                        ci.categoryName = localbasics.categories[ci.categoryId];
+                        // console.log(ci.categoryId + "=" + ci.categoryName);
+                    }
+                    return cia;
+                }))
+            ));
     }
 
     getBlockList(): Observable<BlockDef[]> {
