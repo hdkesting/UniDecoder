@@ -23,18 +23,28 @@ export class CategoryComponent implements OnInit {
         private unidecoder: UnidecoderService) { }
 
     ngOnInit() {
+        const eventName = 'change';
         this.dropdown = document.getElementById('catSelect') as HTMLSelectElement;
 
         this.categories = this.unidecoder.getCategoryList();
-        this.categories.subscribe({ next: cats => this.categoryName = cats[0].name });
+        this.categories.subscribe({
+            next: () => setTimeout(() => {
+                this.dropdown.selectedIndex = 0;
+                setTimeout(() => this.dropdown.dispatchEvent(new Event(eventName)), 100);
+            }, 100)
+        });
 
+        // when the query param changes (a link was clicked), set the dropdown and trigger the change event
         this.route.queryParamMap.subscribe(parms => {
             this.categoryName = parms.get('cat');
             console.log("got NEW name param: '" + this.categoryName + "'")
-            this.result = this.findCharacters(this.categoryName);
+            if (this.categoryName) {
+                this.dropdown.value = this.categoryName;
+                setTimeout(() => this.dropdown.dispatchEvent(new Event(eventName)), 100);
+            }
         });
 
-        this.result = fromEvent(this.dropdown, 'change').pipe(
+        this.result = fromEvent(this.dropdown, eventName).pipe(
             map(e => (e.target as HTMLSelectElement).value),
             debounceTime(300),
             distinctUntilChanged(),

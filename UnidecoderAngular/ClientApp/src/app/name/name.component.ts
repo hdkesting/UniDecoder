@@ -38,12 +38,10 @@ export class NameComponent implements OnInit {
             if (paramname) {
                 console.log("got NEW name param: '" + paramname + "'")
                 this.searchBox.value = paramname;
-                this.searchBox.dispatchEvent(new Event(eventName));
+                // slight delay so it will also be picked up the first time
+                setTimeout(() => this.searchBox.dispatchEvent(new Event(eventName)), 50);
             }
         });
-
-        // extra (delayed) dispatch for on-start event
-        setTimeout(() => this.searchBox.dispatchEvent(new Event(eventName)), 100);
     }
 
     findCharacters(text: string): Observable<Charinfo[]> {

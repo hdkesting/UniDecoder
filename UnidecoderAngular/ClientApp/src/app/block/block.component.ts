@@ -23,18 +23,29 @@ export class BlockComponent implements OnInit {
         private unidecoder: UnidecoderService) { }
 
     ngOnInit() {
+        const eventName = 'change';
         this.dropdown = document.getElementById('blockSelect') as HTMLSelectElement;
 
         this.blocks = this.unidecoder.getBlockList();
-        this.blocks.subscribe({ next: x => this.blockName = x[0].name });
+        this.blocks.subscribe({
+            next: () => setTimeout(() => {
+                this.dropdown.selectedIndex = 0;
+                setTimeout(() => this.dropdown.dispatchEvent(new Event(eventName)), 100);
+              }, 100)
+            });
 
+        // when the query param changes (a link was clicked), set the dropdown and trigger the change event
         this.route.queryParamMap.subscribe(parms => {
             this.blockName = parms.get('block');
             console.log("got NEW block param: '" + this.blockName + "'")
-            this.result = this.findCharacters(this.blockName);
+            if (this.blockName) {
+                this.dropdown.value = this.blockName;
+                setTimeout(() => this.dropdown.dispatchEvent(new Event(eventName)), 100);
+            }
         });
 
-        this.result = fromEvent(this.dropdown, 'change').pipe(
+        // on change event, get characters for the selected block
+        this.result = fromEvent(this.dropdown, eventName).pipe(
             map(e => (e.target as HTMLSelectElement).value),
             debounceTime(300),
             distinctUntilChanged(),
@@ -45,7 +56,8 @@ export class BlockComponent implements OnInit {
     findCharacters(block: string): Observable<Charinfo[]> {
         if (block) {
             this.getting = true;
-            console.log("key up, value=" + block);
+            this.blockName = block;
+            console.log("changed to value=" + block);
             let obs = this.unidecoder.findCharsByBlock(block);
             obs.subscribe({ next: () => this.getting = false });
             return obs;
