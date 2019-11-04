@@ -27,20 +27,16 @@ export class BlockComponent implements OnInit {
         this.dropdown = document.getElementById('blockSelect') as HTMLSelectElement;
 
         this.blocks = this.unidecoder.getBlockList();
-        this.blocks.subscribe({
-            next: () => setTimeout(() => {
-                this.dropdown.selectedIndex = 0;
-                setTimeout(() => this.dropdown.dispatchEvent(new Event(eventName)), 100);
-              }, 100)
-            });
 
         // when the query param changes (a link was clicked), set the dropdown and trigger the change event
         this.route.queryParamMap.subscribe(parms => {
             this.blockName = parms.get('block');
             console.log("got NEW block param: '" + this.blockName + "'")
             if (this.blockName) {
-                this.dropdown.value = this.blockName;
-                setTimeout(() => this.dropdown.dispatchEvent(new Event(eventName)), 100);
+                setTimeout(() => {
+                    this.dropdown.value = this.blockName;
+                    setTimeout(() => this.dropdown.dispatchEvent(new Event(eventName)), 100);
+                }, this.dropdown.options.length ? 0 : 500); // hope that 500 msec is enough to get the categories AND bind them
             }
         });
 

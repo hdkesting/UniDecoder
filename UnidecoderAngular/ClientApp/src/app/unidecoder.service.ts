@@ -20,7 +20,7 @@ export class UnidecoderService {
         console.log("UnidecoderService ctor");
     }
 
-
+    // get basic information: stats and lists for dropdowns
     getBasics(): Observable<Basics> {
         // TODO always invoke to make sure the basicInfo exists
         if (!UnidecoderService.basicInfo && !this.basicInfo$) {
@@ -42,6 +42,7 @@ export class UnidecoderService {
         return of(UnidecoderService.basicInfo);
     }
 
+    // list all characters in the supplied text
     listCharacters(text: string): Observable<Charinfo[]> {
         if (!text) {
             return of([]);
@@ -52,6 +53,7 @@ export class UnidecoderService {
         return this.getCharacters(uri);
     }
 
+    // find chanracters by (partial) name
     findCharacters(search: string): Observable<Charinfo[]> {
         if (!search) {
             return of([]);
@@ -62,6 +64,7 @@ export class UnidecoderService {
         return this.getCharacters(uri);
     }
 
+    // find all chars of the supplied block
     findCharsByBlock(blockname: string): Observable<Charinfo[]> {
         if (!blockname) {
             return of([]);
@@ -72,6 +75,7 @@ export class UnidecoderService {
         return this.getCharacters(uri);
     }
 
+    // find all characters of the supplied category
     findCharsByCategory(categoryname: string): Observable<Charinfo[]> {
         if (!categoryname) {
             return of([]);

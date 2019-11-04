@@ -27,20 +27,17 @@ export class CategoryComponent implements OnInit {
         this.dropdown = document.getElementById('catSelect') as HTMLSelectElement;
 
         this.categories = this.unidecoder.getCategoryList();
-        this.categories.subscribe({
-            next: () => setTimeout(() => {
-                this.dropdown.selectedIndex = 0;
-                setTimeout(() => this.dropdown.dispatchEvent(new Event(eventName)), 100);
-            }, 100)
-        });
 
         // when the query param changes (a link was clicked), set the dropdown and trigger the change event
         this.route.queryParamMap.subscribe(parms => {
             this.categoryName = parms.get('cat');
-            console.log("got NEW name param: '" + this.categoryName + "'")
+            console.log("got NEW name param: '" + this.categoryName + "', #opts: " + this.dropdown.options.length);
             if (this.categoryName) {
-                this.dropdown.value = this.categoryName;
-                setTimeout(() => this.dropdown.dispatchEvent(new Event(eventName)), 100);
+                setTimeout(() => {
+                    console.log("cat name: " + this.categoryName);
+                    this.dropdown.value = this.categoryName;
+                    this.dropdown.dispatchEvent(new Event(eventName));
+                }, this.dropdown.options.length ? 0 : 500); // hope that 500 msec is enough to get the categories AND bind them
             }
         });
 
@@ -54,12 +51,13 @@ export class CategoryComponent implements OnInit {
 
     findCharacters(category: string): Observable<Charinfo[]> {
         if (category) {
-            console.log("key up, value=" + category);
+            console.log("selected category " + category);
             this.getting = true;
             let obs = this.unidecoder.findCharsByCategory(category);
             obs.subscribe({ next: () => this.getting = false });
             return obs;
         } else {
+            console.log("nothing selected");
             return of([]);
         }
     }
