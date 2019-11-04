@@ -7,7 +7,6 @@ namespace Unidecoder.Functions.Services
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Text;
     using System.Unicode;
     using Unidecoder.Functions.Model;
     using Unidecoder.Functions.Support;

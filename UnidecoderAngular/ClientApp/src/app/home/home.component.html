@@ -1,0 +1,59 @@
+<h2>Introduction</h2>
+<div>
+  Every character (letter, digit, punctuation, emoji,...) of any language has its own codepoint and name in the Unicode character set.
+  At least, that is what the Unicode Consortium is aiming for.<br/>
+  For more info, see the <a href="https://www.unicode.org/faq/" target="_blank">Unicode FAQ</a>.
+</div>
+<div>
+  Unicode only describes the name and meaning of a character, <strong>not</strong> how it should be shown on screen or in print.
+  That is the task of the <i>font</i> and leads to some issues:
+  <ul>
+    <li>
+      Specific characters may look the same on one computer (or tablet, or phone) but different on another, because of differences in the installed font.
+      <ul>
+        <li>An example: "ο" and "o" are different letters</li>
+        <li>Sometimes <a [routerLink]="['text']" [queryParams]="{text: '&#127475;&#127473;'}">&#127475;&#127473;</a> is shown as "NL" (for instance on Windows), sometimes as a flag (for instance on Android)</li>
+      </ul>
+    </li>
+    <li>
+      Most fonts (probably even <em>all</em>) do not support the full unicode character set
+      &ndash; which after all also includes ancient characters like <a
+              [routerLink]="['block']" [queryParams]="{block: 'Cuneiform'}">Cuneiform</a> and others that are "not in everyday use", such as <a [routerLink]="['block']" [queryParams]="{block: 'Domino Tiles'}">Domino Tiles</a>.
+    </li>
+  </ul>
+</div>
+<div>
+  This app knows details about {{ characterCount }} characters{{ versionTag }}.
+</div>
+<div [hidden]="!ready">
+  Use the tabs to find out more:
+  <ul>
+    <li><strong>Text</strong>: shows the characters in a text that you maybe copied from somewhere.</li>
+    <li><strong>Name</strong>: tries to find characters by name or codepoint.</li>
+    <li><strong>Block</strong>: shows all characters that belong to a selected block.</li>
+    <li><strong>Category</strong>: shows all characters that belong to a selected category.</li>
+  </ul>
+</div>
+
+<div [hidden]="!ready">
+  <div>Characters are shown like this:</div>
+  <div style="width:220px">
+    <app-char-list [characters]="sampleChars"></app-char-list>
+  </div>
+  <div>
+    Meaning:
+    <ul>
+      <li>(big, on a dark background) The character (in the current font). Click to copy.</li>
+      <li>(bold) The name of the character (search for this under "Name")</li>
+      <li>The block name (see "Block"). The link leads you there.</li>
+      <li>(cursive) The category of the character (see "Category"). The link leads you there.</li>
+      <li>The codepoint of the character: both hexadecimal and decimal. The links show this character and surrounding ones.</li>
+    </ul>
+  </div>
+</div>
+
+<div style="margin-top: 50px">
+  <a href="https://stackoverflow.com/users/121309/hans-kesting" target="_blank">
+    <img src="https://stackoverflow.com/users/flair/121309.png?theme=default" width="208" height="58" alt="profile for Hans Kesting at Stack Overflow, Q&amp;A for professional and enthusiast programmers" title="profile for Hans Kesting at Stack Overflow, Q&amp;A for professional and enthusiast programmers">
+  </a>
+</div>

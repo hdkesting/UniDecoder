@@ -1,0 +1,37 @@
+<div>
+  <h2>Search by name</h2>
+  <p>
+    Type in a partial name of a character or type in its code to find out about it.
+    When you type in a numerical code (decimal or hexadecimal), some characters around it will also be shown.
+    Note that some values are recognized as both decimal and hexadecimal &ndash; meaning you get more results.
+  </p>
+  <p>
+    When there are too many matches, the list is truncated. Use a more specific search (you can use multiple words in any order)
+    to get a more specific result.
+  </p>
+  <p>
+    The characters are known only by their official (english) name. When you search for something, you may need to try some alternative names.
+  </p>
+  <p>
+    Examples: <a class="sample" [routerLink]="['/name']" [queryParams]="{name: 'phone'}">phone</a>,
+    <a class="sample" [routerLink]="['/name']" [queryParams]="{name: 'star'}">star</a> or
+    <a class="sample" [routerLink]="['/name']" [queryParams]="{name: 'twelve'}">twelve</a>.
+  </p>
+  <p>
+    Or a number <a class="sample" [routerLink]="['/name']" [queryParams]="{name: '0x20AC'}">0x20AC</a> or <a class="sample" [routerLink]="['/name']" [queryParams]="{name: '8364'}">8364</a> (both the same &euro; sign).
+  </p>
+  <p>
+    Or multiple words: <a class="sample" [routerLink]="['/name']" [queryParams]="{name: 'digit circled'}">digit circled</a>
+  </p>
+  <p>
+    The name or code to search for:
+  </p>
+    <form>
+      <input id="searchString" type="text" placeholder="Type in words of the name to find" autofocus required
+             class="form-control" name="text" />
+    </form>
+
+    <p *ngIf="searchname">Shareable link to search for "<a class="sample" [routerLink]="['/name']" [queryParams]="{name: searchname}">{{searchname}}</a>"</p>
+  <p [hidden]="!getting">Working ↻</p>
+  <app-char-list [characters]="result | async">&hellip;</app-char-list>
+</div>

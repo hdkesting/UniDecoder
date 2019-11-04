@@ -1,0 +1,20 @@
+<div>
+  <h2>Search by block</h2>
+
+  <p>Characters are grouped in blocks. Select a block to see its characters.</p>
+  <p>Some characters may be replaced by an empty rectangle: this means that the current font (as installed at <em>your</em> side) cannot display it.</p>
+  <p>
+    Examples: <a class="sample" [routerLink]="['/block']" [queryParams]="{block: 'Emoticons'}">Emoticons</a>,
+    <a class="sample" [routerLink]="['/block']" [queryParams]="{block: 'Miscellaneous Symbols'}">Miscellaneous Symbols</a> or
+    <a class="sample" [routerLink]="['/block']" [queryParams]="{block: 'Hebrew'}">Hebrew</a>.
+  </p>
+  <form>
+    <select id="blockSelect" class="form-control" [(ngModel)]="blockName" name="blockName">
+      <option *ngFor="let block of blocks | async" value="{{block.name}}">{{block.name}}</option>
+    </select>
+  </form>
+  <p *ngIf="blockName">Shareable link to block <a class="sample" [routerLink]="['/block']" [queryParams]="{block: blockName}">{{blockName}}</a></p>
+  <p [hidden]="!getting">Working ↻</p>
+  <app-char-list [characters]="result | async">&hellip;</app-char-list>
+</div>
+
