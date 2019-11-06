@@ -15,6 +15,7 @@ export class HomeComponent implements OnInit {
     characterCount: string = '\"a lot of\"';
     versionTag: string;
     ready: boolean;
+    getting: boolean;
 
     constructor(
         private unidecoder: UnidecoderService 
@@ -27,7 +28,8 @@ export class HomeComponent implements OnInit {
     }
 
     getBasics(svc: UnidecoderService): void {
-        console.log("getBasics - start")
+        console.log("getBasics - start");
+        this.getting = true;
         const myObserver = {
             next: (x: Basics) => {
                 this.characterCount = x.charCount.toLocaleString();
@@ -36,6 +38,7 @@ export class HomeComponent implements OnInit {
             error: err => { console.error('Observer got an error: ' + err); console.dir(err); },
             complete: () => {
                 this.ready = true;
+                this.getting = false;
                 this.sampleChars = [getCharSample()];
                 console.log("getBasics - done")
             },

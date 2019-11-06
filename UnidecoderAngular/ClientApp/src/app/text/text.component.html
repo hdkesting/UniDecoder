@@ -18,7 +18,7 @@
   Your text to split into characters:<br />
   <form>
     <input id="text" type="text" placeholder="Type in (or copy in) the text to inspect" autofocus required
-          class="form-control" name="text" />
+           class="form-control" name="text" />
   </form>
   <!--
     onkeypress reageert niet op "wissen" en geeft oude waarde
@@ -28,3 +28,6 @@
 <div *ngIf="searchname">Shareable link for <a class="sample" [routerLink]="['/text']" [queryParams]="{text: searchname}">{{searchname}}</a></div>
 <app-char-list [characters]="result | async">&hellip;</app-char-list>
 
+<div class="spinner" [hidden]="!getting">
+  <img src="/images/spin.svg" alt="busy ..." width="80" height="80" role="spinbutton" />
+</div>

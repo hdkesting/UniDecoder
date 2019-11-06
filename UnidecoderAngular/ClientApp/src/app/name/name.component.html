@@ -26,12 +26,14 @@
   <p>
     The name or code to search for:
   </p>
-    <form>
-      <input id="searchString" type="text" placeholder="Type in words of the name to find" autofocus required
-             class="form-control" name="text" />
-    </form>
+  <form>
+    <input id="searchString" type="text" placeholder="Type in words of the name to find" autofocus required
+           class="form-control" name="text" />
+  </form>
 
-    <p *ngIf="searchname">Shareable link to search for "<a class="sample" [routerLink]="['/name']" [queryParams]="{name: searchname}">{{searchname}}</a>"</p>
-  <p [hidden]="!getting">Working ↻</p>
+  <p *ngIf="searchname">Shareable link to search for "<a class="sample" [routerLink]="['/name']" [queryParams]="{name: searchname}">{{searchname}}</a>"</p>
+  <div class="spinner" [hidden]="!getting">
+    <img src="/images/spin.svg" alt="busy ..." width="80" height="80" role="spinbutton" />
+  </div>
   <app-char-list [characters]="result | async">&hellip;</app-char-list>
 </div>

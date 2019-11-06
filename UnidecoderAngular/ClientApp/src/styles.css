@@ -42,3 +42,9 @@ a.sample {
 .ng-invalid:not(form) {
   border-left: 5px solid #a94442; /* red */
 }
+
+.spinner {
+  position: absolute;
+  top: calc(50% - 40px);
+  left: calc(50% - 40px);
+}

@@ -1,7 +1,7 @@
 <h2>Introduction</h2>
 <div>
   Every character (letter, digit, punctuation, emoji,...) of any language has its own codepoint and name in the Unicode character set.
-  At least, that is what the Unicode Consortium is aiming for.<br/>
+  At least, that is what the Unicode Consortium is aiming for.<br />
   For more info, see the <a href="https://www.unicode.org/faq/" target="_blank">Unicode FAQ</a>.
 </div>
 <div>
@@ -17,8 +17,7 @@
     </li>
     <li>
       Most fonts (probably even <em>all</em>) do not support the full unicode character set
-      &ndash; which after all also includes ancient characters like <a
-              [routerLink]="['block']" [queryParams]="{block: 'Cuneiform'}">Cuneiform</a> and others that are "not in everyday use", such as <a [routerLink]="['block']" [queryParams]="{block: 'Domino Tiles'}">Domino Tiles</a>.
+      &ndash; which after all also includes ancient characters like <a [routerLink]="['block']" [queryParams]="{block: 'Cuneiform'}">Cuneiform</a> and others that are "not in everyday use", such as <a [routerLink]="['block']" [queryParams]="{block: 'Domino Tiles'}">Domino Tiles</a>.
     </li>
   </ul>
 </div>
@@ -50,6 +49,9 @@
       <li>The codepoint of the character: both hexadecimal and decimal. The links show this character and surrounding ones.</li>
     </ul>
   </div>
+</div>
+<div class="spinner" [hidden]="!getting">
+  <img src="/images/spin.svg" alt="busy ..." width="80" height="80" role="spinbutton" />
 </div>
 
 <div style="margin-top: 50px">

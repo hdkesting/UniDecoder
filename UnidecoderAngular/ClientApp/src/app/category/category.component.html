@@ -13,7 +13,9 @@
     </select>
   </form>
   <p *ngIf="categoryName">Shareable link to category <a class="sample" [routerLink]="['/cat']" [queryParams]="{cat: categoryName}">{{categoryName}}</a></p>
-  <p [hidden]="!getting">Working ↻</p>
+  <div class="spinner" [hidden]="!getting">
+    <img src="/images/spin.svg" alt="busy ..." width="80" height="80" role="spinbutton" />
+  </div>
   <app-char-list [characters]="result | async">&hellip;</app-char-list>
 </div>
 
