@@ -11,7 +11,7 @@
     <li>
       Specific characters may look the same on one computer (or tablet, or phone) but different on another, because of differences in the installed font.
       <ul>
-        <li>An example: "ο" and "o" are different letters</li>
+        <li>An example: "ο" and "o" are different letters (<a [routerLink]="['text']" [queryParams]="{text:'prοof'}">prοof</a>)</li>
         <li>Sometimes <a [routerLink]="['text']" [queryParams]="{text: '🇳🇱'}">🇳🇱</a> is shown as "NL" (for instance on Windows), sometimes as a flag (for instance on Android)</li>
       </ul>
     </li>
