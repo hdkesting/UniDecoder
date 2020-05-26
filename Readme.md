@@ -9,12 +9,16 @@ A simple app with three functions:
 
 Based on the unicode database provided by the [UnicodeInformation](https://www.nuget.org/packages/UnicodeInformation/) nuget package.
 
-Several implementations:
+Implementations
+---------------
+
 * A winforms app to run locally
   * Project: Unidecoder
 * A website using async javascript and a download of the full character list 
   * Project: UnidecoderWeb
 * A website using Azure functions to do the action 
   * Projects: UnidecoderWebStatic, Unidecoder.Functions (.Test)
+* A website created in Angular, using Azure Functions as backend
   * Currently deployed to https://unidecoder.azurewebsites.net
+ 
 
