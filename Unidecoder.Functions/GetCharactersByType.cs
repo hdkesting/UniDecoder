@@ -10,7 +10,8 @@ namespace Unidecoder.Functions
     using System.Net.Http;
     using Microsoft.Azure.WebJobs;
     using Microsoft.Azure.WebJobs.Extensions.Http;
-    using Microsoft.Azure.WebJobs.Host;
+    using Microsoft.Extensions.Logging;
+
     using Unidecoder.Functions.Services;
 
     /// <summary>
@@ -27,17 +28,14 @@ namespace Unidecoder.Functions
         [FunctionName("GetCharactersByType")]
         public static HttpResponseMessage Run(
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = null)]HttpRequestMessage req,
-            TraceWriter log)
+            ILogger log)
         {
-            log.Info("C# HTTP trigger function processed a request.");
+            log.LogInformation("C# HTTP trigger function processed a request.");
 
             // parse query parameter
-            string block = req.GetQueryNameValuePairs()
-                .FirstOrDefault(q => string.Compare(q.Key, "block", true) == 0)
-                .Value;
-            string category = req.GetQueryNameValuePairs()
-                .FirstOrDefault(q => string.Compare(q.Key, "category", true) == 0)
-                .Value;
+            var qs = req.RequestUri.ParseQueryString();
+            string block = qs.Get("block");
+            string category = qs.Get("category");
 
             var svc = new UnicodeService();
             List<Model.CodepointInfo> list = null;

@@ -8,7 +8,7 @@ namespace Unidecoder.Functions
     using System.Net.Http;
     using Microsoft.Azure.WebJobs;
     using Microsoft.Azure.WebJobs.Extensions.Http;
-    using Microsoft.Azure.WebJobs.Host;
+    using Microsoft.Extensions.Logging;
 
     /// <summary>
     /// Gets basic information: blocks and categories, character count.
@@ -24,9 +24,9 @@ namespace Unidecoder.Functions
         [FunctionName("GetBasicInfo")]
         public static HttpResponseMessage Run(
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = null)]HttpRequestMessage req,
-            TraceWriter log)
+            ILogger log)
         {
-            log.Info("C# HTTP trigger function processed a request for basic information.");
+            log.Log(LogLevel.Information, "C# HTTP trigger function processed a request for basic information.");
 
             var svc = new Services.UnicodeService();
 

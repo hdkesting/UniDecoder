@@ -5,12 +5,12 @@
 namespace Unidecoder.Functions
 {
     using System.Collections.Generic;
-    using System.Linq;
     using System.Net;
     using System.Net.Http;
     using Microsoft.Azure.WebJobs;
     using Microsoft.Azure.WebJobs.Extensions.Http;
-    using Microsoft.Azure.WebJobs.Host;
+    using Microsoft.Extensions.Logging;
+
     using Unidecoder.Functions.Services;
 
     /// <summary>
@@ -29,14 +29,13 @@ namespace Unidecoder.Functions
         [FunctionName("FindCharacters")]
         public static HttpResponseMessage Run(
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = null)]HttpRequestMessage req,
-            TraceWriter log)
+            ILogger log)
         {
             // parse query parameter
-            string searchText = req.GetQueryNameValuePairs()
-                .FirstOrDefault(q => string.Equals(q.Key, ParameterName, System.StringComparison.OrdinalIgnoreCase))
-                .Value;
+            var qs = req.RequestUri.ParseQueryString();
+            string searchText = qs.Get(ParameterName);
 
-            log.Info($"C# HTTP trigger function processing a request to find '{searchText}'.");
+            log.Log(LogLevel.Information, "C# HTTP trigger function processing a request to find '{searchText}'.", searchText);
 
             if (string.IsNullOrWhiteSpace(searchText))
             {

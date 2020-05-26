@@ -4,12 +4,12 @@
 
 namespace Unidecoder.Functions
 {
-    using System.Linq;
     using System.Net;
     using System.Net.Http;
     using Microsoft.Azure.WebJobs;
     using Microsoft.Azure.WebJobs.Extensions.Http;
-    using Microsoft.Azure.WebJobs.Host;
+    using Microsoft.Extensions.Logging;
+
     using Unidecoder.Functions.Services;
 
     /// <summary>
@@ -28,14 +28,13 @@ namespace Unidecoder.Functions
         [FunctionName("ListCharacters")]
         public static HttpResponseMessage Run(
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = null)]HttpRequestMessage req,
-            TraceWriter log)
+            ILogger log)
         {
             // parse query parameter
-            string text = req.GetQueryNameValuePairs()
-                .FirstOrDefault(q => string.Equals(q.Key, ParameterName, System.StringComparison.OrdinalIgnoreCase))
-                .Value;
+            var qs = req.RequestUri.ParseQueryString();
+            string text = qs.Get(ParameterName);
 
-            log.Info($"{nameof(ListCharacters)} processing a request for '{text}'.");
+            log.LogInformation($"{nameof(ListCharacters)} processing a request for '{{text}}'.", text);
 
             if (string.IsNullOrEmpty(text))
             {
