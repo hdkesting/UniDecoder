@@ -1,7 +1,7 @@
 ﻿UnicodeDecoder
 ==============
 
-A simple app with three functions:
+A simple app with several unicode-related functions:
 
  1. Display information about all characters in a provided string
  2. Search for characters by name (or codepoint)
@@ -20,5 +20,6 @@ Implementations
   * Projects: UnidecoderWebStatic, Unidecoder.Functions (.Test)
 * A website created in Angular, using Azure Functions as backend
   * Currently deployed to https://unidecoder.azurewebsites.net
+  * Project: UnidecoderAngular
  
 

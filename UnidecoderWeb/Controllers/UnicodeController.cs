@@ -23,14 +23,14 @@ namespace UnidecoderWeb.Controllers
         private static readonly object Padlock = new object();
 
         private readonly UnicodeService service;
-        private readonly IHostingEnvironment environment;
+        private readonly IWebHostEnvironment environment;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="UnicodeController"/> class.
         /// </summary>
         /// <param name="service">The service.</param>
         /// <param name="environment">The environment.</param>
-        public UnicodeController(UnicodeService service, IHostingEnvironment environment)
+        public UnicodeController(UnicodeService service, IWebHostEnvironment environment)
         {
             this.service = service;
             this.environment = environment;
