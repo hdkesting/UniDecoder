@@ -12,6 +12,7 @@ namespace UnidecoderWeb
     using Microsoft.AspNetCore.StaticFiles;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Hosting;
     using Microsoft.Net.Http.Headers;
     using UnidecoderWeb.Services;
 
@@ -67,7 +68,7 @@ namespace UnidecoderWeb
         /// </remarks>
         /// <param name="app">The application.</param>
         /// <param name="env">The environment.</param>
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -80,7 +81,7 @@ namespace UnidecoderWeb
 
             app.UseStaticFiles(new StaticFileOptions { OnPrepareResponse = this.PrepareCompressedResponse });
 
-            app.UseMvc();
+            // app.UseMvc();
         }
 
         private void PrepareCompressedResponse(StaticFileResponseContext context)
