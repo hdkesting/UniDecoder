@@ -4,8 +4,8 @@
 
 export const environment = {
     production: false,
-    //api: 'https://unidecoderfunctions.azurewebsites.net'
-    api: 'http://localhost:7071'
+    api: 'https://unidecoderfunctions.azurewebsites.net'
+    //api: 'http://localhost:7071'
 };
 
 /*
