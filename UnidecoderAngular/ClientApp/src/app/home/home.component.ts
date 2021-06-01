@@ -4,7 +4,6 @@ import { Observable } from 'rxjs';
 import { Basics } from '../models/basics';
 import { UnidecoderService } from '../unidecoder.service';
 
-
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -12,13 +11,13 @@ import { UnidecoderService } from '../unidecoder.service';
 export class HomeComponent implements OnInit {
     sampleChars: Charinfo[];
     basicInfo: Observable<object>;
-    characterCount: string = '\"a lot of\"';
+    characterCount: string = '❝a lot of❞';
     versionTag: string;
     ready: boolean;
     getting: boolean;
 
     constructor(
-        private unidecoder: UnidecoderService 
+        private unidecoder: UnidecoderService
     ) {
         //this.sampleChars = [getCharSample()];
     }
