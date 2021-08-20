@@ -76,6 +76,18 @@ namespace Unidecoder.Functions.Test
         }
 
         [TestMethod]
+        public void FindByName_SearchForStarWithExclusion_ReturnsLess()
+        {
+            var result = this.unicodeService.FindByName("star");
+            var result2 = this.unicodeService.FindByName("star -egypt");
+            var result3 = this.unicodeService.FindByName("star egypt");
+
+            result2.Count.Should().BeGreaterThan(0);
+            result2.Count.Should().BeLessThan(result.Count);
+            (result2.Count + result3.Count).Should().Be(result.Count);
+        }
+
+        [TestMethod]
         public void FindAroundValue_SearchFor30_Returns16()
         {
             var result = this.unicodeService.FindAroundValue(30);

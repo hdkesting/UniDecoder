@@ -190,7 +190,15 @@ namespace Unidecoder.Functions.Services
 
             foreach (var word in searchwords)
             {
-                if (sourcewords.All(w => !w.StartsWith(word, StringComparison.OrdinalIgnoreCase)))
+                if (word.StartsWith("-"))
+                {
+                    var notword = word.Substring(1);
+                    if (sourcewords.Any(w => w.StartsWith(notword, StringComparison.OrdinalIgnoreCase)))
+                    {
+                        return false;
+                    }
+                }
+                else if(sourcewords.All(w => !w.StartsWith(word, StringComparison.OrdinalIgnoreCase)))
                 {
                     return false; // no match for this search word
                 }
