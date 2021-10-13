@@ -24,7 +24,7 @@ public class CodepointInfo
         Codepoint = fullInfo.CodePoint;
         Character = UnicodeInfo.GetDisplayText(fullInfo.CodePoint);
         CategoryId = (int)fullInfo.Category;
-        //// this.Category = fullInfo.Category.ToString().ToSeparateWords();
+        this.CategoryName = fullInfo.Category.ToString().ToSeparateWords();
     }
 
     /// <summary>
@@ -74,4 +74,9 @@ public class CodepointInfo
     /// The category.
     /// </value>
     public int CategoryId { get; }
+
+    /// <summary>
+    /// Gets the name of the Unicode category.
+    /// </summary>
+    public string CategoryName {  get; }
 }

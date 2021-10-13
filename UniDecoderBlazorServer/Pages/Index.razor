@@ -1,4 +1,5 @@
 ﻿@page "/"
+@using UniDecoderBlazorServer.Models
 @inject UnidecoderService myservice
 
 <PageTitle>Introduction</PageTitle>
@@ -43,10 +44,10 @@
 <div >
   <div>Characters are shown like this:</div>
   <div style="width:220px">
-    @*<app-char-list [characters]="sampleChars"></app-char-list>*@
+    <CharData Character=@sample/>
   </div>
   <div>
-    Meaning:
+    Explanation:
     <ul>
       <li>(big, on a dark background) The character (in the current font). Click to copy.</li>
       <li>(bold) The name of the character (search for this under "Name")</li>
@@ -56,10 +57,8 @@
     </ul>
   </div>
 </div>
-@*<div class="spinner" >
-  <img src="/images/spin.svg" alt="busy ..." width="80" height="80" role="spinbutton" />
-</div>
-*@
+
+<!-- StackOverflow flair -->
 <div style="margin-top: 50px">
   <a href="https://stackoverflow.com/users/121309/hans-kesting" target="_blank">
     <img src="https://stackoverflow.com/users/flair/121309.png?theme=default" width="208" height="58" alt="profile for Hans Kesting at Stack Overflow, Q&amp;A for professional and enthusiast programmers" title="profile for Hans Kesting at Stack Overflow, Q&amp;A for professional and enthusiast programmers">
@@ -70,11 +69,13 @@
 {
     string unicodeVersion = "?";
     int characterCount;
+    CodepointInfo sample = null!;
 
     protected override void OnInitialized()
     {
-       unicodeVersion = myservice.GetUnicodeVersion().ToString();
+        unicodeVersion = myservice.GetUnicodeVersion().ToString();
         characterCount = myservice.GetTotalCharacterCount();
+        sample = myservice.ListCharacters("a").Single();
     }
 
 }
