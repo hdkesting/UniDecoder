@@ -1,35 +1,34 @@
-﻿div.character {
+﻿article {
     border: 1px solid black;
-    margin: 2px;
+    margin: 10px;
     min-width: 200px;
     flex-basis: auto;
     border-radius: 0 5px 5px 5px;
-    box-shadow: 10px 5px 5px lightgray;
+    box-shadow: 5px 3px 3px lightgray;
 }
 
-    div div {
+    article div {
         /*float: left;*/
         margin: 0;
         padding: 5px;
     }
 
-    div p {
+    article p {
         margin: 0;
     }
 
-div div.sample {
-    font-size: 36pt;
-    float: left;
-    min-width: 40px;
-    min-height: 50px;
-    background-color: #C0C0C0;
-    margin-bottom: 20px;
-    margin-right: 2px;
-    cursor: copy;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    box-shadow: inset 5px 2px 2px lightgray;
-}
+    article div.sample {
+        font-size: 36pt;
+        float: left;
+        min-width: 40px;
+        min-height: 50px;
+        background-color: #C0C0C0;
+        margin-bottom: 20px;
+        margin-right: 2px;
+        cursor: copy;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
 
-    div div.latin {
+    article div.latin {
         background-color: #C0C0A0;
     }

@@ -28,5 +28,11 @@
     </div>
 
     <script src="_framework/blazor.server.js"></script>
+    <script>
+        function cp(cp, name) {
+            let ch = String.fromCodePoint(cp);
+            window.prompt("Use Ctrl+C to copy the character '" + name + "'", ch);
+        }
+    </script>
 </body>
 </html>
