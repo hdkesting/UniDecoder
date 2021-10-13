@@ -1,7 +1,6 @@
 ﻿@page "/text"
-@page "/text/{IntParam:int}"
 @page "/text/{TextParam}"
-@using System.Globalization
+
 @using System.Web
 @using UniDecoderBlazorServer.Models
 @inject UnidecoderService myservice
@@ -34,15 +33,10 @@
       @onkeyup of @oninput lijkt alleen de eerste keer te reageren (na focus) en geeft dan nog een oude searchtext
   *@
 </div>
-@*
-<div class="spinner" [hidden]="!getting">
-  <img src="/images/spin.svg" alt="busy ..." width="80" height="80" role="spinbutton" />
-</div>
-*@
 
 @if (!string.IsNullOrEmpty(SearchText))
 {
-    <div>Shareable link for <a class="sample" href="/text/@SearchText">@SearchText</a></div>
+    <div>Shareable link for <a class="sample" href="/text/@Uri.EscapeDataString(SearchText)">@SearchText</a></div>
 }
 
 @if (Characters is not null && Characters.Any())
@@ -65,26 +59,24 @@ else
     [Parameter]
     public string? TextParam { get; set; }
 
-    [Parameter]
-    public int? IntParam{ get; set; }
-
     public List<CodepointInfo>? Characters{ get; set; }
 
     protected override void OnParametersSet()
     {
-        if (IntParam.HasValue)
-        {
-            SearchText = IntParam.Value.ToString(CultureInfo.InvariantCulture);
-        }
-        else if (!string.IsNullOrWhiteSpace(TextParam))
+        if (!string.IsNullOrWhiteSpace(TextParam))
         {
             SearchText = HttpUtility.HtmlDecode(Uri.UnescapeDataString(TextParam));
+        }
+
+        if (!string.IsNullOrWhiteSpace(SearchText))
+        {
+            PerformSearch(new ChangeEventArgs());
         }
     }
 
     private void PerformSearch(ChangeEventArgs args)
     {
-       // System.Diagnostics.Debug.WriteLine(SearchText);
+        // System.Diagnostics.Debug.WriteLine(SearchText);
         if (!string.IsNullOrWhiteSpace(SearchText))
         {
             Characters = myservice.ListCharacters(SearchText);

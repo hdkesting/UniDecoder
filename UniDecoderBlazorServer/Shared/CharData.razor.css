@@ -2,6 +2,7 @@
     border: 1px solid black;
     margin: 10px;
     min-width: 200px;
+    max-width: 300px;
     flex-basis: auto;
     border-radius: 0 5px 5px 5px;
     box-shadow: 5px 3px 3px lightgray;
