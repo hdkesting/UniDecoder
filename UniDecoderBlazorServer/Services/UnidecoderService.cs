@@ -10,6 +10,11 @@ public class UnidecoderService
     private const int MaxResultCount = 80;
     private const int LowestPossibleCodepoint = 0x0000;
     private const int HighestPossibleCodepoint = 0x10FFFF;
+
+    private int? totalCharacterCount;
+
+    public int MaxResults => MaxResultCount;
+
     /// <summary>
     /// Lists the characters in the supplied <paramref name="input"/>.
     /// </summary>
@@ -56,7 +61,8 @@ public class UnidecoderService
     /// <returns>The count.</returns>
     public int GetTotalCharacterCount()
     {
-        return Enumerable.Range(LowestPossibleCodepoint, HighestPossibleCodepoint - LowestPossibleCodepoint)
+        // the count does not change, so cache it
+        return totalCharacterCount ??= Enumerable.Range(LowestPossibleCodepoint, HighestPossibleCodepoint - LowestPossibleCodepoint)
             .Count(this.CodepointExists);
     }
 
@@ -70,7 +76,7 @@ public class UnidecoderService
     }
 
     /// <summary>
-    /// Finds the characters by their name.
+    /// Finds the characters by their name, returning the first <see cref="MaxResults"/> matches.
     /// </summary>
     /// <param name="searchText">The search text.</param>
     /// <returns>A list of <see cref="CodepointInfo"/>.</returns>
@@ -152,7 +158,7 @@ public class UnidecoderService
                 .Where(cp => UnicodeInfo.GetCategory(cp) == cat)
                 .Select(UnicodeInfo.GetCharInfo)
                 .Select(it => new CodepointInfo(it))
-                .Take(200)
+                //.Take(200)
                 .ToList();
 
             return list;

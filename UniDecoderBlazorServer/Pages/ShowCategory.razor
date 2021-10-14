@@ -39,6 +39,7 @@
 
 @if (Characters is not null && Characters.Any())
 {
+    <p>This category contains @Characters.Count characters.</p>
     <section>
     @foreach(var ch in Characters)
     {
@@ -72,6 +73,10 @@ else
     protected override void OnInitialized()
     {
         Categories = myservice.GetAllCategories().Select(di => di.Value).OrderBy(n => n).ToList();
+        if (string.IsNullOrEmpty(CategoryName))
+        {
+            CategoryName = "Lowercase Letter";
+        }
     }
 
     private void PerformSearch()

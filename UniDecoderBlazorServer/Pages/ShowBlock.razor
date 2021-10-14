@@ -29,6 +29,7 @@
 
 @if (Characters is not null && Characters.Any())
 {
+    <p>This block contains @Characters.Count characters.</p>
     <section>
     @foreach(var ch in Characters)
     {
@@ -60,7 +61,12 @@ else
 
     protected override void OnInitialized()
     {
-        Blocks = myservice.GetAllBlocks().Select(di => di.Value).OrderBy(n => n).ToList();
+        // ordering: *first* the ones containing "Latin", *then* the others (false<true)
+        Blocks = myservice.GetAllBlocks().Select(di => di.Value).OrderBy(n => !n.Contains("Latin")).ThenBy(n => n).ToList();
+        if (string.IsNullOrEmpty(BlockName))
+        {
+            BlockName = Blocks.First();
+        }
     }
 
     private void PerformSearch(EventArgs args)
