@@ -34,19 +34,7 @@
     <div>Shareable link for <a class="sample" href="text/@Uri.EscapeDataString(SearchText)">@SearchText</a></div>
 }
 
-@if (Characters is not null && Characters.Any())
-{
-    <section>
-    @foreach(var ch in Characters)
-    {
-        <CharData Character=@ch/>
-    }
-    </section>
-}
-else
-{
-    <p>Please enter a text to investigate.</p>
-}
+<CharList Characters=Characters EmptyListMessage="Please enter a text to investigate." />
 
 @code {
     private string? _searchText;
@@ -79,6 +67,10 @@ else
         if (!string.IsNullOrWhiteSpace(SearchText))
         {
             Characters = myservice.ListCharacters(SearchText);
+        }
+        else
+        {
+            Characters = new List<CodepointInfo>();
         }
     }
 }

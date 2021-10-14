@@ -15,7 +15,7 @@
     to get a more specific result.
   </p>
   <p>
-    The characters are known only by their official (english) name. When you search for something, you may need to try some alternative names.
+    The characters are known only by their official (english) name. When you search for something specific, you may need to try some alternative names.
   </p>
   <p>
     Examples: <a class="sample" href="name/phone">phone</a>,
@@ -42,24 +42,7 @@
     <div>Shareable link for <a class="sample" href="name/@Uri.EscapeDataString(SearchText)">@SearchText</a></div>
 }
 
-@if (Characters is not null && Characters.Any())
-{
-    <section>
-    @foreach(var ch in Characters)
-    {
-        <CharData Character=@ch/>
-    }
-    @if (ResultsIsCapped)
-        {
-            <p>(and more &hellip;)</p>
-        }
-    </section>
-}
-else
-{
-    <p>Please enter a text to search for.</p>
-}
-
+<CharList Characters=Characters EmptyListMessage="Please enter a text to search for." Capped=ResultsIsCapped />
 
 @code {
     private string? _searchtext;
@@ -115,6 +98,11 @@ else
                 Characters = myservice.FindByName(SearchText);
                 ResultsIsCapped = Characters.Count >= myservice.MaxResults;
             }
+        }
+        else
+        {
+            Characters = new List<CodepointInfo>();
+            ResultsIsCapped = false;
         }
     }
 

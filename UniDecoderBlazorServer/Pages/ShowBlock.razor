@@ -26,20 +26,8 @@
     <div>Shareable link for <a class="sample" href="block/@Uri.EscapeDataString(BlockName)">@BlockName</a></div>
 }
 
-@if (Characters is not null && Characters.Any())
-{
-    <p>This block contains @Characters.Count characters.</p>
-    <section>
-    @foreach(var ch in Characters)
-    {
-        <CharData Character=@ch/>
-    }
-    </section>
-}
-else
-{
-    <p>Please select a block to investigate.</p>
-}
+<CharList Characters=Characters EmptyListMessage="Please select a block to investigate." CountMessageFormat="This block contains {0} characters." />
+
 
 @code {
     private string? _blockName;
@@ -73,6 +61,10 @@ else
         if (!string.IsNullOrEmpty(BlockName))
         {
             Characters = myservice.GetCharactersOfBlock(BlockName);
+        }
+        else
+        {
+            Characters = new List<CodepointInfo>();
         }
     }
 }
