@@ -6,10 +6,10 @@
         onclick="cp(@Character.Codepoint, '@Character.Name')">@Character.Character</div>
     <div>
     <p><b>@Character.Name</b></p>
-    <p><a href="/block/@Uri.EscapeDataString(Character.Block)">@Character.Block</a></p>
-    <p><a href="/cat/@Uri.EscapeDataString(Character.CategoryName)"><i>@Character.CategoryName</i></a></p>
-    <p><a href="/name/@Uri.EscapeDataString("0x" + Character.CodepointHex)">@Character.CodepointHex</a> &ndash;
-        <a href="/name/@Uri.EscapeDataString(Character.Codepoint.ToString(CultureInfo.InvariantCulture))">@Character.Codepoint</a></p>
+    <p><a href="block/@Uri.EscapeDataString(Character.Block)">@Character.Block</a></p>
+    <p><a href="cat/@Uri.EscapeDataString(Character.CategoryName)"><i>@Character.CategoryName</i></a></p>
+    <p><a href="name/@Uri.EscapeDataString("0x" + Character.CodepointHex)">@Character.CodepointHex</a> &ndash;
+        <a href="name/@Uri.EscapeDataString(Character.Codepoint.ToString(CultureInfo.InvariantCulture))">@Character.Codepoint</a></p>
     </div>
 </article>
 

@@ -7,9 +7,9 @@
   <p>Characters are grouped in blocks. Select a block to see its characters.</p>
   <p>Some characters may be replaced by an empty rectangle: this means that the current font (as installed at <em>your</em> side) cannot display it.</p>
   <p>
-    Examples: <a class="sample" href="/block/Emoticons">Emoticons</a>,
-    <a class="sample" href="/block/Miscellaneous%20Symbols">Miscellaneous Symbols</a> or
-    <a class="sample" href="/block/Hebrew">Hebrew</a>.
+    Examples: <a class="sample" href="block/Emoticons">Emoticons</a>,
+    <a class="sample" href="block/Miscellaneous%20Symbols">Miscellaneous Symbols</a> or
+    <a class="sample" href="block/Hebrew">Hebrew</a>.
   </p>
 
 @if (Blocks is not null)
@@ -23,7 +23,7 @@
 }
 @if (!string.IsNullOrEmpty(BlockName))
 {
-    <div>Shareable link for <a class="sample" href="/block/@Uri.EscapeDataString(BlockName)">@BlockName</a></div>
+    <div>Shareable link for <a class="sample" href="block/@Uri.EscapeDataString(BlockName)">@BlockName</a></div>
 }
 
 @if (Characters is not null && Characters.Any())

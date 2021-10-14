@@ -11,13 +11,13 @@
 <div>
   For example:
   <dl>
-    <dt><a class="sample" href="/text/@Uri.EscapeDataString("Cre&#x0300;me brûlée")">Cre&#x0300;me brûlée</a></dt>
+    <dt><a class="sample" href="text/@Uri.EscapeDataString("Cre&#x0300;me brûlée")">Cre&#x0300;me brûlée</a></dt>
     <dd>A phrase with accented letters</dd>
-    <dt><a class="sample" href="/text/@Uri.EscapeDataString("1× 🍕 à €1,‒")">1× 🍕 à €1,‒</a></dt>
+    <dt><a class="sample" href="text/@Uri.EscapeDataString("1× 🍕 à €1,‒")">1× 🍕 à €1,‒</a></dt>
     <dd>More exotic "letters" are possible</dd>
     <dt>
-      <a class="sample" href="/text/@Uri.EscapeDataString("Рhishy@Μicrοsοﬅ.com")">Рhishy@Μicrοsοﬅ.com</a> or
-      <a class="sample" href="/text/@Uri.EscapeDataString("https://аррӏе.com")">https://аррӏе.com</a>
+      <a class="sample" href="text/@Uri.EscapeDataString("Рhishy@Μicrοsοﬅ.com")">Рhishy@Μicrοsοﬅ.com</a> or
+      <a class="sample" href="text/@Uri.EscapeDataString("https://аррӏе.com")">https://аррӏе.com</a>
     </dt>
     <dd>You can even detect some phishy addresses (look closely at the letters)</dd>
   </dl>
@@ -31,7 +31,7 @@
 
 @if (!string.IsNullOrEmpty(SearchText))
 {
-    <div>Shareable link for <a class="sample" href="/text/@Uri.EscapeDataString(SearchText)">@SearchText</a></div>
+    <div>Shareable link for <a class="sample" href="text/@Uri.EscapeDataString(SearchText)">@SearchText</a></div>
 }
 
 @if (Characters is not null && Characters.Any())

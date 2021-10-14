@@ -18,18 +18,18 @@
     The characters are known only by their official (english) name. When you search for something, you may need to try some alternative names.
   </p>
   <p>
-    Examples: <a class="sample" href="/name/phone">phone</a>,
-    <a class="sample" href="/name/star">star</a> or
-    <a class="sample" href="/name/twelve">twelve</a>.
+    Examples: <a class="sample" href="name/phone">phone</a>,
+    <a class="sample" href="name/star">star</a> or
+    <a class="sample" href="name/twelve">twelve</a>.
   </p>
   <p>
-    Or a number <a class="sample" href="/name/0x20AC">0x20AC</a> or <a class="sample" href="/name/8364">8364</a> (both the same &euro; sign).
+    Or a number <a class="sample" href="name/0x20AC">0x20AC</a> or <a class="sample" href="name/8364">8364</a> (both the same &euro; sign).
   </p>
   <p>
-    Or multiple words: <a class="sample" href="/name/digit%20circled">digit circled</a>
+    Or multiple words: <a class="sample" href="name/digit%20circled">digit circled</a>
   </p>
   <p>
-    Or if you want to find <em>un</em>circled digits: <a class="sample" href="/name/digit%20-circled">digit <mark>-</mark>circled</a>
+    Or if you want to find <em>un</em>circled digits: <a class="sample" href="name/digit%20-circled">digit <mark>-</mark>circled</a>
   </p>
   <p>
     The name or code to search for:
@@ -39,7 +39,7 @@
 
 @if (!string.IsNullOrEmpty(SearchText))
 {
-    <div>Shareable link for <a class="sample" href="/name/@Uri.EscapeDataString(SearchText)">@SearchText</a></div>
+    <div>Shareable link for <a class="sample" href="name/@Uri.EscapeDataString(SearchText)">@SearchText</a></div>
 }
 
 @if (Characters is not null && Characters.Any())
