@@ -24,11 +24,15 @@
   </dl>
 </div>
 <div>
-  Your text to split into characters:<br />
-  <form>
-    <input placeholder="Type in (or copy in) the text to inspect" autofocus required
-           class="form-control" @bind=SearchText @oninput=PerformSearch/>
-  </form>
+<p>Type or paste your text to split into characters:</p>
+  @*<form>*@
+    <input placeholder="Enter the text to inspect" autofocus required
+           class="form-control" @bind=SearchText />
+           @* @oninput=PerformSearch*@
+    <button @onclick=@PerformSearch class="btn btn-info" style="margin: 5px;" >
+         <span class="oi oi-magnifying-glass" aria-hidden="true"></span> Split
+    </button>
+  @*</form>*@
   @*
       @onkeyup of @oninput lijkt alleen de eerste keer te reageren (na focus) en geeft dan nog een oude searchtext
   *@
@@ -75,6 +79,11 @@ else
     }
 
     private void PerformSearch(ChangeEventArgs args)
+    {
+        PerformSearch();
+    }
+
+    private void PerformSearch()
     {
         // System.Diagnostics.Debug.WriteLine(SearchText);
         if (!string.IsNullOrWhiteSpace(SearchText))

@@ -35,10 +35,12 @@
   <p>
     The name or code to search for:
   </p>
-  <form>
-    <input  type="text" placeholder="Type in words of the name to find" autofocus required
-           class="form-control" @bind=SearchText @oninput=PerformSearch />
-  </form>
+    <input  type="text" placeholder="The name to find" autofocus required
+           class="form-control" @bind=SearchText />
+            @* @oninput=PerformSearch*@
+    <button @onclick=@PerformSearch class="btn btn-info" style="margin: 5px;" >
+         <span class="oi oi-magnifying-glass" aria-hidden="true"></span> Search
+    </button>
 
 @if (!string.IsNullOrEmpty(SearchText))
 {
@@ -84,11 +86,16 @@ else
 
         if (!string.IsNullOrWhiteSpace(SearchText))
         {
-            PerformSearch(new ChangeEventArgs());
+            PerformSearch();
         }
     }
 
     private void PerformSearch(ChangeEventArgs args)
+    {
+        PerformSearch();
+    }
+
+    private void PerformSearch()
     {
         // System.Diagnostics.Debug.WriteLine(SearchText);
         if (!string.IsNullOrWhiteSpace(SearchText))
