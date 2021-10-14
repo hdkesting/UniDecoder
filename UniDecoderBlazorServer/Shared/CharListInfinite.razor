@@ -21,18 +21,8 @@ else
     <p>@EmptyListMessage</p>
 }
 @code {
-    private List<CodepointInfo>? _characters;
-
     [Parameter]
-    public List<CodepointInfo>? Characters
-    {
-        get => _characters;
-        set
-        {
-            _characters = value;
-            StateHasChanged();
-        }
-    }
+    public List<CodepointInfo>? Characters { get; set; }
 
     [Parameter]
     public string? EmptyListMessage{ get; set; }
