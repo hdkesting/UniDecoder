@@ -2,7 +2,6 @@
 @page "/text/{TextParam}"
 
 @using System.Web
-@using UniDecoderBlazorServer.Models
 @inject UnidecoderService myservice
 
 <PageTitle>Character details</PageTitle>
@@ -27,6 +26,7 @@
     <p>Type or paste your text to split into characters:</p>
     <input placeholder="Enter the text to inspect" autofocus required
            class="form-control" @bind=SearchText @bind:event="oninput"/>
+    @* @bind is two-way binding, @bind:event="oninput" updates the binding on every keystroke *@
 </div>
 
 @if (!string.IsNullOrEmpty(SearchText))
@@ -76,7 +76,6 @@ else
 
     private void PerformSearch()
     {
-        // System.Diagnostics.Debug.WriteLine(SearchText);
         if (!string.IsNullOrWhiteSpace(SearchText))
         {
             Characters = myservice.ListCharacters(SearchText);

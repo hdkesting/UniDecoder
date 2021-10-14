@@ -1,6 +1,5 @@
 ﻿@page "/cat"
 @page "/cat/{CategoryName}"
-@using UniDecoderBlazorServer.Models
 @inject UnidecoderService myservice
 
   <h2>Search by category</h2>
@@ -11,17 +10,6 @@
     <a class="sample" href="/cat/Other%20Number">Other Number</a> or
     <a class="sample" href="/cat/Math%20Symbol">Math Symbol</a>.
   </p>
-@*  <form>
-    <select id="catSelect" class="form-control" [(ngModel)]="categoryName" name="catName">
-      <option *ngFor="let category of categories | async" value="{{category.name}}">{{category.name}}</option>
-    </select>
-  </form>
-  <p *ngIf="categoryName">Shareable link to category <a class="sample" [routerLink]="['/cat']" [queryParams]="{cat: categoryName}">{{categoryName}}</a></p>
-  <div class="spinner" [hidden]="!getting">
-    <img src="/images/spin.svg" alt="busy ..." width="80" height="80" role="spinbutton" />
-  </div>
-  <app-char-list [characters]="result | async">&hellip;</app-char-list>
-*@
 
 @if (Categories is not null)
 {

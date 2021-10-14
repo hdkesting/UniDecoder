@@ -1,7 +1,6 @@
 ﻿@page "/name"
 @page "/name/{IntParam:int}"
 @page "/name/{Name}"
-@using UniDecoderBlazorServer.Models
 
 @inject UnidecoderService myservice
 
@@ -37,11 +36,7 @@
   </p>
     <input  type="text" placeholder="The name to find" autofocus required
            class="form-control" @bind=SearchText @bind:event="oninput"/>
-            @* @oninput=PerformSearch*@
-@*    <button @onclick=@PerformSearch class="btn btn-info" style="margin: 5px;" >
-         <span class="oi oi-magnifying-glass" aria-hidden="true"></span> Search
-    </button>
-*@
+
 @if (!string.IsNullOrEmpty(SearchText))
 {
     <div>Shareable link for <a class="sample" href="/name/@Uri.EscapeDataString(SearchText)">@SearchText</a></div>
@@ -144,5 +139,4 @@ else
             ? code
             : default(int?);
     }
-
 }

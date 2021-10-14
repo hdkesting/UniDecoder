@@ -1,6 +1,5 @@
 ﻿@page "/block"
 @page "/block/{BlockName}"
-@using UniDecoderBlazorServer.Models
 @inject UnidecoderService myservice
 
   <h2>Search by block</h2>
@@ -61,7 +60,7 @@ else
 
     protected override void OnInitialized()
     {
-        // ordering: *first* the ones containing "Latin", *then* the others (false<true)
+        // ordering: *first* the ones containing "Latin", *then* the others (false < true)
         Blocks = myservice.GetAllBlocks().Select(di => di.Value).OrderBy(n => !n.Contains("Latin")).ThenBy(n => n).ToList();
         if (string.IsNullOrEmpty(BlockName))
         {
