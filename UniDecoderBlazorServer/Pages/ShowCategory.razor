@@ -25,7 +25,7 @@
     <div>Shareable link for <a class="sample" href="cat/@Uri.EscapeDataString(CategoryName)">@CategoryName</a></div>
 }
 
-<CharList Characters=Characters EmptyListMessage="Please select a category to investigate." CountMessageFormat="This category contains {0} characters." />
+<CharListInfinite Characters=Characters EmptyListMessage="Please select a category to investigate." CountMessageFormat="This category contains {0} characters." />
 
 @code {
     private string? _categoryName;
