@@ -4,6 +4,11 @@
 @inject IJSRuntime JSRuntime
 @implements IAsyncDisposable
 
+@*
+ https://www.meziantou.net/infinite-scrolling-in-blazor.htm
+ needs a supporting js file: wwwroot/js/infinite-scrolling.js
+*@
+
 @foreach (var item in _items)
 {
     @ItemTemplate(item)
@@ -63,6 +68,11 @@
         }
 
         StateHasChanged(); // Display the new items and hide the loading indicator
+    }
+
+    protected override void OnParametersSet()
+    {
+        _items = new();
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
