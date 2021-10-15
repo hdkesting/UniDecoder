@@ -13,7 +13,7 @@
 
 @if (Categories is not null)
 {
-    <select class="form-control" @bind=CategoryName>
+    <select class="form-control" @bind=CategoryName title="Select a category to show">
         @foreach (var cat in Categories)
         {
             <option value=@cat>@cat</option>
@@ -47,7 +47,10 @@
 
     protected override void OnInitialized()
     {
-        Categories = myservice.GetAllCategories().Select(di => di.Value).OrderBy(n => n).ToList();
+        Categories = myservice.GetAllCategories()
+            .Select(di => di.Value)
+            .Where(n => n != "Other Not Assigned")
+            .OrderBy(n => n).ToList();
         if (string.IsNullOrEmpty(CategoryName))
         {
             CategoryName = "Lowercase Letter";

@@ -14,7 +14,7 @@
 
 @if (Blocks is not null)
 {
-    <select class="form-control" @bind=BlockName>
+    <select class="form-control" @bind=BlockName title="Select a block to show">
         @foreach (var block in Blocks)
         {
             <option value=@block>@block</option>
@@ -51,7 +51,11 @@
     protected override void OnInitialized()
     {
         // ordering: *first* the ones containing "Latin", *then* the others (false < true)
-        Blocks = myservice.GetAllBlocks().Select(di => di.Value).OrderBy(n => !n.Contains("Latin")).ThenBy(n => n).ToList();
+        Blocks = myservice.GetAllBlocks()
+                .Select(di => di.Value)
+                .Where(n => !n.Contains("Private Use") && !n.Contains("Surrogate"))
+                .OrderBy(n => !n.Contains("Latin")).ThenBy(n => n)
+                .ToList();
         if (string.IsNullOrEmpty(BlockName))
         {
             BlockName = Blocks.First();

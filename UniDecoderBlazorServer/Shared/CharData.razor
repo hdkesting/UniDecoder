@@ -2,18 +2,24 @@
 @using UniDecoderBlazorServer.Models
 <article>
     <!-- class = "sample" or "latin sample" -->
-    <div class="@(Character.Name.Contains("Latin", StringComparison.OrdinalIgnoreCase) ? "latin" : "") sample"
+    <div class="@(SeemsLatin() ? "latin sample" : "sample")"
         onclick="cp(@Character.Codepoint, '@Character.Name')">@Character.Character</div>
     <div>
-    <p><b>@Character.Name</b></p>
-    <p><a href="block/@Uri.EscapeDataString(Character.Block)">@Character.Block</a></p>
-    <p><a href="cat/@Uri.EscapeDataString(Character.CategoryName)"><i>@Character.CategoryName</i></a></p>
-    <p><a href="name/@Uri.EscapeDataString("0x" + Character.CodepointHex)">@Character.CodepointHex</a> &ndash;
-        <a href="name/@Uri.EscapeDataString(Character.Codepoint.ToString(CultureInfo.InvariantCulture))">@Character.Codepoint</a></p>
+        <p><b>@Character.Name</b></p>
+        <p><a href="block/@Uri.EscapeDataString(Character.Block)">@Character.Block</a></p>
+        <p><a href="cat/@Uri.EscapeDataString(Character.CategoryName)"><i>@Character.CategoryName</i></a></p>
+        <p><a href="name/@Uri.EscapeDataString("0x" + Character.CodepointHex)">@Character.CodepointHex</a> &ndash;
+            <a href="name/@Uri.EscapeDataString(Character.Codepoint.ToString(CultureInfo.InvariantCulture))">@Character.Codepoint</a></p>
     </div>
 </article>
 
 @code {
     [Parameter]
     public CodepointInfo Character { get; set; } = null!;
+
+    private bool SeemsLatin()
+    {
+        return Character.Name.Contains("Latin", StringComparison.OrdinalIgnoreCase)
+                || Character.CategoryName.Contains("Latin", StringComparison.OrdinalIgnoreCase);
+    }
 }

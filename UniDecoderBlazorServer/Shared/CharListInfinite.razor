@@ -11,7 +11,7 @@
                 <CharData Character="item"/>
             </ItemTemplate>
             <LoadingTemplate>
-                <div><span class="oi oi-reload spin"></span> Loading</div>
+                <article><div class="sample"><span class="oi oi-reload spin"></span></div> <div><p>Loading</p></div></article>
             </LoadingTemplate>
         </InfiniteScrolling>
     </section>
@@ -30,11 +30,16 @@ else
     [Parameter]
     public string? CountMessageFormat { get; set; }
 
-    async Task<IEnumerable<CodepointInfo>> GetItems(InfiniteScrollingItemsProviderRequest request)
+    /// <summary>
+    /// The callback function to get the next batch of items.
+    /// </summary>
+    /// <param name="request"></param>
+    /// <returns></returns>
+    private async Task<IEnumerable<CodepointInfo>> GetItems(InfiniteScrollingItemsProviderRequest request)
     {
-        await Task.CompletedTask;
-        return (Characters ?? Enumerable.Empty<CodepointInfo>())
+        //await Task.Delay(1000);
+        return await Task.FromResult((Characters ?? Enumerable.Empty<CodepointInfo>())
                 .Skip(request.StartIndex)
-                .Take(50);
+                .Take(50));
     }
 }
