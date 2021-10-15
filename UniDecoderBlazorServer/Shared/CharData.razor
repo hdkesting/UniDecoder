@@ -20,6 +20,6 @@
     private bool SeemsLatin()
     {
         return Character.Name.Contains("Latin", StringComparison.OrdinalIgnoreCase)
-                || Character.CategoryName.Contains("Latin", StringComparison.OrdinalIgnoreCase);
+                || Character.Block.Contains("Latin", StringComparison.OrdinalIgnoreCase);
     }
 }

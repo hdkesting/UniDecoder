@@ -35,10 +35,9 @@ else
     /// </summary>
     /// <param name="request"></param>
     /// <returns></returns>
-    private async Task<IEnumerable<CodepointInfo>> GetItems(InfiniteScrollingItemsProviderRequest request)
+    private Task<IEnumerable<CodepointInfo>> GetItems(InfiniteScrollingItemsProviderRequest request)
     {
-        //await Task.Delay(1000);
-        return await Task.FromResult((Characters ?? Enumerable.Empty<CodepointInfo>())
+        return Task.FromResult((Characters ?? Enumerable.Empty<CodepointInfo>())
                 .Skip(request.StartIndex)
                 .Take(50));
     }

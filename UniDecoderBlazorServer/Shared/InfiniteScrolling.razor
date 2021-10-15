@@ -41,7 +41,6 @@
     [JSInvokable]
     public async Task LoadMoreItems()
     {
-        System.Diagnostics.Debug.WriteLine("========= LoadMoreItems");
         if (_loading)
         {
             return;
@@ -61,7 +60,6 @@
             catch (OperationCanceledException oce) when (oce.CancellationToken == _loadItemsCts.Token)
             {
                 // No-op; we canceled the operation, so it's fine to suppress this exception.
-                System.Diagnostics.Debug.WriteLine("========= LoadMoreItems - cancelled");
             }
         }
         finally
@@ -74,17 +72,18 @@
 
     protected override async Task OnParametersSetAsync()
     {
-        System.Diagnostics.Debug.WriteLine("========= OnParametersSetAsync");
         // Cancel the current load items operation
-        if (_loadItemsCts != null)
+        if (_loading)
         {
-            _loadItemsCts.Dispose();
-            _loadItemsCts = null;
-        }
+            _loadItemsCts?.Cancel();
 
-        while (_loading)
-        {
-            await Task.Delay(100);
+            while (_loading)
+            {
+                await Task.Delay(100);
+            }
+
+            _loadItemsCts?.Dispose();
+            _loadItemsCts = null;
         }
 
         // new list of items, so reset
@@ -108,6 +107,7 @@
         // Cancel the current load items operation
         if (_loadItemsCts != null)
         {
+            _loadItemsCts.Cancel();
             _loadItemsCts.Dispose();
             _loadItemsCts = null;
         }
