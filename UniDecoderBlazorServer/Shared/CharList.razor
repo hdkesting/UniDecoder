@@ -1,0 +1,34 @@
+﻿@if (Characters is not null && Characters.Any())
+{
+    @if (!string.IsNullOrEmpty(CountMessageFormat))
+    {
+        <p>@string.Format(CountMessageFormat, @Characters.Count)</p>
+    }
+    <section>
+    @foreach(var ch in Characters)
+    {
+        <CharData Character=@ch/>
+    }
+    @if (Capped)
+    {
+        <article>(and more &hellip;)</article>
+    }
+    </section>
+}
+else
+{
+    <p>@EmptyListMessage</p>
+}
+@code {
+    [Parameter]
+    public List<CodepointInfo>? Characters{ get; set; }
+
+    [Parameter]
+    public string? EmptyListMessage{ get; set; }
+
+    [Parameter]
+    public bool Capped { get; set; }
+
+    [Parameter]
+    public string? CountMessageFormat { get; set; }
+}

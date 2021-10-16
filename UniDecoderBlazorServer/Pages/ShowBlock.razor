@@ -1,0 +1,76 @@
+﻿@page "/block"
+@page "/block/{BlockName}"
+@inject UnidecoderService myservice
+
+  <h2>Search by block</h2>
+
+  <p>Characters are grouped in blocks. Select a block to see its characters.</p>
+  <p>Some characters may be replaced by an empty rectangle: this means that the current font (as installed at <em>your</em> side) cannot display it.</p>
+  <p>
+    Examples: <a class="sample" href="block/Emoticons">Emoticons</a>,
+    <a class="sample" href="block/Miscellaneous%20Symbols">Miscellaneous Symbols</a> or
+    <a class="sample" href="block/Hebrew">Hebrew</a>.
+  </p>
+
+@if (Blocks is not null)
+{
+    <select class="form-control" @bind=BlockName title="Select a block to show">
+        @foreach (var block in Blocks)
+        {
+            <option value=@block>@block</option>
+        }
+    </select>
+}
+@if (!string.IsNullOrEmpty(BlockName))
+{
+    <div>Shareable link for <a class="sample" href="block/@Uri.EscapeDataString(BlockName)">@BlockName</a></div>
+}
+
+<CharListInfinite Characters=Characters
+                    EmptyListMessage="Please select a block to investigate."
+                    CountMessageFormat="This block contains {0} characters." />
+
+
+@code {
+    private string? _blockName;
+
+    [Parameter]
+    public string? BlockName{
+        get => _blockName;
+        set
+        {
+            _blockName = value;
+            PerformSearch(EventArgs.Empty);
+        }
+    }
+
+    private List<CodepointInfo>? Characters{ get; set; }
+
+    private List<string>? Blocks { get; set; }
+
+    protected override void OnInitialized()
+    {
+        // ordering: *first* the ones containing "Latin", *then* the others (false < true)
+        Blocks = myservice.GetAllBlocks()
+                .Select(di => di.Value)
+                .Where(n => !n.Contains("Private Use") && !n.Contains("Surrogate"))
+                .OrderBy(n => !n.Contains("Latin")).ThenBy(n => n)
+                .ToList();
+        if (string.IsNullOrEmpty(BlockName))
+        {
+            BlockName = Blocks.First();
+        }
+    }
+
+    private void PerformSearch(EventArgs args)
+    {
+        if (!string.IsNullOrEmpty(BlockName))
+        {
+            Characters = myservice.GetCharactersOfBlock(BlockName);
+        }
+        else
+        {
+            Characters = new List<CodepointInfo>();
+        }
+    }
+}

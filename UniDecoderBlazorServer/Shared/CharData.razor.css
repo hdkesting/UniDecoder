@@ -1,0 +1,35 @@
+﻿article {
+    border: 1px solid black;
+    margin: 10px;
+    min-width: 200px;
+    max-width: 300px;
+    flex-basis: auto;
+    border-radius: 0 5px 5px 5px;
+    box-shadow: 5px 3px 3px lightgray;
+}
+
+    article div {
+        /*float: left;*/
+        margin: 0;
+        padding: 5px;
+    }
+
+    article p {
+        margin: 0;
+    }
+
+    article div.sample {
+        font-size: 36pt;
+        float: left;
+        min-width: 40px;
+        min-height: 50px;
+        background-color: #C0C0C0;
+        margin-bottom: 20px;
+        margin-right: 2px;
+        cursor: copy;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    article div.latin {
+        background-color: #C0C0A0;
+    }

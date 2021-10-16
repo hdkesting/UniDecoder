@@ -16,7 +16,7 @@
     <PackageReference Include="Microsoft.Azure.Functions.Extensions" Version="1.0.0" />
     <PackageReference Include="Microsoft.Azure.WebJobs.Extensions.Http" Version="3.0.2" />
     <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="3.0.9" />
-    <PackageReference Include="UnicodeInformation" Version="2.5.0" />
+    <PackageReference Include="UnicodeInformation" Version="2.5.1" />
     <!-- https://github.com/Azure/azure-functions-core-tools/issues/1907 -->
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>

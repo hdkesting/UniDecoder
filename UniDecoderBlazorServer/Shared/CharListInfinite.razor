@@ -1,0 +1,44 @@
+﻿@using UniDecoderBlazorServer.Support
+@if (Characters is not null && Characters.Any())
+{
+    @if (!string.IsNullOrEmpty(CountMessageFormat))
+    {
+        <p>@string.Format(CountMessageFormat, @Characters.Count)</p>
+    }
+    <section>
+        <InfiniteScrolling ItemsProvider=GetItems>
+            <ItemTemplate Context="item">
+                <CharData Character="item"/>
+            </ItemTemplate>
+            <LoadingTemplate>
+                <article><div class="sample"><span class="oi oi-reload spin"></span></div> <div><p>Loading</p></div></article>
+            </LoadingTemplate>
+        </InfiniteScrolling>
+    </section>
+}
+else
+{
+    <p>@EmptyListMessage</p>
+}
+@code {
+    [Parameter]
+    public List<CodepointInfo>? Characters { get; set; }
+
+    [Parameter]
+    public string? EmptyListMessage{ get; set; }
+
+    [Parameter]
+    public string? CountMessageFormat { get; set; }
+
+    /// <summary>
+    /// The callback function to get the next batch of items.
+    /// </summary>
+    /// <param name="request"></param>
+    /// <returns></returns>
+    private Task<IEnumerable<CodepointInfo>> GetItems(InfiniteScrollingItemsProviderRequest request)
+    {
+        return Task.FromResult((Characters ?? Enumerable.Empty<CodepointInfo>())
+                .Skip(request.StartIndex)
+                .Take(50));
+    }
+}
