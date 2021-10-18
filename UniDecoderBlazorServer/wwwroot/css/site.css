@@ -101,3 +101,11 @@ a.sample {
     border: dotted 1px grey;
     border-radius: 5px;
 }
+
+a[href^="http"]::after, a[target="_blank"]::after {
+    content: ' \e064'; /* \e064 = "external-link" in OI */
+    font-family: Icons; /* Icons = open-iconic */
+    font-size: 8px;
+    color: gray;
+    /* ⮹ ↗ */
+}
