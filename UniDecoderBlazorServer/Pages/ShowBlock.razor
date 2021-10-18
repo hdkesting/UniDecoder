@@ -82,6 +82,7 @@
         else
         {
             Characters = new List<CodepointInfo>();
+            Task.Run(async () => await sessionStore.DeleteAsync(sessionkey));
         }
     }
 }

@@ -3,6 +3,7 @@
 @page "/name/{Name}"
 
 @inject UnidecoderService myservice
+@inject ProtectedSessionStorage sessionStore
 
   <h2>Search by name</h2>
   <p>
@@ -41,6 +42,7 @@
 <CharListInfinite Characters=Characters EmptyListMessage="Please enter a text to search for." />
 
 @code {
+    const string sessionkey = "charsearch";
     private string? _searchtext;
 
     [Parameter]
@@ -63,7 +65,7 @@
 
     public bool ResultsIsCapped{ get; set; }
 
-    protected override void OnParametersSet()
+    protected override async Task OnParametersSetAsync()
     {
         if (IntParam.HasValue)
         {
@@ -72,6 +74,11 @@
         else if (!string.IsNullOrWhiteSpace(Name))
         {
             SearchText = Name;
+        }
+        else
+        {
+            var storedResult = await sessionStore.GetAsync<string>(sessionkey);
+            SearchText = storedResult.Success ? storedResult.Value : string.Empty;
         }
     }
 
@@ -94,11 +101,14 @@
                 Characters = myservice.FindByName(SearchText, capped:false);
                 ResultsIsCapped = Characters.Count >= myservice.MaxResults;
             }
+
+            Task.Run(async () => await sessionStore.SetAsync(sessionkey, SearchText));
         }
         else
         {
             Characters = new List<CodepointInfo>();
             ResultsIsCapped = false;
+            Task.Run(async () => await sessionStore.DeleteAsync(sessionkey));
         }
     }
 
