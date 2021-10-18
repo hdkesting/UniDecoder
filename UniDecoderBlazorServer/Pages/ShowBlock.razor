@@ -1,6 +1,8 @@
 ﻿@page "/block"
 @page "/block/{BlockName}"
 @inject UnidecoderService myservice
+@inject ProtectedSessionStorage sessionStore
+
 
   <h2>Search by block</h2>
 
@@ -30,8 +32,8 @@
                     EmptyListMessage="Please select a block to investigate."
                     CountMessageFormat="This block contains {0} characters." />
 
-
 @code {
+    const string sessionkey = "blockname";
     private string? _blockName;
 
     [Parameter]
@@ -40,7 +42,7 @@
         set
         {
             _blockName = value;
-            PerformSearch(EventArgs.Empty);
+           PerformSearch(EventArgs.Empty);
         }
     }
 
@@ -48,7 +50,7 @@
 
     private List<string>? Blocks { get; set; }
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
         // ordering: *first* the ones containing "Latin", *then* the others (false < true)
         Blocks = myservice.GetAllBlocks()
@@ -58,7 +60,8 @@
                 .ToList();
         if (string.IsNullOrEmpty(BlockName))
         {
-            BlockName = Blocks.First();
+            var storedResult = await sessionStore.GetAsync<string>(sessionkey);
+            BlockName = storedResult.Success ? storedResult.Value : Blocks.First();
         }
     }
 
@@ -66,7 +69,15 @@
     {
         if (!string.IsNullOrEmpty(BlockName))
         {
+            var allblocks = myservice.GetAllBlocks();
+            if (!allblocks.Any(b => b.Value.Equals(BlockName, StringComparison.OrdinalIgnoreCase)))
+            {
+                // not a known name, just get the default one
+                BlockName = Blocks?.First() ?? "Basic Latin";
+            }
+
             Characters = myservice.GetCharactersOfBlock(BlockName);
+            Task.Run(async () => await sessionStore.SetAsync(sessionkey, BlockName));
         }
         else
         {
