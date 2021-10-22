@@ -116,9 +116,9 @@ a[href^="http"]::after, a[target="_blank"]::after {
 
 .spin {
     animation-name: spin;
-    animation-duration: 2s;
+    animation-duration: 3s;
     animation-iteration-count: infinite;
-    animation-timing-function: linear;
+    animation-timing-function: ease-in-out;
 }
 
 @keyframes spin {
@@ -127,6 +127,6 @@ a[href^="http"]::after, a[target="_blank"]::after {
     }
 
     to {
-        transform: rotate(359deg);
+        transform: rotate(720deg);
     }
 }
