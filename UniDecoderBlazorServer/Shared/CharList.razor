@@ -9,10 +9,6 @@
     {
         <CharData Character=@ch/>
     }
-    @if (Capped)
-    {
-        <article>(and more &hellip;)</article>
-    }
     </section>
 }
 else
@@ -25,9 +21,6 @@ else
 
     [Parameter]
     public string? EmptyListMessage{ get; set; }
-
-    [Parameter]
-    public bool Capped { get; set; }
 
     [Parameter]
     public string? CountMessageFormat { get; set; }

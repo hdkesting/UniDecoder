@@ -31,7 +31,8 @@ main {
         text-overflow: ellipsis;
     }
 
-@media (max-width: 640.98px) {
+/* max width just < 1000ps, as set for min-width below. Sync value with NavMenu.razor.css */
+@media (max-width: 999.98px) {
     .top-row:not(.auth) {
         display: none;
     }
@@ -45,7 +46,7 @@ main {
     }
 }
 
-@media (min-width: 641px) {
+@media (min-width: 1000px) {
     .page {
         flex-direction: row;
     }
