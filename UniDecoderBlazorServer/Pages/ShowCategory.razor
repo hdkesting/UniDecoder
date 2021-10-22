@@ -1,6 +1,7 @@
 ﻿@page "/cat"
 @page "/cat/{CategoryName}"
 @inject UnidecoderService myservice
+@inject ProtectedSessionStorage sessionStore
 
   <h2>Search by category</h2>
   <p>Characters belong to a category. Select a category below to see its characters.</p>
@@ -10,6 +11,7 @@
     <a class="sample" href="cat/Other%20Number">Other Number</a> or
     <a class="sample" href="cat/Math%20Symbol">Math Symbol</a>.
   </p>
+  <p>For more information about some exotic categories, see this <a href="https://en.m.wikipedia.org/wiki/Help:Multilingual_support#Scripts" target="_blank">Wikipedia page</a>.</p>
 
 @if (Categories is not null)
 {
@@ -28,6 +30,7 @@
 <CharListInfinite Characters=Characters EmptyListMessage="Please select a category to investigate." CountMessageFormat="This category contains {0} characters." />
 
 @code {
+    const string sessionkey = "catname";
     private string? _categoryName;
 
     [Parameter]
@@ -45,7 +48,7 @@
 
     private List<string>? Categories { get; set; }
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
         Categories = myservice.GetAllCategories()
             .Select(di => di.Value)
@@ -53,7 +56,8 @@
             .OrderBy(n => n).ToList();
         if (string.IsNullOrEmpty(CategoryName))
         {
-            CategoryName = "Lowercase Letter";
+            var storedResult = await sessionStore.GetAsync<string>(sessionkey);
+            CategoryName = storedResult.Success ? storedResult.Value : "Lowercase Letter";
         }
     }
 
@@ -62,10 +66,12 @@
         if (!string.IsNullOrEmpty(CategoryName))
         {
             Characters = myservice.GetCharactersOfCategory(CategoryName);
+            Task.Run(async () => await sessionStore.SetAsync(sessionkey, CategoryName));
         }
         else
         {
             Characters = new List<CodepointInfo>();
+            Task.Run(async () => await sessionStore.DeleteAsync(sessionkey));
         }
     }
 }

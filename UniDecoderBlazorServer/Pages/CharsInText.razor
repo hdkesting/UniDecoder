@@ -3,6 +3,7 @@
 
 @using System.Web
 @inject UnidecoderService myservice
+@inject ProtectedSessionStorage sessionStore
 
 <PageTitle>Character details</PageTitle>
 
@@ -37,6 +38,7 @@
 <CharList Characters=Characters EmptyListMessage="Please enter a text to investigate." />
 
 @code {
+    const string sessionkey = "textsearch";
     private string? _searchText;
 
     public string? SearchText
@@ -54,11 +56,16 @@
 
     public List<CodepointInfo>? Characters{ get; set; }
 
-    protected override void OnParametersSet()
+    protected override async Task OnParametersSetAsync()
     {
         if (!string.IsNullOrWhiteSpace(TextParam))
         {
             SearchText = HttpUtility.HtmlDecode(Uri.UnescapeDataString(TextParam));
+        }
+        else
+        {
+            var storedResult = await sessionStore.GetAsync<string>(sessionkey);
+            SearchText = storedResult.Success ? storedResult.Value : string.Empty;
         }
     }
 
@@ -67,10 +74,12 @@
         if (!string.IsNullOrWhiteSpace(SearchText))
         {
             Characters = myservice.ListCharacters(SearchText);
+            Task.Run(async () => await sessionStore.SetAsync(sessionkey, SearchText));
         }
         else
         {
             Characters = new List<CodepointInfo>();
+            Task.Run(async () => await sessionStore.DeleteAsync(sessionkey));
         }
     }
 }

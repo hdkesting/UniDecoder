@@ -80,7 +80,7 @@ public class UnidecoderService
     /// </summary>
     /// <param name="searchText">The search text.</param>
     /// <returns>A list of <see cref="CodepointInfo"/>.</returns>
-    public List<CodepointInfo> FindByName(string searchText)
+    public List<CodepointInfo> FindByName(string searchText, bool capped=true)
     {
         if (string.IsNullOrWhiteSpace(searchText))
         {
@@ -93,11 +93,14 @@ public class UnidecoderService
             .Where(this.CodepointExists)
             .Select(UnicodeInfo.GetCharInfo)
             .Where(x => this.NameMatches(searchText, x.Name))
-            .Select(info => new CodepointInfo(info))
-            .Take(MaxResultCount)
-            .ToList();
+            .Select(info => new CodepointInfo(info));
 
-        return list;
+        if (capped)
+        {
+            list = list.Take(MaxResultCount);
+        }
+
+        return list.ToList();
     }
 
     /// <summary>
