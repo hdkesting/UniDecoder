@@ -1,0 +1,24 @@
+﻿@if (isLoaded)
+{
+    @ChildContent
+}
+else
+{
+    <div style="position:absolute; top:30vh; width:100%; text-align:center">
+        <h1>Uni Decoder</h1>
+        <p><i class="oi oi-reload spin"></i> The application is loading...</p>
+    </div>
+}
+
+@code {
+    bool isLoaded;
+
+    [Parameter]
+    public RenderFragment ChildContent { get; set; } = null!;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Task.Delay(200); // TODO actual initialization job
+        isLoaded = true;
+    }
+}
