@@ -4,6 +4,10 @@ html, body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+main{
+    padding-bottom: 40px;
+}
+
 h1:focus {
     outline: none;
 }
@@ -92,7 +96,7 @@ dd {
 }
 
     dd:before {
-        content: '☞';
+        content: '👉';
         font-size: 14pt;
     }
 
@@ -108,4 +112,21 @@ a[href^="http"]::after, a[target="_blank"]::after {
     font-size: 8px;
     color: gray;
     /* ⮹ ↗ */
+}
+
+.spin {
+    animation-name: spin;
+    animation-duration: 3s;
+    animation-iteration-count: infinite;
+    animation-timing-function: ease-in-out;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(720deg);
+    }
 }
