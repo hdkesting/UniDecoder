@@ -13,13 +13,4 @@
     </div>
 </article>
 
-@code {
-    [Parameter]
-    public CodepointInfo Character { get; set; } = null!;
 
-    private bool SeemsLatin()
-    {
-        return Character.Name.Contains("Latin", StringComparison.OrdinalIgnoreCase)
-                || Character.Block.Contains("Latin", StringComparison.OrdinalIgnoreCase);
-    }
-}
