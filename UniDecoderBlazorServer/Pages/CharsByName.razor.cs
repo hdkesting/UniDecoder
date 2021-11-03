@@ -3,26 +3,27 @@ using System.Globalization;
 using Microsoft.AspNetCore.Components;
 
 using UniDecoderBlazorServer.Models;
+using UniDecoderBlazorServer.Shared;
 
 namespace UniDecoderBlazorServer.Pages
 {
     public partial class CharsByName
     {
-        const string sessionkey = "charsearch";
-        private string? _searchtext;
-
         [Parameter]
         public int? IntParam { get; set; }
 
         [Parameter]
         public string? Name { get; set; }
 
+        [CascadingParameter]
+        public CascadingAppState AppState { get; set; } = null!;
+
         public string? SearchText
         {
-            get => _searchtext;
+            get => AppState.NameSearchText;
             set
             {
-                _searchtext = value;
+                AppState.NameSearchText = value;
                 PerformSearch();
             }
         }
@@ -31,7 +32,7 @@ namespace UniDecoderBlazorServer.Pages
 
         public bool ResultsIsCapped { get; set; }
 
-        protected override async Task OnParametersSetAsync()
+        protected override void OnParametersSet()
         {
             if (IntParam.HasValue)
             {
@@ -43,8 +44,7 @@ namespace UniDecoderBlazorServer.Pages
             }
             else
             {
-                var storedResult = await sessionStore.GetAsync<string>(sessionkey);
-                SearchText = storedResult.Success ? storedResult.Value : string.Empty;
+                PerformSearch();
             }
         }
 
@@ -66,14 +66,11 @@ namespace UniDecoderBlazorServer.Pages
                     Characters = myservice.FindByName(SearchText, capped: false);
                     ResultsIsCapped = Characters.Count >= myservice.MaxResults;
                 }
-
-                Task.Run(async () => await sessionStore.SetAsync(sessionkey, SearchText));
             }
             else
             {
                 Characters = new List<CodepointInfo>();
                 ResultsIsCapped = false;
-                Task.Run(async () => await sessionStore.DeleteAsync(sessionkey));
             }
         }
 
@@ -85,12 +82,12 @@ namespace UniDecoderBlazorServer.Pages
         private static int? ParseAsHex(string value)
         {
             // ignore some usual prefixes
-            if (value.StartsWith("0x", System.StringComparison.OrdinalIgnoreCase) || value.StartsWith("U+", System.StringComparison.OrdinalIgnoreCase))
+            if (value.StartsWith("0x", StringComparison.OrdinalIgnoreCase) || value.StartsWith("U+", StringComparison.OrdinalIgnoreCase))
             {
-                value = value.Substring(2);
+                value = value[2..];
             }
 
-            return int.TryParse(value, System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out int code) ? code : default(int? );
+            return int.TryParse(value, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out int code) ? code : default(int? );
         }
     }
 }

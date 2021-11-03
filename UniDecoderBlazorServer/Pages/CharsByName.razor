@@ -3,7 +3,6 @@
 @page "/name/{Name}"
 
 @inject UnidecoderService myservice
-@inject ProtectedSessionStorage sessionStore
 
 <PageTitle>Characters by name</PageTitle>
 
@@ -33,8 +32,10 @@
   <p>
     The name or code to search for:
   </p>
+<form autocomplete="off" onsubmit="return false">
     <input  type="text" placeholder="The name to find" autofocus required
            class="form-control" @bind=SearchText @bind:event="oninput"/>
+</form>
 
 @if (!string.IsNullOrEmpty(SearchText))
 {

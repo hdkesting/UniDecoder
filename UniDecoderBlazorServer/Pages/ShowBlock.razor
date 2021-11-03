@@ -1,7 +1,6 @@
 ﻿@page "/block"
 @page "/block/{BlockName}"
 @inject UnidecoderService myservice
-@inject ProtectedSessionStorage sessionStore
 
 <PageTitle>Characters by block</PageTitle>
 
@@ -15,10 +14,10 @@
     <a class="sample" href="block/Hebrew">Hebrew</a>.
   </p>
 
-@if (Blocks is not null)
+@if (FilteredBlocks is not null)
 {
     <select class="form-control" @bind=BlockName title="Select a block to show">
-        @foreach (var block in Blocks)
+        @foreach (var block in FilteredBlocks)
         {
             <option value=@block>@block</option>
         }
@@ -32,5 +31,3 @@
 <CharListInfinite Characters=Characters
                     EmptyListMessage="Please select a block to investigate."
                     CountMessageFormat="This block contains {0} characters." />
-
-

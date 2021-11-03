@@ -1,13 +1,16 @@
 using Microsoft.AspNetCore.Components;
 
 using UniDecoderBlazorServer.Models;
+using UniDecoderBlazorServer.Shared;
 
 namespace UniDecoderBlazorServer.Pages
 {
     public partial class ShowBlock
     {
-        const string sessionkey = "blockname";
         private string? _blockName;
+
+        [CascadingParameter]
+        public CascadingAppState AppState { get; set; } = null!;
 
         [Parameter]
         public string? BlockName
@@ -16,43 +19,55 @@ namespace UniDecoderBlazorServer.Pages
             set
             {
                 _blockName = value;
-                PerformSearch(EventArgs.Empty);
+                PerformSearch();
             }
         }
 
         private List<CodepointInfo>? Characters { get; set; }
 
+        private List<string>? FilteredBlocks { get; set; }
+
         private List<string>? Blocks { get; set; }
 
-        protected override async Task OnInitializedAsync()
+        protected override void OnInitialized()
         {
             // ordering: *first* the ones containing "Latin", *then* the others (false < true)
-            Blocks = myservice.GetAllBlocks().Select(di => di.Value).Where(n => !n.Contains("Private Use") && !n.Contains("Surrogate")).OrderBy(n => !n.Contains("Latin")).ThenBy(n => n).ToList();
+            Blocks = myservice.GetAllBlocks().Select(b => b.Value).ToList();
+            FilteredBlocks = Blocks
+                .Where(n => !n.Contains("Private Use") && !n.Contains("Surrogate"))
+                .OrderBy(n => !n.Contains("Latin"))
+                .ThenBy(n => n).ToList();
+        }
+
+        protected override void OnParametersSet()
+        {
             if (string.IsNullOrEmpty(BlockName))
             {
-                var storedResult = await sessionStore.GetAsync<string>(sessionkey);
-                BlockName = storedResult.Success ? storedResult.Value : Blocks.First();
+                BlockName = AppState?.BlockName ?? FilteredBlocks?.First() ?? "Basic Latin";
+            }
+            else
+            {
+                PerformSearch();
             }
         }
 
-        private void PerformSearch(EventArgs args)
+        private void PerformSearch()
         {
-            if (!string.IsNullOrEmpty(BlockName))
+            if (!string.IsNullOrEmpty(BlockName) && Blocks is not null)
             {
-                var allblocks = myservice.GetAllBlocks();
-                if (!allblocks.Any(b => b.Value.Equals(BlockName, StringComparison.OrdinalIgnoreCase)))
+                // do search in the full block list
+                if (!Blocks.Any(b => b.Equals(BlockName, StringComparison.OrdinalIgnoreCase)))
                 {
                     // not a known name, just get the default one
-                    BlockName = Blocks?.First() ?? "Basic Latin";
+                    BlockName = FilteredBlocks?.First() ?? "Basic Latin";
                 }
 
                 Characters = myservice.GetCharactersOfBlock(BlockName);
-                Task.Run(async () => await sessionStore.SetAsync(sessionkey, BlockName));
+                AppState.BlockName = BlockName;
             }
             else
             {
                 Characters = new List<CodepointInfo>();
-                Task.Run(async () => await sessionStore.DeleteAsync(sessionkey));
             }
         }
     }

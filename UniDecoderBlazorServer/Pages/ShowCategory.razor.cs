@@ -1,13 +1,16 @@
 using Microsoft.AspNetCore.Components;
 
 using UniDecoderBlazorServer.Models;
+using UniDecoderBlazorServer.Shared;
 
 namespace UniDecoderBlazorServer.Pages
 {
     public partial class ShowCategory
     {
-        const string sessionkey = "catname";
         private string? _categoryName;
+
+        [CascadingParameter]
+        public CascadingAppState AppState { get; set; } = null!;
 
         [Parameter]
         public string? CategoryName
@@ -24,16 +27,23 @@ namespace UniDecoderBlazorServer.Pages
 
         private List<string>? Categories { get; set; }
 
-        protected override async Task OnInitializedAsync()
+        protected override void OnInitialized()
         {
             Categories = myservice.GetAllCategories()
                 .Select(di => di.Value)
                 .Where(n => n != "Other Not Assigned")
                 .OrderBy(n => n).ToList();
+        }
+
+        protected override void OnParametersSet()
+        {
             if (string.IsNullOrEmpty(CategoryName))
             {
-                var storedResult = await sessionStore.GetAsync<string>(sessionkey);
-                CategoryName = storedResult.Success ? storedResult.Value : "Lowercase Letter";
+                CategoryName = AppState?.CategoryName ?? "Lowercase Letter";
+            }
+            else
+            {
+                PerformSearch();
             }
         }
 
@@ -42,12 +52,14 @@ namespace UniDecoderBlazorServer.Pages
             if (!string.IsNullOrEmpty(CategoryName))
             {
                 Characters = myservice.GetCharactersOfCategory(CategoryName);
-                Task.Run(async () => await sessionStore.SetAsync(sessionkey, CategoryName));
+                if (AppState is not null)
+                {
+                    AppState.CategoryName = CategoryName;
+                }
             }
             else
             {
                 Characters = new List<CodepointInfo>();
-                Task.Run(async () => await sessionStore.DeleteAsync(sessionkey));
             }
         }
     }
