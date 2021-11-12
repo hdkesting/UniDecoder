@@ -11,10 +11,22 @@
                 <CharData Character="item"/>
             </ItemTemplate>
             <LoadingTemplate>
-                @* NB this does NOT pick up css that is scoped to CharData *@
+                @*-- NB this does NOT pick up css that is scoped to CharData --*@
                 <article><div class="sample"><span class="oi oi-reload spin"></span></div> <div><p>Loading</p></div></article>
             </LoadingTemplate>
         </InfiniteScrolling>
+
+@*        <Virtualize Items="Characters" Context="item" OverscanCount="10">
+            -- either use Items=Characters
+            -- or ItemsProvider=GetVirtualItems
+            <ItemContent>
+                <CharData Character="item" @key="item.Codepoint"/>
+            </ItemContent>
+            <Placeholder>
+                <article><div class="sample"><span class="oi oi-reload spin"></span></div> <div><p>Loading</p></div></article>
+            </Placeholder>
+        </Virtualize>
+*@
     </section>
 }
 else
