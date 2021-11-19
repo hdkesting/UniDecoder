@@ -1,18 +1,8 @@
-﻿<CascadingValue Value="this">
+﻿@*@inject ProtectedSessionStorage storage*@
+@inject ProtectedLocalStorage storage
+
+<CascadingValue Value="this">
     @ChildContent
 </CascadingValue>
 
 @* based on Blazor Train, ep 15 *@
-
-@code {
-    [Parameter]
-    public RenderFragment ChildContent { get; set; } = null!;
-
-    public string? NameSearchText { get; set; }
-
-    public string? TextSplitText { get; set; }
-
-    public string? BlockName { get; set; }
-
-    public string? CategoryName { get; set; }
-}
