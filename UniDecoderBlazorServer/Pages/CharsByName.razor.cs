@@ -66,7 +66,7 @@ namespace UniDecoderBlazorServer.Pages
                     queued = false;
                     // System.Diagnostics.Debug.WriteLine(SearchText);
                     // try and parse the search value as an integer or hex value.
-
+                    text = SearchText ?? string.Empty;
                     int? codepoint = ParseAsDecimal(text) ?? ParseAsHex(text);
                     if (codepoint.HasValue)
                     {
