@@ -9,6 +9,8 @@ namespace UniDecoderBlazorServer.Pages
 {
     public partial class CharsByName
     {
+        private bool loading, queued;
+
         [Parameter]
         public int? IntParam { get; set; }
 
@@ -24,13 +26,11 @@ namespace UniDecoderBlazorServer.Pages
             set
             {
                 AppState.NameSearchText = value;
-                PerformSearch();
+                Task.Run(async () => await PerformSearch(value));
             }
         }
 
         public List<CodepointInfo>? Characters { get; set; }
-
-        public bool ResultsIsCapped { get; set; }
 
         protected override void OnParametersSet()
         {
@@ -44,34 +44,50 @@ namespace UniDecoderBlazorServer.Pages
             }
             else
             {
-                PerformSearch();
+                Task.Run(async () => await PerformSearch(SearchText));
             }
         }
 
-        private void PerformSearch()
+        private async Task PerformSearch(string? text)
         {
-            // System.Diagnostics.Debug.WriteLine(SearchText);
-            if (!string.IsNullOrWhiteSpace(SearchText))
+            if (!string.IsNullOrWhiteSpace(text))
             {
-                // try and parse the search value as an integer or hex value.
-                int? codepoint = ParseAsDecimal(SearchText) ?? ParseAsHex(SearchText);
-                if (codepoint.HasValue)
+                if (loading)
                 {
-                    Characters = myservice.FindAroundValue(codepoint.Value);
-                    ResultsIsCapped = false;
+                    queued = true;
+                    return;
                 }
-                else
+
+                do
                 {
-                    // regular search
-                    Characters = myservice.FindByName(SearchText, capped: false);
-                    ResultsIsCapped = Characters.Count >= myservice.MaxResults;
+                    await Task.Yield();
+
+                    loading = true;
+                    queued = false;
+                    // System.Diagnostics.Debug.WriteLine(SearchText);
+                    // try and parse the search value as an integer or hex value.
+
+                    int? codepoint = ParseAsDecimal(text) ?? ParseAsHex(text);
+                    if (codepoint.HasValue)
+                    {
+                        Characters = myservice.FindAroundValue(codepoint.Value);
+                    }
+                    else
+                    {
+                        // regular search
+                        Characters = myservice.FindByName(text, capped: false);
+                    }
+
+                    loading = false;
                 }
+                while (queued);
             }
             else
             {
                 Characters = new List<CodepointInfo>();
-                ResultsIsCapped = false;
             }
+
+            await InvokeAsync(StateHasChanged);
         }
 
         private static int? ParseAsDecimal(string value)
