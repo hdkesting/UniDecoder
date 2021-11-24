@@ -1,4 +1,6 @@
-﻿@if (Characters is not null && Characters.Any())
+﻿@using UniDecoderBlazorServer.Shared
+
+@if (Characters is not null && Characters.Any())
 {
     @if (!string.IsNullOrEmpty(CountMessageFormat))
     {
