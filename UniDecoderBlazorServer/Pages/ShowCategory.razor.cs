@@ -7,6 +7,7 @@ namespace UniDecoderBlazorServer.Pages
 {
     public partial class ShowCategory
     {
+        ElementReference dropdownElement;
         private string? _categoryName;
 
         [CascadingParameter]
@@ -45,6 +46,12 @@ namespace UniDecoderBlazorServer.Pages
             {
                 PerformSearch();
             }
+        }
+
+        protected override async Task OnAfterRenderAsync(bool firstRender)
+        {
+            // "autofocus" doesn't work in Blazor
+            await dropdownElement.FocusAsync();
         }
 
         private void PerformSearch()

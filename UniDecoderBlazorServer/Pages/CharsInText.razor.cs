@@ -9,6 +9,8 @@ namespace UniDecoderBlazorServer.Pages
 {
     public partial class CharsInText
     {
+        ElementReference textInput;
+
         [CascadingParameter]
         public CascadingAppState AppState { get; set; } = null!;
 
@@ -37,6 +39,12 @@ namespace UniDecoderBlazorServer.Pages
             {
                 PerformSearch();
             }
+        }
+
+        protected override async Task OnAfterRenderAsync(bool firstRender)
+        {
+            // "autofocus" doesn't work in Blazor
+            await textInput.FocusAsync();
         }
 
         private void PerformSearch()

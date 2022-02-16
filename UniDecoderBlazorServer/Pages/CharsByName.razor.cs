@@ -11,6 +11,8 @@ namespace UniDecoderBlazorServer.Pages
     {
         private bool loading, queued;
 
+        ElementReference textInput;
+
         [Parameter]
         public int? IntParam { get; set; }
 
@@ -46,6 +48,12 @@ namespace UniDecoderBlazorServer.Pages
             {
                 Task.Run(async () => await PerformSearch(SearchText));
             }
+        }
+
+        protected override async Task OnAfterRenderAsync(bool firstRender)
+        {
+            // "autofocus" doesn't work in Blazor
+            await textInput.FocusAsync();
         }
 
         private async Task PerformSearch(string? text)
@@ -92,7 +100,7 @@ namespace UniDecoderBlazorServer.Pages
 
         private static int? ParseAsDecimal(string value)
         {
-            return int.TryParse(value, out int res) ? res : default(int? );
+            return int.TryParse(value, out int res) ? res : default(int?);
         }
 
         private static int? ParseAsHex(string value)
@@ -103,7 +111,7 @@ namespace UniDecoderBlazorServer.Pages
                 value = value[2..];
             }
 
-            return int.TryParse(value, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out int code) ? code : default(int? );
+            return int.TryParse(value, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out int code) ? code : default(int?);
         }
     }
 }

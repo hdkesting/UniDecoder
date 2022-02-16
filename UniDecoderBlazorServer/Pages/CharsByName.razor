@@ -33,7 +33,7 @@
     The name or code to search for:
   </p>
 <form autocomplete="off" onsubmit="return false">
-    <input  type="text" placeholder="The name to find" autofocus required
+    <input  type="text" placeholder="The name to find" autofocus required @ref="textInput"
            class="form-control" @bind=SearchText @bind:event="oninput"/>
 </form>
 
