@@ -1,4 +1,5 @@
 ﻿@inherits LayoutComponentBase
+@inject IJSRuntime js
 
 <PageTitle>Uni(-code) Decoder</PageTitle>
 
@@ -17,3 +18,17 @@
         </article>
     </main>
 </div>
+
+@code {
+    private IJSObjectReference? _module;
+    private IJSObjectReference? _instance;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            _module = await js.InvokeAsync<IJSObjectReference>("import", "./js/inactivityTimer.js");
+            _instance = await _module.InvokeAsync<IJSObjectReference>("initializeInactivityTimer", DotNetObjectReference.Create(this));
+        }
+    }
+}
