@@ -9,10 +9,6 @@
     </div>
 
     <main>
- @*       <div class="top-row px-4">
-            <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
-        </div>
-*@
         <article class="content px-4">
             @Body
         </article>
@@ -21,14 +17,13 @@
 
 @code {
     private IJSObjectReference? _module;
-    private IJSObjectReference? _instance;
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
         {
             _module = await js.InvokeAsync<IJSObjectReference>("import", "./js/inactivityTimer.js");
-            _instance = await _module.InvokeAsync<IJSObjectReference>("initializeInactivityTimer", DotNetObjectReference.Create(this));
+            await _module.InvokeVoidAsync("initializeInactivityTimer");
         }
     }
 }
