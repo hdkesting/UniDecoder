@@ -33,3 +33,41 @@
     article div.latin {
         background-color: #C0C0A0;
     }
+
+div.element {
+    border-color: grey;
+    border-width: 2px;
+    border-top-style: dotted;
+    border-bottom-style: dotted;
+    border-radius: 8px;
+    margin-bottom: 4px;
+}
+
+div.element-start {
+    border-left-style: dotted;
+    border-right-style: hidden;
+    margin-left: 4px;
+}
+
+div.element-middle {
+    border-left-style: hidden;
+    border-right-style: hidden;
+}
+
+div.element-end {
+    border-left-style: hidden;
+    border-right-style: dotted;
+    margin-right: 4px;
+}
+
+.element-sample {
+    font-size: 40pt;
+    vertical-align: central;
+    min-width: 40px;
+    min-height: 50px;
+    background-color: #C0C0C0;
+    margin-bottom: 20px;
+    margin-right: 2px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+

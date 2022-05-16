@@ -9,7 +9,28 @@
     <section>
     @foreach(var ch in Characters)
     {
-        <CharData Character=@ch/>
+        if (ch.Codepoints.Count == 1)
+        {
+            <CharData Character=@ch.Codepoints.Single()/>
+        }
+        else
+        {
+            for (int i=0; i<ch.Codepoints.Count; i++)
+            {
+                if (i==0)
+                {
+                    <CharData Character="@ch.Codepoints[i]" Element="@ch.Element" Position="CharData.ElementPosition.First"/>
+                }
+                else if (i == ch.Codepoints.Count-1)
+                {
+                    <CharData Character="@ch.Codepoints[i]" Position="CharData.ElementPosition.Last"/>
+                }
+                else
+                {
+                    <CharData Character="@ch.Codepoints[i]" Position="CharData.ElementPosition.Middle"/>
+                }
+            }
+        }
     }
     </section>
 }
@@ -19,7 +40,7 @@ else
 }
 @code {
     [Parameter]
-    public List<CodepointInfo>? Characters{ get; set; }
+    public List<StringElement>? Characters{ get; set; }
 
     [Parameter]
     public string? EmptyListMessage{ get; set; }
