@@ -1,4 +1,4 @@
-﻿article {
+﻿div.char {
     border: 1px solid black;
     margin: 10px;
     min-width: 200px;
@@ -6,19 +6,21 @@
     flex-basis: auto;
     border-radius: 0 5px 5px 5px;
     box-shadow: 5px 3px 3px lightgray;
+    background-color: white;
+    float: left;
 }
 
-    article div {
+    div.char div.info {
         /*float: left;*/
         margin: 0;
         padding: 5px;
     }
 
-    article p {
+    div.info p {
         margin: 0;
     }
 
-    article div.sample {
+    div.char div.sample {
         font-size: 36pt;
         float: left;
         min-width: 40px;
@@ -30,44 +32,50 @@
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
 
-    article div.latin {
+    div.char div.latin {
         background-color: #C0C0A0;
     }
 
 div.element {
+    --border-corner-radius: 8px;
+    --border-style: dashed;
+
     border-color: grey;
     border-width: 2px;
-    border-top-style: dotted;
-    border-bottom-style: dotted;
-    border-radius: 8px;
+    border-top-style: var(--border-style);
+    border-bottom-style: var(--border-style);
     margin-bottom: 4px;
+    background-color: #E0E0E0;
 }
 
-div.element-start {
-    border-left-style: dotted;
-    border-right-style: hidden;
-    margin-left: 4px;
-}
+    div.element.element-start {
+        border-left-style: var(--border-style);
+        border-right-style: hidden;
+        border-top-left-radius: var(--border-corner-radius);
+        border-bottom-left-radius: var(--border-corner-radius);
+        margin-left: 4px;
+    }
 
-div.element-middle {
-    border-left-style: hidden;
-    border-right-style: hidden;
-}
+    div.element.element-middle {
+        border-left-style: hidden;
+        border-right-style: hidden;
+    }
 
-div.element-end {
-    border-left-style: hidden;
-    border-right-style: dotted;
-    margin-right: 4px;
-}
+    div.element.element-end {
+        border-left-style: hidden;
+        border-right-style: var(--border-style);
+        margin-right: 4px;
+        border-top-right-radius: var(--border-corner-radius);
+        border-bottom-right-radius: var(--border-corner-radius);
+    }
 
 .element-sample {
+    float: left;
+    height: 100%;
     font-size: 40pt;
-    vertical-align: central;
-    min-width: 40px;
-    min-height: 50px;
-    background-color: #C0C0C0;
+    padding: 2px;
+    background-color: #E0E0E0;
     margin-bottom: 20px;
     margin-right: 2px;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
