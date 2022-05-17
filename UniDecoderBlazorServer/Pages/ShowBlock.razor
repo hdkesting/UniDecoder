@@ -16,7 +16,7 @@
 
 @if (FilteredBlocks is not null)
 {
-    <select class="form-control" @bind=BlockName title="Select a block to show" @ref="dropdownElement">
+    <select class="form-select" @bind=BlockName title="Select a block to show" @ref="dropdownElement">
         @foreach (var block in FilteredBlocks)
         {
             <option value=@block>@block</option>
