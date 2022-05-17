@@ -27,7 +27,7 @@ namespace UniDecoderBlazorServer.Pages
             }
         }
 
-        public List<CodepointInfo>? Characters { get; set; }
+        public List<StringElement>? Characters { get; set; }
 
         protected override void OnParametersSet()
         {
@@ -51,11 +51,11 @@ namespace UniDecoderBlazorServer.Pages
         {
             if (!string.IsNullOrWhiteSpace(SearchText))
             {
-                Characters = myservice.ListCharacters(SearchText);
+                Characters = myservice.ListElements(SearchText);
             }
             else
             {
-                Characters = new List<CodepointInfo>();
+                Characters = new List<StringElement>();
             }
         }
     }

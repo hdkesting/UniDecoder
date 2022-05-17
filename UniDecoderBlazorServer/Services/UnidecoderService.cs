@@ -31,6 +31,20 @@ public class UnidecoderService
         return result;
     }
 
+    public List<StringElement> ListElements(string input)
+    {
+        System.Globalization.TextElementEnumerator charEnum = System.Globalization.StringInfo.GetTextElementEnumerator(input);
+        var res = new List<StringElement>();
+        while (charEnum.MoveNext())
+        {
+            var se = new StringElement(charEnum.GetTextElement());
+            se.Codepoints.AddRange(se.Element.AsPermissiveCodePointEnumerable().Select(cp => new CodepointInfo(UnicodeInfo.GetCharInfo(cp))));
+            res.Add(se);
+        }
+
+        return res;
+    }
+
     /// <summary>
     /// Gets all categories.
     /// </summary>
