@@ -93,6 +93,7 @@ dt {
 dd {
     /* ↪ */
     padding-right: 10px;
+    margin-bottom: 15px;
 }
 
     dd:before {
