@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Azure.SignalR" Version="1.17.0" />
+    <PackageReference Include="Microsoft.Azure.SignalR" Version="1.18.0" />
     <PackageReference Include="UnicodeInformation" Version="2.6.0" />
   </ItemGroup>
 
