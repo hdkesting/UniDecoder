@@ -4,11 +4,15 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:Unidecoder.Maui"
-    Shell.FlyoutBehavior="Disabled">
+    xmlns:page="clr-namespace:Unidecoder.Maui.Views"
+    >
 
-    <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />
+    <FlyoutItem FlyoutDisplayOptions="AsMultipleItems">
+        <ShellContent Title="Introduction" ContentTemplate="{DataTemplate page:Introduction}"/>
+        <ShellContent Title="Text" ContentTemplate="{DataTemplate page:DisectText}" />
+        <ShellContent Title="by Name" ContentTemplate="{DataTemplate page:ShowByName}" />
+        <ShellContent Title="by Block" ContentTemplate="{DataTemplate page:ShowByBlock}" />
+        <ShellContent Title="by Category" ContentTemplate="{DataTemplate page:ShowByCategory}" />
+    </FlyoutItem>
 
 </Shell>
