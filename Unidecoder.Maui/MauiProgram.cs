@@ -21,6 +21,7 @@
         public static MauiAppBuilder RegisterViewModels(this MauiAppBuilder appBuilder)
         {
             appBuilder.Services.AddSingleton<ViewModels.IntroductionVm>();
+            appBuilder.Services.AddSingleton<ViewModels.DisectTextVm>();
             // TODO
 
             return appBuilder;

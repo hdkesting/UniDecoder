@@ -1,16 +1,63 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:ctrl="clr-namespace:Unidecoder.Maui.Controls"
+             xmlns:vm="clr-namespace:Unidecoder.Maui.ViewModels"
              x:Class="Unidecoder.Maui.Views.Introduction"
+             x:DataType="vm:IntroductionVm"
              Title="Introduction to UniDecoder">
     <VerticalStackLayout Margin="10">
         <Label Text="Introduction to UniDecoder" HorizontalOptions="Center" FontSize="20" FontAttributes="Bold"/>
-        <Label TextType="Html">
-            <![CDATA[Every character (letter, digit, punctuation, emoji,...) of any language has its own codepoint and name in the Unicode character set. At least, that is what the Unicode Consortium is aiming for.
-For more info, see <a href="https://www.unicode.org/faq/">the Unicode FAQ</a>.]]>
+        <Label>
+            <Label.FormattedText>
+                <FormattedString>
+                    <Span Text="Every character (letter, digit, punctuation, emoji,...) of any language has its own codepoint and name in the Unicode character set. At least, that is what the Unicode Consortium is aiming for.
+For more info, see " />
+                    <!--<ctrl:LinkSpan Href="https://www.unicode.org/faq/">the Unicode FAQ</ctrl:LinkSpan>-->
+                    <Span Text="the Unicode FAQ" TextDecorations="Underline">
+                        <Span.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding OpenLinkCommand}" CommandParameter="https://www.unicode.org/faq/" />
+                        </Span.GestureRecognizers>
+                    </Span>
+                    <Span Text="."></Span>
+                </FormattedString>
+            </Label.FormattedText>
+            <Label.GestureRecognizers>
+                <!-- HACK the Span.GestureRecognizers doesn't seem to work, this here does -->
+                <TapGestureRecognizer Command="{Binding OpenLinkCommand}" CommandParameter="https://www.unicode.org/faq/" />
+            </Label.GestureRecognizers>
         </Label>
-        <Label TextType="Html">
-            <![CDATA[Unicode only describes the name and meaning of a character, <strong>not</strong> how it should be shown on screen or in print. That is the task of the <em>font</em> and leads to some issues:]]>
+        <Label>
+            <Label.FormattedText>
+                <FormattedString>
+                    <!-- Content ignores leading/trailing whitespace, Text doesn't -->
+                    <Span Text="Unicode only describes the name and meaning of a character, " />
+                    <Span FontAttributes="Bold">not</Span>
+                    <Span Text=" how it should be shown on screen or in print. That is the task of the "/>
+                    <Span FontAttributes="Italic">font</Span>
+                    <Span Text=" and leads to some issues:"/>
+                </FormattedString>
+            </Label.FormattedText>
+        </Label>
+        <Label>
+            • Specific characters may look the same on one computer (or tablet, or phone) but different on another, because of differences in the installed fonts.
+        </Label>
+        <Label Margin="20,0">
+            <Label.FormattedText>
+                <FormattedString>
+                    <Span Text="◦ An example: &quot;ο&quot; and &quot;o&quot; are different letters "/>
+                    <Span Text="(prοof)" TextDecorations="Underline"/>
+                </FormattedString>
+            </Label.FormattedText>
+            <Label.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding NavigateCommand}" CommandParameter="text|prοof"/>
+            </Label.GestureRecognizers>
+        </Label>
+        <Label Margin="20,0">
+                ◦ Sometimes 🇳🇱 is shown as "NL" (for instance on Windows), sometimes as a flag (for instance on Android)
+        </Label>
+        <Label>
+            • Most fonts (probably even all) do not support the full unicode character set – which after all also includes ancient characters like Cuneiform and others that are "not in everyday use", such as Domino Tiles.
         </Label>
         <Label Text="... etc ..." />
     </VerticalStackLayout>
