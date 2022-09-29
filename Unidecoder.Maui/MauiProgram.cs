@@ -12,10 +12,18 @@
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 })
+                .RegisterServices()
                 .RegisterViewModels()
                 .RegisterViews();
 
             return builder.Build();
+        }
+
+        public static MauiAppBuilder RegisterServices(this MauiAppBuilder appBuilder)
+        {
+            appBuilder.Services.AddSingleton<Services.UnidecoderService>();
+
+            return appBuilder;
         }
 
         public static MauiAppBuilder RegisterViewModels(this MauiAppBuilder appBuilder)
