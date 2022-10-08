@@ -18,6 +18,7 @@ public class LinkSpan : Span
 		this.GestureRecognizers.Add(new TapGestureRecognizer() { Command = new Command(async () => await this.PerformTapAction())});
 
 		// TODO: but the method is not invoked (unlike LinkLabel)
+	    // known bug: https://github.com/dotnet/maui/issues/6257  https://github.com/dotnet/maui/issues/4734
 	}
 
 	/// <summary>

@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:Unidecoder.Maui.ViewModels"
+             xmlns:ctrl="clr-namespace:Unidecoder.Maui.Controls"
              x:Class="Unidecoder.Maui.Views.DisectText"
              x:DataType="vm:DisectTextVm"
              Title="Show Characters in Text">
@@ -10,6 +11,7 @@
         <Label>
             Type in (or copy from somewhere &amp; paste in here) some text in the field below. Information about all separate characters in that text will then be shown.
         </Label>
-        <Entry Text="{Binding SampleText}" TextChanged="Entry_TextChanged" BackgroundColor="AliceBlue"/>
+        <Entry Text="{Binding SampleText}" TextChanged="Entry_TextChanged" BackgroundColor="Beige"/>
+        <ctrl:ElementList Elements="{Binding Elements}"/>
     </VerticalStackLayout>
 </ContentPage>

@@ -13,4 +13,6 @@ public class StringElement
     {
         Element = element;
     }
+
+    public override string ToString() => $"{Element} ({Codepoints.Count})";
 }

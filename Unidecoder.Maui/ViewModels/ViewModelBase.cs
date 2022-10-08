@@ -13,9 +13,9 @@ public abstract class ViewModelBase : BindableObject
     /// <param name="propertyName">Name of the property.</param>
     /// <returns></returns>
     protected bool Set<T>(ref T field, T value, [CallerMemberName] string propertyName = "")
-        where T : IEquatable<T>
     {
-        if (field.Equals(value))
+        EqualityComparer<T> comparer = EqualityComparer<T>.Default;
+        if (comparer.Equals(field, value))
         {
             return false;
         }
