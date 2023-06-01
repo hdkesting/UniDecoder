@@ -10,6 +10,7 @@ public partial class ElementList : ContentView
 	public ElementList()
 	{
 		InitializeComponent();
+		this.Codepoints = new List<Models.CodepointAndPosition>();
 		this.BindingContext = this;
 	}
 
@@ -27,7 +28,7 @@ public partial class ElementList : ContentView
 
 	public IList<Models.CodepointAndPosition> Codepoints { get; set; }
 
-	private static IList<CodepointAndPosition> TranslateElements(IList<StringElement> elements)
+	private static IList<Models.CodepointAndPosition> TranslateElements(IList<StringElement> elements)
 	{
 		var list = new List<CodepointAndPosition>();
 		foreach (var element in elements)

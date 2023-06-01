@@ -1,7 +1,5 @@
 using System.Windows.Input;
 
-using Microsoft.Maui.Controls;
-
 namespace Unidecoder.Maui.Controls;
 
 public class LinkLabel : Label
@@ -18,12 +16,12 @@ public class LinkLabel : Label
 	/// <summary>
 	/// Gets or sets the external URL to open the browser for. Expected to start with "https://".
 	/// </summary>
-	public string Href { get; set; }
+	public string? Href { get; set; }
 
 	/// <summary>
 	/// Gets or sets the internal route to redirect to.
 	/// </summary>
-	public string Route { get; set; }
+	public string? Route { get; set; }
 
 	private ICommand TapCommand { get; set; }
 

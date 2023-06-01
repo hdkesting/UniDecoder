@@ -9,19 +9,17 @@ namespace Unidecoder.Maui.ViewModels;
 public class DisectTextVm : ViewModelBase
 {
 	private readonly UnidecoderService service;
-	private IList<StringElement> _elements;
+	private IList<StringElement> _elements = new List<StringElement>();
 
 	public DisectTextVm(UnidecoderService service)
 	{
-		//this.SampleTextChanged = new Command<string>(async (s) => await DebouncedSearch(() => ExecuteTextChanged(s)).ConfigureAwait(false));
-		//new Command<string>(async s => await ExecuteTextChanged(s));
 		this.SampleTextChanged = new DebouncedCommand(TimeSpan.FromMilliseconds(500), () => ExecuteTextChanged(this.SampleText));
 		this.service = service;
 	}
 
 	public ICommand SampleTextChanged { get; init; }
 
-	public string SampleText { get; set; }
+	public string? SampleText { get; set; }
 
 	public IList<StringElement> Elements
 	{
@@ -29,11 +27,14 @@ public class DisectTextVm : ViewModelBase
 		set => Set(ref _elements, value);
 	}
 
-	private async Task ExecuteTextChanged(string text)
+	private async Task ExecuteTextChanged(string? text)
 	{
-		Elements = service.ListElements(text);
-		System.Diagnostics.Debug.WriteLine(text);
-		// TODO
-		await Task.CompletedTask;
+		if (!string.IsNullOrEmpty(text))
+		{
+			Elements = service.ListElements(text);
+			System.Diagnostics.Debug.WriteLine(text);
+			// TODO
+			await Task.CompletedTask;
+		}
 	}
 }

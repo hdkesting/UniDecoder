@@ -9,7 +9,7 @@ internal class DebouncedCommand : ICommand
     private readonly TimeSpan delay;
 	private readonly Func<Task> action;
 
-    private CancellationTokenSource _throttleCts = new CancellationTokenSource();
+    private CancellationTokenSource _throttleCts = new ();
 
     public DebouncedCommand(TimeSpan delay, Func<Task> action)
 	{
@@ -17,14 +17,11 @@ internal class DebouncedCommand : ICommand
 		this.action = action;
 	}
 
-	public event EventHandler CanExecuteChanged;
+	public event EventHandler? CanExecuteChanged;
 
-	public bool CanExecute(object parameter)
-	{
-		return action is not null;
-	}
+    public bool CanExecute(object? parameter) => action is not null;
 
-	public void Execute(object parameter)
+    public void Execute(object? parameter)
 	{
         _ = DebouncedSearch();
 	}

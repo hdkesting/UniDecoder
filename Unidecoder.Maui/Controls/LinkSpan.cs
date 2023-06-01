@@ -24,12 +24,12 @@ public class LinkSpan : Span
 	/// <summary>
 	/// Gets or sets the external URL to open the browser for. Expected to start with "https://".
 	/// </summary>
-	public string Href { get; set; }
+	public string? Href { get; set; }
 
 	/// <summary>
 	/// Gets or sets the internal route to redirect to.
 	/// </summary>
-	public string Route { get; set; }
+	public string? Route { get; set; }
 
 	private async Task PerformTapAction()
 	{
