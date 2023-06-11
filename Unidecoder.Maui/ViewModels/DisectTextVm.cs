@@ -8,12 +8,14 @@ namespace Unidecoder.Maui.ViewModels;
 
 public class DisectTextVm : ViewModelBase
 {
+	private static readonly TimeSpan DebounceDelay = TimeSpan.FromMilliseconds(200);
+
 	private readonly UnidecoderService service;
 	private IList<StringElement> _elements = new List<StringElement>();
 
 	public DisectTextVm(UnidecoderService service)
 	{
-		this.SampleTextChanged = new DebouncedCommand(TimeSpan.FromMilliseconds(500), () => ExecuteTextChanged(this.SampleText));
+		this.SampleTextChanged = new DebouncedCommand(DebounceDelay, ExecuteTextChanged);
 		this.service = service;
 	}
 
@@ -27,13 +29,15 @@ public class DisectTextVm : ViewModelBase
 		set => Set(ref _elements, value);
 	}
 
-	private async Task ExecuteTextChanged(string? text)
+	private async Task ExecuteTextChanged()
 	{
-		if (!string.IsNullOrEmpty(text))
+		var text = this.SampleText;
+
+        if (!string.IsNullOrEmpty(text))
 		{
 			Elements = service.ListElements(text);
 			System.Diagnostics.Debug.WriteLine(text);
-			// TODO
+			// TODO?
 			await Task.CompletedTask;
 		}
 	}

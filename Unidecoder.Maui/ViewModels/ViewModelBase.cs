@@ -8,9 +8,9 @@ public abstract class ViewModelBase : BindableObject
     /// Sets the specified field. Fires "PropertyChanged" event when the value was changed.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    /// <param name="field">The field.</param>
-    /// <param name="value">The value.</param>
-    /// <param name="propertyName">Name of the property.</param>
+    /// <param name="field">The field to assign to.</param>
+    /// <param name="value">The value to assign.</param>
+    /// <param name="propertyName">Name of the property (automatically set).</param>
     /// <returns></returns>
     protected bool Set<T>(ref T field, T value, [CallerMemberName] string propertyName = "")
     {

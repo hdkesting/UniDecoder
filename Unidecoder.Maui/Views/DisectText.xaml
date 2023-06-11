@@ -17,6 +17,6 @@
                 <toolkit:EventToCommandBehavior EventName="TextChanged" Command="{Binding SampleTextChanged}" />
             </Entry.Behaviors>
         </Entry>
-        <ctrl:ElementList Elements="{Binding Elements}"/>
+        <ctrl:ElementList Elements="{Binding Elements, Mode=OneWay}"/>
     </VerticalStackLayout>
 </ContentPage>

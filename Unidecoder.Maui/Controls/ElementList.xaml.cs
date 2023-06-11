@@ -5,9 +5,12 @@ namespace Unidecoder.Maui.Controls;
 public partial class ElementList : ContentView
 {
 	public static readonly BindableProperty ElementsProperty
-		= BindableProperty.Create(nameof(Elements), typeof(IList<Models.StringElement>), typeof(ElementList), defaultValue: new List<Models.StringElement>());
+		= BindableProperty.Create(nameof(Elements), typeof(IList<Models.StringElement>), typeof(ElementList),
+			defaultValue: new List<Models.StringElement>(),
+			propertyChanged: ElementsPropertyChanged);
 
-	public ElementList()
+
+    public ElementList()
 	{
 		InitializeComponent();
 		this.Codepoints = new List<Models.CodepointAndPosition>();
@@ -19,14 +22,16 @@ public partial class ElementList : ContentView
 	public IList<Models.StringElement> Elements
 	{
 		get => (IList<Models.StringElement>)GetValue(ElementsProperty);
-		set
-		{
-			SetValue(ElementsProperty, value);
-			this.Codepoints = TranslateElements(value);
-		}
+		set => SetValue(ElementsProperty, value);
 	}
 
 	public IList<Models.CodepointAndPosition> Codepoints { get; set; }
+
+    private static void ElementsPropertyChanged(BindableObject bindable, object oldValue, object newValue)
+    {
+		var that = (ElementList)bindable;
+		that.Codepoints = TranslateElements((IList<Models.StringElement>)newValue);
+    }
 
 	private static IList<Models.CodepointAndPosition> TranslateElements(IList<StringElement> elements)
 	{
