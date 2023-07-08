@@ -1,4 +1,5 @@
 using Unidecoder.Maui.Models;
+using Unidecoder.Maui.ViewModels;
 
 namespace Unidecoder.Maui.Controls;
 
@@ -9,15 +10,12 @@ public partial class ElementList : ContentView
 			defaultValue: new List<Models.StringElement>(),
 			propertyChanged: ElementsPropertyChanged);
 
-
     public ElementList()
 	{
 		InitializeComponent();
-		this.Codepoints = new List<Models.CodepointAndPosition>();
-		this.BindingContext = this;
+		this.VM = new ElementListVm();
+		// this.BindingContext = this; <- don't do this
 	}
-
-	// TODO recalculate the list to single codepoints, with a Single/First/Middle/Last enum value
 
 	public IList<Models.StringElement> Elements
 	{
@@ -25,35 +23,13 @@ public partial class ElementList : ContentView
 		set => SetValue(ElementsProperty, value);
 	}
 
-	public IList<Models.CodepointAndPosition> Codepoints { get; set; }
+    public ElementListVm VM { get; }
 
     private static void ElementsPropertyChanged(BindableObject bindable, object oldValue, object newValue)
     {
-		var that = (ElementList)bindable;
-		that.Codepoints = TranslateElements((IList<Models.StringElement>)newValue);
-    }
-
-	private static IList<Models.CodepointAndPosition> TranslateElements(IList<StringElement> elements)
-	{
-		var list = new List<CodepointAndPosition>();
-		foreach (var element in elements)
-		{
-			if (element.Codepoints.Count == 1)
-			{
-				list.Add(new CodepointAndPosition(element.Codepoints[0], Support.CodepointPosition.Single));
-			}
-			else
-			{
-				list.Add(new CodepointAndPosition(element.Codepoints[0], Support.CodepointPosition.First));
-				foreach (var sub in element.Codepoints.Skip(1).Take(element.Codepoints.Count - 2))
-				{
-					list.Add(new CodepointAndPosition(sub, Support.CodepointPosition.Middle));
-				}
-
-				list.Add(new CodepointAndPosition(element.Codepoints.Last(), Support.CodepointPosition.Last));
-			}
-		}
-
-		return list;
+		var this_ = (ElementList)bindable;
+		var elements = (IList<Models.StringElement>)newValue;
+		this_.VM.ElementsChanged(elements);
 	}
+
 }

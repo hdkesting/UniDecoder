@@ -18,5 +18,6 @@
             </Entry.Behaviors>
         </Entry>
         <ctrl:ElementList Elements="{Binding Elements, Mode=OneWay}"/>
+        <Label Text="{Binding ElementCount, Mode=OneWay}" BackgroundColor="LightGreen"/>
     </VerticalStackLayout>
 </ContentPage>

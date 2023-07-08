@@ -32,7 +32,7 @@ internal class DebouncedCommand : ICommand
         {
             Interlocked.Exchange(ref _throttleCts, new CancellationTokenSource()).Cancel();
 
-            //NOTE THE 500 HERE - WHICH IS THE TIME TO WAIT
+            //NOTE THE 'delay' HERE - WHICH IS THE TIME TO WAIT
             await Task.Delay(this.delay, _throttleCts.Token)
 
                 //NOTICE THE "ACTUAL" SEARCH METHOD HERE

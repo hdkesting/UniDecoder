@@ -5,12 +5,16 @@
              xmlns:mdl="clr-namespace:Unidecoder.Maui.Models"
              x:Class="Unidecoder.Maui.Controls.ElementList"
              x:DataType="ctrl:ElementList"
-             BackgroundColor="BurlyWood">
-    <FlexLayout AlignContent="SpaceBetween" BindableLayout.ItemsSource="{Binding Elements}" Wrap="Wrap">
-        <BindableLayout.ItemTemplate>
-            <DataTemplate x:DataType="mdl:StringElement">
-                <Label Text="{Binding Element}" />
-            </DataTemplate>
-        </BindableLayout.ItemTemplate>
-    </FlexLayout>
+             BackgroundColor="BurlyWood"
+             x:Name="me">
+    <VerticalStackLayout>
+        <FlexLayout AlignContent="SpaceBetween" BindableLayout.ItemsSource="{Binding VM.Codepoints, Source={x:Reference me}}" Wrap="Wrap">
+            <BindableLayout.ItemTemplate>
+                <DataTemplate x:DataType="mdl:CodepointAndPosition">
+                    <Label Text="{Binding Codepoint.Character}" />
+                </DataTemplate>
+            </BindableLayout.ItemTemplate>
+        </FlexLayout>
+        <Label Text="{Binding VM.ElementCount, Mode=OneWay, Source={x:Reference me}}" BackgroundColor="LightPink" />
+    </VerticalStackLayout>
 </ContentView>
