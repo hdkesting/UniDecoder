@@ -13,11 +13,11 @@ public partial class ElementList : ContentView
     public ElementList()
 	{
 		InitializeComponent();
-		this.VM = new ElementListVm();
-		// this.BindingContext = this; <- don't do this
-	}
+        this.VM = App.Current.Services.GetService<ViewModels.ElementListVm>() ?? throw new InvalidOperationException("VM not found for DI: ElementListVm");
+        // this.BindingContext = this; <- do not do this, this needs the binding context of the surrounding page to bind correctly
+    }
 
-	public IList<Models.StringElement> Elements
+    public IList<Models.StringElement> Elements
 	{
 		get => (IList<Models.StringElement>)GetValue(ElementsProperty);
 		set => SetValue(ElementsProperty, value);
@@ -31,5 +31,4 @@ public partial class ElementList : ContentView
 		var elements = (IList<Models.StringElement>)newValue;
 		this_.VM.ElementsChanged(elements);
 	}
-
 }

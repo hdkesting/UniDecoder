@@ -2,6 +2,7 @@
 
 namespace Unidecoder.Maui.ViewModels;
 
+[Obsolete("Use ObservableObject", true)]
 public abstract class ViewModelBase : BindableObject
 {
     /// <summary>

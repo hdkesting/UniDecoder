@@ -1,8 +1,10 @@
 ﻿using System.Windows.Input;
 
+using CommunityToolkit.Mvvm.ComponentModel;
+
 namespace Unidecoder.Maui.ViewModels;
 
-public class IntroductionVm : ViewModelBase
+public class IntroductionVm : ObservableObject
 {
 	public IntroductionVm()
 	{

@@ -8,7 +8,7 @@
              BackgroundColor="BurlyWood"
              x:Name="me">
     <VerticalStackLayout>
-        <FlexLayout AlignContent="SpaceBetween" BindableLayout.ItemsSource="{Binding VM.Codepoints, Source={x:Reference me}}" Wrap="Wrap">
+        <FlexLayout AlignContent="SpaceBetween" BindableLayout.ItemsSource="{Binding VM.Codepoints, Source={x:Reference me}, Mode=OneWay}" Wrap="Wrap">
             <BindableLayout.ItemTemplate>
                 <DataTemplate x:DataType="mdl:CodepointAndPosition">
                     <Label Text="{Binding Codepoint.Character}" />

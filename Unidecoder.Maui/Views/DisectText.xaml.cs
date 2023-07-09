@@ -4,9 +4,9 @@ namespace Unidecoder.Maui.Views;
 
 public partial class DisectText : ContentPage
 {
-	public DisectText(ViewModels.DisectTextVm vm)
+	public DisectText()
 	{
 		InitializeComponent();
-        this.BindingContext = vm;
+        this.BindingContext = App.Current.Services.GetService<ViewModels.DisectTextVm>();
 	}
 }

@@ -1,14 +1,10 @@
-using System.Windows.Input;
-
-using Unidecoder.Maui.ViewModels;
-
 namespace Unidecoder.Maui.Views;
 
 public partial class Introduction : ContentPage
 {
-	public Introduction(ViewModels.IntroductionVm vm)
+	public Introduction()
 	{
 		InitializeComponent();
-		this.BindingContext = vm;
-	}
+        this.BindingContext = App.Current.Services.GetService<ViewModels.IntroductionVm>();
+    }
 }
