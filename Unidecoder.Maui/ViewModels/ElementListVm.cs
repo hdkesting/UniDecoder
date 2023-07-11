@@ -1,6 +1,7 @@
 ﻿namespace Unidecoder.Maui.ViewModels;
 
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -17,8 +18,8 @@ public partial class ElementListVm : ObservableObject
 
     internal void ElementsChanged(IList<StringElement> elements)
     {
-        Codepoints = TranslateElements(elements);
         ElementCount = $"{elements.Count} -> {Codepoints.Count}";
+        Codepoints = TranslateElements(elements);
     }
 
     private static IList<Models.CodepointAndPosition> TranslateElements(IList<StringElement> elements)

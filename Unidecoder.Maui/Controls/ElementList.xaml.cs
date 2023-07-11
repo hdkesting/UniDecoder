@@ -1,3 +1,5 @@
+using System.ComponentModel;
+
 using Unidecoder.Maui.Models;
 using Unidecoder.Maui.ViewModels;
 
@@ -30,5 +32,6 @@ public partial class ElementList : ContentView
 		var this_ = (ElementList)bindable;
 		var elements = (IList<Models.StringElement>)newValue;
 		this_.VM.ElementsChanged(elements);
+		this_.OnPropertyChanged(nameof(this_.VM));
 	}
 }
