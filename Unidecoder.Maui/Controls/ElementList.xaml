@@ -6,14 +6,43 @@
              x:Class="Unidecoder.Maui.Controls.ElementList"
              x:DataType="ctrl:ElementList"
              BackgroundColor="BurlyWood"
-             x:Name="me">
+             x:Name="eltlst">
+    <ContentView.Resources>
+        <DataTemplate x:DataType="mdl:CodepointAndPosition" x:Key="Single">
+            <StackLayout>
+                <Label Text="{Binding Codepoint.Character}" TextColor="Red" />
+                <ctrl:SingleElement Element="{Binding Codepoint}" />
+            </StackLayout>
+        </DataTemplate>
+
+        <DataTemplate x:DataType="mdl:CodepointAndPosition" x:Key="First">
+            <Border Stroke="Blue" StrokeThickness="2" >
+                <ctrl:SingleElement Element="{Binding Codepoint}" />
+            </Border>
+        </DataTemplate>
+
+        <DataTemplate x:DataType="mdl:CodepointAndPosition" x:Key="Middle">
+            <Border Stroke="Blue" StrokeThickness="2">
+                <ctrl:SingleElement Element="{Binding Codepoint}" />
+            </Border>
+        </DataTemplate>
+
+        <DataTemplate x:DataType="mdl:CodepointAndPosition" x:Key="Last">
+            <Border Stroke="Blue" StrokeThickness="2">
+                <ctrl:SingleElement Element="{Binding Codepoint}" />
+            </Border>
+        </DataTemplate>
+
+        <ctrl:ElementTemplateSelector x:Key="selector"
+                SingleTemplate="{StaticResource Single}"
+                FirstTemplate="{StaticResource First}"
+                MiddleTemplate="{StaticResource Middle}"
+                LastTemplate="{StaticResource Last}" />
+    </ContentView.Resources>
     <VerticalStackLayout>
-        <FlexLayout AlignContent="SpaceBetween" AlignItems="Center" BindableLayout.ItemsSource="{Binding VM.Codepoints, Source={x:Reference me}, Mode=OneWay}" Wrap="Wrap">
-            <BindableLayout.ItemTemplate>
-                <DataTemplate x:DataType="mdl:CodepointAndPosition">
-                    <Label Text="{Binding Codepoint.Name}" />
-                </DataTemplate>
-            </BindableLayout.ItemTemplate>
+        <FlexLayout AlignContent="SpaceBetween" AlignItems="Center" 
+                    BindableLayout.ItemsSource="{Binding VM.Codepoints, Source={x:Reference eltlst}, Mode=OneWay}" Wrap="Wrap"
+                    BindableLayout.ItemTemplateSelector="{StaticResource selector}">
         </FlexLayout>
     </VerticalStackLayout>
 </ContentView>

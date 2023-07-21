@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:ctrl="clr-namespace:Unidecoder.Maui.Controls"
+             xmlns:mdl="clr-namespace:Unidecoder.Maui.Models"
+             x:Class="Unidecoder.Maui.Controls.SingleElement"
+             x:Name="elt">
+    <Border BackgroundColor="White" Stroke="Black" StrokeThickness="1">
+        <Border.StrokeShape>
+            <RoundRectangle CornerRadius="5" />
+        </Border.StrokeShape>
+        <Grid RowDefinitions="Auto, Auto, Auto, Auto" ColumnDefinitions="20, Auto, Auto" >
+            <Border BackgroundColor="AntiqueWhite" Padding="5">
+                <Label Grid.Row="0" Grid.Column="0" Grid.RowSpan="4" Text="{Binding Element.Character, Source={x:Reference elt}}" />
+            </Border>
+            <Label Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding Element.Name, Source={x:Reference elt}}" />
+            <Label Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding Element.CategoryName, Source={x:Reference elt}}" />
+            <Label Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding Element.Block, Source={x:Reference elt}}" />
+            <Label Grid.Row="3" Grid.Column="1" Text="{Binding Element.Codepoint, Source={x:Reference elt}}" />
+            <Label Grid.Row="3" Grid.Column="2" Text="{Binding Element.CodepointHex, Source={x:Reference elt}}" />
+        </Grid>
+    </Border>
+</ContentView>
