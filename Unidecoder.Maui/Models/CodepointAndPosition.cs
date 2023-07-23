@@ -13,4 +13,10 @@ public class CodepointAndPosition
 	public CodepointInfo Codepoint { get; }
 
 	public CodepointPosition Position { get; }
+
+	/// <summary>
+	/// The full element this is codepoint part of.
+	/// </summary>
+	/// <remarks>Only needed for a 'First' cp.</remarks>
+    public StringElement? Element { get; init; }
 }

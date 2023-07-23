@@ -5,31 +5,115 @@
              xmlns:mdl="clr-namespace:Unidecoder.Maui.Models"
              x:Class="Unidecoder.Maui.Controls.ElementList"
              x:DataType="ctrl:ElementList"
-             BackgroundColor="BurlyWood"
              x:Name="eltlst">
     <ContentView.Resources>
+        <ControlTemplate x:Key="singleElement" x:DataType="mdl:CodepointAndPosition">
+            <Frame BindingContext="{Binding Source={RelativeSource TemplatedParent}}">
+                <Border BackgroundColor="White" Stroke="Black" StrokeThickness="1" Padding="5">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="5" />
+                    </Border.StrokeShape>
+                    <Grid RowDefinitions="Auto, Auto, Auto, Auto" ColumnDefinitions="80, *, *" >
+                        <Border Grid.Row="0" Grid.Column="0" Grid.RowSpan="4" BackgroundColor="AntiqueWhite" Padding="5">
+                            <Label Text="{Binding Codepoint.Character}" FontSize="40" VerticalTextAlignment="Center"/>
+                        </Border>
+                        <Label Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding Codepoint.Name}" />
+                        <Label Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding Codepoint.CategoryName}" />
+                        <Label Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding Codepoint.Block}" />
+                        <Label Grid.Row="3" Grid.Column="1" Text="{Binding Codepoint.Codepoint}" />
+                        <Label Grid.Row="3" Grid.Column="2" Text="{Binding Codepoint.CodepointHex}" />
+                    </Grid>
+                </Border>
+            </Frame>
+        </ControlTemplate>
+
         <DataTemplate x:DataType="mdl:CodepointAndPosition" x:Key="Single">
-            <StackLayout>
-                <Label Text="{Binding Codepoint.Character}" TextColor="Red" />
-                <ctrl:SingleElement Element="{Binding Codepoint}" />
-            </StackLayout>
+            <Border BackgroundColor="White" Stroke="Black" StrokeThickness="1">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="5" />
+                </Border.StrokeShape>
+                <Grid RowDefinitions="Auto, Auto, Auto, Auto" ColumnDefinitions="20, *, *" >
+                    <Border Grid.Row="0" Grid.Column="0" Grid.RowSpan="4" BackgroundColor="AntiqueWhite" Padding="5">
+                        <Label Text="{Binding Codepoint.Character}" />
+                    </Border>
+                    <Label Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding Codepoint.Name}" />
+                    <Label Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding Codepoint.CategoryName}" />
+                    <Label Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding Codepoint.Block}" />
+                    <Label Grid.Row="3" Grid.Column="1" Text="{Binding Codepoint.Codepoint}" />
+                    <Label Grid.Row="3" Grid.Column="2" Text="{Binding Codepoint.CodepointHex}" />
+                </Grid>
+            </Border>
+            <!--<Frame ControlTemplate="{StaticResource singleElement}" />-->
+            <!--<ctrl:SingleElement Element="{Binding Codepoint}" />-->
         </DataTemplate>
 
         <DataTemplate x:DataType="mdl:CodepointAndPosition" x:Key="First">
             <Border Stroke="Blue" StrokeThickness="2" >
-                <ctrl:SingleElement Element="{Binding Codepoint}" />
+                <HorizontalStackLayout>
+                    <!-- only for First element, also show combined glyph -->
+                    <Label Text="{Binding Element.Element}" />
+                    <Border BackgroundColor="White" Stroke="Black" StrokeThickness="1" Padding="1">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="5" />
+                        </Border.StrokeShape>
+                        <Grid RowDefinitions="Auto, Auto, Auto, Auto" ColumnDefinitions="20, *, *" >
+                            <Border Grid.Row="0" Grid.Column="0" Grid.RowSpan="4" BackgroundColor="AntiqueWhite" Padding="5">
+                                <Label Text="{Binding Codepoint.Character}" />
+                            </Border>
+                            <Label Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding Codepoint.Name}" />
+                            <Label Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding Codepoint.CategoryName}" />
+                            <Label Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding Codepoint.Block}" />
+                            <Label Grid.Row="3" Grid.Column="1" Text="{Binding Codepoint.Codepoint}" />
+                            <Label Grid.Row="3" Grid.Column="2" Text="{Binding Codepoint.CodepointHex}" />
+                        </Grid>
+                    </Border>
+                    <!--<Frame ControlTemplate="{StaticResource singleElement}" />-->
+                    <!--<ctrl:SingleElement Element="{Binding Codepoint}" />-->
+                </HorizontalStackLayout>
             </Border>
         </DataTemplate>
 
         <DataTemplate x:DataType="mdl:CodepointAndPosition" x:Key="Middle">
-            <Border Stroke="Blue" StrokeThickness="2">
-                <ctrl:SingleElement Element="{Binding Codepoint}" />
+            <Border Stroke="Yellow" StrokeThickness="2">
+                <Border BackgroundColor="White" Stroke="Black" StrokeThickness="1" Padding="1">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="5" />
+                    </Border.StrokeShape>
+                    <Grid RowDefinitions="Auto, Auto, Auto, Auto" ColumnDefinitions="20, *, *" >
+                        <Border Grid.Row="0" Grid.Column="0" Grid.RowSpan="4" BackgroundColor="AntiqueWhite" Padding="5">
+                            <Label Text="{Binding Codepoint.Character}" />
+                        </Border>
+                        <Label Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding Codepoint.Name}" />
+                        <Label Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding Codepoint.CategoryName}" />
+                        <Label Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding Codepoint.Block}" />
+                        <Label Grid.Row="3" Grid.Column="1" Text="{Binding Codepoint.Codepoint}" />
+                        <Label Grid.Row="3" Grid.Column="2" Text="{Binding Codepoint.CodepointHex}" />
+                    </Grid>
+                </Border>
+                <!--<Frame ControlTemplate="{StaticResource singleElement}" />-->
+                <!--<ctrl:SingleElement Element="{Binding Codepoint}" />-->
             </Border>
         </DataTemplate>
 
         <DataTemplate x:DataType="mdl:CodepointAndPosition" x:Key="Last">
-            <Border Stroke="Blue" StrokeThickness="2">
-                <ctrl:SingleElement Element="{Binding Codepoint}" />
+            <Border Stroke="Red" StrokeThickness="2">
+                <Border BackgroundColor="White" Stroke="Black" StrokeThickness="1" Padding="1">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="5" />
+                    </Border.StrokeShape>
+                    <Grid RowDefinitions="Auto, Auto, Auto, Auto" ColumnDefinitions="20, *, *" >
+                        <Border Grid.Row="0" Grid.Column="0" Grid.RowSpan="4" BackgroundColor="AntiqueWhite" Padding="5">
+                            <Label Text="{Binding Codepoint.Character}" />
+                        </Border>
+                        <Label Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding Codepoint.Name}" />
+                        <Label Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding Codepoint.CategoryName}" />
+                        <Label Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding Codepoint.Block}" />
+                        <Label Grid.Row="3" Grid.Column="1" Text="{Binding Codepoint.Codepoint}" />
+                        <Label Grid.Row="3" Grid.Column="2" Text="{Binding Codepoint.CodepointHex}" />
+                    </Grid>
+                </Border>
+                <!--<Frame ControlTemplate="{StaticResource singleElement}" />-->
+                <!--<ctrl:SingleElement Element="{Binding Codepoint}" />-->
             </Border>
         </DataTemplate>
 
@@ -39,10 +123,10 @@
                 MiddleTemplate="{StaticResource Middle}"
                 LastTemplate="{StaticResource Last}" />
     </ContentView.Resources>
-    <VerticalStackLayout>
+    <ScrollView>
         <FlexLayout AlignContent="SpaceBetween" AlignItems="Center" 
                     BindableLayout.ItemsSource="{Binding VM.Codepoints, Source={x:Reference eltlst}, Mode=OneWay}" Wrap="Wrap"
                     BindableLayout.ItemTemplateSelector="{StaticResource selector}">
         </FlexLayout>
-    </VerticalStackLayout>
+    </ScrollView>
 </ContentView>

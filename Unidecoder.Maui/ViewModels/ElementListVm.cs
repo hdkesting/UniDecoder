@@ -33,7 +33,7 @@ public partial class ElementListVm : ObservableObject
             }
             else
             {
-                list.Add(new CodepointAndPosition(element.Codepoints[0], Support.CodepointPosition.First));
+                list.Add(new CodepointAndPosition(element.Codepoints[0], Support.CodepointPosition.First) { Element = element });
                 foreach (var sub in element.Codepoints.Skip(1).Take(element.Codepoints.Count - 2))
                 {
                     list.Add(new CodepointAndPosition(sub, Support.CodepointPosition.Middle));
