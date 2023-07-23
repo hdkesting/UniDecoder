@@ -1,9 +1,6 @@
-using System.ComponentModel;
-
-using Unidecoder.Maui.Models;
-using Unidecoder.Maui.ViewModels;
-
 namespace Unidecoder.Maui.Controls;
+
+using Unidecoder.Maui.ViewModels;
 
 public partial class ElementList : ContentView
 {

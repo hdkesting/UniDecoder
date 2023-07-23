@@ -1,14 +1,12 @@
-﻿using System.Collections.ObjectModel;
+﻿namespace Unidecoder.Maui.ViewModels;
+
 using System.Windows.Input;
 
-using Unidecoder.Maui.Components;
-using Unidecoder.Maui.Extensions;
-using Unidecoder.Maui.Models;
-using Unidecoder.Maui.Services;
-using CommunityToolkit.Maui;
 using CommunityToolkit.Mvvm.ComponentModel;
 
-namespace Unidecoder.Maui.ViewModels;
+using Unidecoder.Maui.Components;
+using Unidecoder.Maui.Models;
+using Unidecoder.Maui.Services;
 
 public partial class DisectTextVm : ObservableObject
 {
