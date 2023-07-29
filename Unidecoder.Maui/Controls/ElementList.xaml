@@ -21,7 +21,7 @@
                 <ContentView BackgroundColor="White">
                     <HorizontalStackLayout>
                         <!-- only for First element, also show combined glyph -->
-                        <Label Text="{Binding Element.Element}" />
+                        <Label Text="{Binding Element.Element}" FontSize="50"/>
                         <ctrl:SingleElement Element="{Binding Codepoint}" />
                     </HorizontalStackLayout>
                 </ContentView>
