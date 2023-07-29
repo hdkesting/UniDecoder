@@ -19,8 +19,11 @@ namespace Unidecoder.Maui
                 .RegisterViewModels()
                 .RegisterViews();
 
-            return builder.Build();
+            App = builder.Build();
+            return App;
         }
+
+        internal static MauiApp App { get; private set; } = default!;
 
         public static MauiAppBuilder RegisterServices(this MauiAppBuilder appBuilder)
         {
@@ -33,7 +36,10 @@ namespace Unidecoder.Maui
         {
             appBuilder.Services.AddSingleton<ViewModels.IntroductionVm>();
             appBuilder.Services.AddSingleton<ViewModels.DisectTextVm>();
-            // TODO
+            appBuilder.Services.AddSingleton<ViewModels.ShowByNameVm>();
+            // TODO other view-VMs
+
+            appBuilder.Services.AddSingleton<ViewModels.ElementListVm>();
 
             return appBuilder;
         }

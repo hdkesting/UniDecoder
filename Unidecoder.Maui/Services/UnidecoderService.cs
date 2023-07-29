@@ -1,4 +1,5 @@
-﻿using System.Unicode;
+﻿using System.Linq;
+using System.Unicode;
 
 using Unidecoder.Maui.Models;
 using Unidecoder.Maui.Support;
@@ -93,12 +94,12 @@ public class UnidecoderService
     /// Finds the characters by their name, returning the first <see cref="MaxResults"/> matches.
     /// </summary>
     /// <param name="searchText">The search text.</param>
-    /// <returns>A list of <see cref="CodepointInfo"/>.</returns>
-    public List<CodepointInfo> FindByName(string searchText, bool capped = true)
+    /// <returns>A list of <see cref="StringElement"/>.</returns>
+    public List<StringElement> FindByName(string searchText, bool capped = true)
     {
         if (string.IsNullOrWhiteSpace(searchText))
         {
-            return new List<CodepointInfo>();
+            return new List<StringElement>();
         }
 
         searchText = searchText.Trim();
@@ -107,7 +108,8 @@ public class UnidecoderService
             .Where(CodepointExists)
             .Select(UnicodeInfo.GetCharInfo)
             .Where(x => NameMatches(searchText, x.Name))
-            .Select(info => new CodepointInfo(info));
+            .Select(info => new CodepointInfo(UnicodeInfo.GetCharInfo(info.CodePoint)))
+            .Select(cp => new StringElement(cp.Character) { Codepoints = { cp } });
 
         if (capped)
         {

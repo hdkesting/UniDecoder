@@ -12,7 +12,8 @@ public partial class ElementList : ContentView
     public ElementList()
 	{
 		InitializeComponent();
-        this.VM = App.Current.Services.GetService<ViewModels.ElementListVm>() ?? throw new InvalidOperationException("VM not found for DI: ElementListVm");
+        this.VM = MauiProgram.App.Services.GetService<ViewModels.ElementListVm>()
+            ?? throw new InvalidOperationException("VM not found for DI: ElementListVm");
         // this.BindingContext = this; <- do not do this, this needs the binding context of the surrounding page to bind correctly
     }
 

@@ -7,6 +7,6 @@ public partial class DisectText : ContentPage
 	public DisectText()
 	{
 		InitializeComponent();
-        this.BindingContext = App.Current.Services.GetService<ViewModels.DisectTextVm>();
+        this.BindingContext = MauiProgram.App.Services.GetService<ViewModels.DisectTextVm>();
 	}
 }
