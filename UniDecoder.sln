@@ -7,6 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniDecoder", "UniDecoder\Un
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{43851258-043C-4103-9661-0272A8D45275}"
 	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
 		LICENSE = LICENSE
 		Readme.md = Readme.md
 	EndProjectSection
@@ -33,7 +34,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UniDecoderBlazorServer", "U
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MAUI", "MAUI", "{531EC2D1-07D1-419E-88BF-6B5DFD919504}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unidecoder.Maui", "Unidecoder.Maui\Unidecoder.Maui.csproj", "{9C75CEB2-8C2A-4563-AB41-842F06FB7175}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unidecoder.Maui", "Unidecoder.Maui\Unidecoder.Maui.csproj", "{9C75CEB2-8C2A-4563-AB41-842F06FB7175}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -192,7 +193,7 @@ Global
 		{9C75CEB2-8C2A-4563-AB41-842F06FB7175} = {531EC2D1-07D1-419E-88BF-6B5DFD919504}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		LessCompiler = 4c6ffcde-8926-4609-b7ed-fb904398b698,0cdc1f4c-2303-46e4-ad98-97c5a5f365f8
 		SolutionGuid = {C2CB8706-01F8-4103-874C-A154B69811A5}
+		LessCompiler = 4c6ffcde-8926-4609-b7ed-fb904398b698,0cdc1f4c-2303-46e4-ad98-97c5a5f365f8
 	EndGlobalSection
 EndGlobal
