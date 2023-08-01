@@ -106,7 +106,7 @@ public class UnidecoderService
         var list = Enumerable.Range(LowestPossibleCodepoint, HighestPossibleCodepoint - LowestPossibleCodepoint)
             .Where(this.CodepointExists)
             .Select(UnicodeInfo.GetCharInfo)
-            .Where(x => this.NameMatches(searchText, x.Name))
+            .Where(x => NameMatches(searchText, x.Name))
             .Select(info => new CodepointInfo(info));
 
         if (capped)
@@ -153,6 +153,7 @@ public class UnidecoderService
 
         var list = block.CodePointRange
             .Select(UnicodeInfo.GetCharInfo)
+            .Where(it => !string.IsNullOrEmpty(it.Name))
             .Select(it => new CodepointInfo(it))
             .ToList();
 
@@ -174,6 +175,7 @@ public class UnidecoderService
                 .Where(this.CodepointExists)
                 .Where(cp => UnicodeInfo.GetCategory(cp) == cat)
                 .Select(UnicodeInfo.GetCharInfo)
+                .Where(it => !string.IsNullOrEmpty(it.Name))
                 .Select(it => new CodepointInfo(it))
                 //.Take(200)
                 .ToList();
@@ -191,7 +193,7 @@ public class UnidecoderService
         //// unfortunately I don't see a more direct/less brittle way
     }
 
-    private bool NameMatches(string match, string source)
+    private static bool NameMatches(string match, string source)
     {
         if (source == null)
         {
@@ -205,7 +207,7 @@ public class UnidecoderService
         {
             if (word.StartsWith("-"))
             {
-                var notword = word.Substring(1);
+                var notword = word[1..];
                 if (sourcewords.Any(w => w.StartsWith(notword, StringComparison.OrdinalIgnoreCase)))
                 {
                     return false;
