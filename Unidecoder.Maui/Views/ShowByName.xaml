@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:Unidecoder.Maui.ViewModels"
+             xmlns:ctrl="clr-namespace:Unidecoder.Maui.Controls"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             x:Class="Unidecoder.Maui.Views.ShowByName"
+             x:DataType="vm:ShowByNameVm"
+             Title="Show Characters By Name">
+    <ScrollView>
+        <VerticalStackLayout Margin="10">
+            <Label Text="Find by character's name" HorizontalOptions="Center" FontSize="20" FontAttributes="Bold"/>
+            <Label>
+                Type in a partial name of a character or type in its code to find out about it. When you type in a numerical code (decimal or hexadecimal), some characters around it will also be shown.
+                Note that some values are recognized as both decimal and hexadecimal – meaning you get more results.
+            </Label>
+            <Label>
+                The characters are known only by their official (english) name. When you search for something specific, you may need to try some alternative names.
+            </Label>
+            <!-- TODO add samples, with links -->
+            <Entry Text="{Binding SampleName}" BackgroundColor="Beige" >
+                <Entry.Behaviors>
+                    <toolkit:EventToCommandBehavior EventName="TextChanged" Command="{Binding SampleNameChanged}" />
+                </Entry.Behaviors>
+            </Entry>
+            <ctrl:ElementList Elements="{Binding Elements, Mode=OneWay}"/>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

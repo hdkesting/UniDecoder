@@ -54,6 +54,7 @@ public partial class CascadingAppState
         }
     }
 
+    /*
     protected override async Task OnInitializedAsync()
     {
         // NB localStorage persists across browser restarts and tabs
@@ -67,9 +68,10 @@ public partial class CascadingAppState
         storedResult = await storage.GetAsync<string>(nameof(CategoryName));
         CategoryName = storedResult.Success ? storedResult.Value : string.Empty;
     }
-
+    */
     private async Task Update(string? value, [CallerMemberName] string member = "")
     {
+        /*
         if (value != null)
         {
             await storage.SetAsync(member, value);
@@ -78,5 +80,7 @@ public partial class CascadingAppState
         {
             await storage.DeleteAsync(member);
         }
+        */
+        await Task.CompletedTask;
     }
 }

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:ctrl="clr-namespace:Unidecoder.Maui.Controls"
+             xmlns:mdl="clr-namespace:Unidecoder.Maui.Models"
+             x:Class="Unidecoder.Maui.Controls.ElementList"
+             x:DataType="ctrl:ElementList"
+             x:Name="eltlst">
+    <ContentView.Resources>
+
+        <!-- single element -->
+        <DataTemplate x:DataType="mdl:CodepointAndPosition" x:Key="Single">
+            <ContentView BackgroundColor="White">
+                <ctrl:SingleElement Element="{Binding Codepoint}" />
+            </ContentView>
+        </DataTemplate>
+
+        <!-- First element of a group -->
+        <DataTemplate x:DataType="mdl:CodepointAndPosition" x:Key="First">
+            <ContentView Padding="2,2,0,2" BackgroundColor="Grey" Margin="2">
+                <ContentView BackgroundColor="White">
+                    <HorizontalStackLayout>
+                        <!-- only for First element, also show combined glyph -->
+                        <Label Text="{Binding Element.Element}" FontSize="50"/>
+                        <ctrl:SingleElement Element="{Binding Codepoint}" />
+                    </HorizontalStackLayout>
+                </ContentView>
+            </ContentView>
+        </DataTemplate>
+
+        <!-- Middle element of a group -->
+        <DataTemplate x:DataType="mdl:CodepointAndPosition" x:Key="Middle">
+            <ContentView Padding="0,2,0,2" BackgroundColor="Grey" Margin="2">
+                <ContentView BackgroundColor="White">
+                 <ctrl:SingleElement Element="{Binding Codepoint}" />
+            </ContentView>
+            </ContentView>
+        </DataTemplate>
+
+        <!-- Last element of a group -->
+        <DataTemplate x:DataType="mdl:CodepointAndPosition" x:Key="Last">
+            <ContentView Padding="0,2,2,2" BackgroundColor="Grey" Margin="2">
+                <ContentView BackgroundColor="White">
+                    <ctrl:SingleElement Element="{Binding Codepoint}" />
+                </ContentView>
+            </ContentView>
+        </DataTemplate>
+
+        <ctrl:ElementTemplateSelector x:Key="selector"
+                SingleTemplate="{StaticResource Single}"
+                FirstTemplate="{StaticResource First}"
+                MiddleTemplate="{StaticResource Middle}"
+                LastTemplate="{StaticResource Last}" />
+    </ContentView.Resources>
+    <FlexLayout AlignContent="SpaceBetween" AlignItems="Center" 
+                    BindableLayout.ItemsSource="{Binding VM.Codepoints, Source={x:Reference eltlst}, Mode=OneWay}" Wrap="Wrap"
+                    BindableLayout.ItemTemplateSelector="{StaticResource selector}">
+    </FlexLayout>
+</ContentView>
