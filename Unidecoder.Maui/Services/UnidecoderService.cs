@@ -8,7 +8,7 @@ namespace Unidecoder.Maui.Services;
 
 public class UnidecoderService
 {
-    private const int MaxResultCount = 80;
+    private const int MaxResultCount = 40;
     private const int LowestPossibleCodepoint = 0x0000;
     private const int HighestPossibleCodepoint = 0x10FFFF;
 
@@ -94,8 +94,10 @@ public class UnidecoderService
     /// Finds the characters by their name, returning the first <see cref="MaxResults"/> matches.
     /// </summary>
     /// <param name="searchText">The search text.</param>
+    /// <param name="capped">When <see langword="true"/> (default), then limit the result amount.</param>
+    /// <param name="cancellationToken">A cancellation token, to stop longer queries on arrival of new input.</param>
     /// <returns>A list of <see cref="StringElement"/>.</returns>
-    public List<StringElement> FindByName(string searchText, bool capped = true)
+    public List<StringElement> FindByName(string searchText, bool capped = true, CancellationToken cancellationToken = default)
     {
         if (string.IsNullOrWhiteSpace(searchText))
         {
@@ -109,7 +111,8 @@ public class UnidecoderService
             .Select(UnicodeInfo.GetCharInfo)
             .Where(x => NameMatches(searchText, x.Name))
             .Select(info => new CodepointInfo(UnicodeInfo.GetCharInfo(info.CodePoint)))
-            .Select(cp => new StringElement(cp.Character) { Codepoints = { cp } });
+            .Select(cp => new StringElement(cp.Character) { Codepoints = { cp } })
+            .Select(cp => { cancellationToken.ThrowIfCancellationRequested(); return cp; });
 
         if (capped)
         {

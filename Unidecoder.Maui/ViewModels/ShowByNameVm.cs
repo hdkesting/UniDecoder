@@ -13,7 +13,9 @@ using Unidecoder.Maui.Services;
 internal partial class ShowByNameVm : ObservableObject
 {
     private static readonly TimeSpan DebounceDelay = TimeSpan.FromMilliseconds(200);
+    private static readonly TimeSpan AutoCancelTimespan = TimeSpan.FromMilliseconds(2000);
     private readonly UnidecoderService service;
+    private CancellationTokenSource _tokenSource = new(AutoCancelTimespan);
 
     public ShowByNameVm(UnidecoderService service)
     {
@@ -28,21 +30,29 @@ internal partial class ShowByNameVm : ObservableObject
     [ObservableProperty]
     private IList<StringElement> _elements = new List<StringElement>();
 
-    private Task ExecuteNameChanged()
+    private async Task ExecuteNameChanged()
     {
         var text = this.SampleName;
+        Interlocked.Exchange(ref _tokenSource, new CancellationTokenSource(AutoCancelTimespan)).Cancel();
 
-        if (!string.IsNullOrEmpty(text))
+        try
         {
-            Elements = service.FindByName(text);
-            System.Diagnostics.Debug.WriteLine(text);
+            if (!string.IsNullOrEmpty(text))
+            {
+                System.Diagnostics.Debug.WriteLine($"--- before {text}");
+                await Task.Yield();
+                Elements = service.FindByName(text, capped: true, cancellationToken: _tokenSource.Token);
+                System.Diagnostics.Debug.WriteLine($"--- after {text}");
+            }
+            else
+            {
+                Elements = new List<StringElement>();
+            }
         }
-        else
+        catch(OperationCanceledException) 
         {
-            Elements = new List<StringElement>();
+            // ignore
+            System.Diagnostics.Debug.WriteLine($"--- Op Canceled: '{text}'");
         }
-
-        return Task.CompletedTask;
     }
-
 }
