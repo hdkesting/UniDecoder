@@ -13,6 +13,7 @@ namespace UniDecoderBlazorServer.Pages
         [CascadingParameter]
         public CascadingAppState AppState { get; set; } = null!;
 
+        // "should be auto property"
         [Parameter]
         public string? BlockName
         {

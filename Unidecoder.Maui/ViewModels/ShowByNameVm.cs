@@ -1,6 +1,8 @@
 ﻿namespace Unidecoder.Maui.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
@@ -41,8 +43,18 @@ internal partial class ShowByNameVm : ObservableObject
             {
                 System.Diagnostics.Debug.WriteLine($"--- before {text}");
                 await Task.Yield();
-                Elements = service.FindByName(text, capped: true, cancellationToken: _tokenSource.Token);
-                System.Diagnostics.Debug.WriteLine($"--- after {text}");
+                var sw = Stopwatch.StartNew();
+                // this seems to be cancelled correctly and takes ~500 ms
+                var elements = service.FindByName(text, capped: true, cancellationToken: _tokenSource.Token);
+                sw.Stop();
+                System.Diagnostics.Debug.WriteLine($"--- after {text}: {sw.ElapsedMilliseconds} ms");
+                this._tokenSource.Token.ThrowIfCancellationRequested();
+                sw.Restart();
+
+                // this cannot be cancelled and takes ~7 secs
+                Elements = elements;
+                sw.Stop();
+                System.Diagnostics.Debug.WriteLine($"--- after {text} - 2: {sw.ElapsedMilliseconds} ms");
             }
             else
             {

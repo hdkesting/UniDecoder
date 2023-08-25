@@ -32,8 +32,8 @@
         <DataTemplate x:DataType="mdl:CodepointAndPosition" x:Key="Middle">
             <ContentView Padding="0,2,0,2" BackgroundColor="Grey" Margin="2">
                 <ContentView BackgroundColor="White">
-                 <ctrl:SingleElement Element="{Binding Codepoint}" />
-            </ContentView>
+                    <ctrl:SingleElement Element="{Binding Codepoint}" />
+                </ContentView>
             </ContentView>
         </DataTemplate>
 
@@ -46,14 +46,15 @@
             </ContentView>
         </DataTemplate>
 
+        <!-- selector for correct template -->
         <ctrl:ElementTemplateSelector x:Key="selector"
                 SingleTemplate="{StaticResource Single}"
                 FirstTemplate="{StaticResource First}"
                 MiddleTemplate="{StaticResource Middle}"
                 LastTemplate="{StaticResource Last}" />
     </ContentView.Resources>
-    <FlexLayout AlignContent="SpaceBetween" AlignItems="Center" 
-                    BindableLayout.ItemsSource="{Binding VM.Codepoints, Source={x:Reference eltlst}, Mode=OneWay}" Wrap="Wrap"
+    <CollectionView RemainingItemsThreshold="3" RemainingItemsThresholdReachedCommand="{Binding TresholdReachedCommand}"
+                    ItemsSource="{Binding Codepoints, Mode=OneWay}" BindingContext="{x:Reference eltlst}"
                     BindableLayout.ItemTemplateSelector="{StaticResource selector}">
-    </FlexLayout>
+    </CollectionView>
 </ContentView>

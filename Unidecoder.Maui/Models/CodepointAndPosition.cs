@@ -19,4 +19,13 @@ public class CodepointAndPosition
 	/// </summary>
 	/// <remarks>Only needed for a 'First' cp.</remarks>
     public StringElement? Element { get; init; }
+
+    public override string ToString() => Position switch
+    {
+        CodepointPosition.Single => $"[{Codepoint.Character}]",
+        CodepointPosition.First => $"[{Codepoint.Character}",
+        CodepointPosition.Middle => $"{Codepoint.Character}",
+        CodepointPosition.Last => $"{Codepoint.Character}]",
+        _ => "?",
+    };
 }
