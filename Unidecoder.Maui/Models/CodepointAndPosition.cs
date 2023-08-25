@@ -22,10 +22,10 @@ public class CodepointAndPosition
 
     public override string ToString() => Position switch
     {
-        CodepointPosition.Single => $"[{Codepoint.Character}]",
-        CodepointPosition.First => $"[{Codepoint.Character}",
+        CodepointPosition.Single => $"⦃{Codepoint.Character}⦄",
+        CodepointPosition.First => $"⦃{Codepoint.Character}",
         CodepointPosition.Middle => $"{Codepoint.Character}",
-        CodepointPosition.Last => $"{Codepoint.Character}]",
+        CodepointPosition.Last => $"{Codepoint.Character}⦄",
         _ => "?",
     };
 }

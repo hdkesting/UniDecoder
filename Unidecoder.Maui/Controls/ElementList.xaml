@@ -17,7 +17,7 @@
 
         <!-- First element of a group -->
         <DataTemplate x:DataType="mdl:CodepointAndPosition" x:Key="First">
-            <ContentView Padding="2,2,0,2" BackgroundColor="Grey" Margin="2">
+            <ContentView Padding="2,2,2,0" BackgroundColor="Grey" Margin="2">
                 <ContentView BackgroundColor="White">
                     <HorizontalStackLayout>
                         <!-- only for First element, also show combined glyph -->
@@ -30,7 +30,7 @@
 
         <!-- Middle element of a group -->
         <DataTemplate x:DataType="mdl:CodepointAndPosition" x:Key="Middle">
-            <ContentView Padding="0,2,0,2" BackgroundColor="Grey" Margin="2">
+            <ContentView Padding="2,0,2,0" BackgroundColor="Grey" Margin="2">
                 <ContentView BackgroundColor="White">
                     <ctrl:SingleElement Element="{Binding Codepoint}" />
                 </ContentView>
@@ -39,7 +39,7 @@
 
         <!-- Last element of a group -->
         <DataTemplate x:DataType="mdl:CodepointAndPosition" x:Key="Last">
-            <ContentView Padding="0,2,2,2" BackgroundColor="Grey" Margin="2">
+            <ContentView Padding="2,0,2,2" BackgroundColor="Grey" Margin="2">
                 <ContentView BackgroundColor="White">
                     <ctrl:SingleElement Element="{Binding Codepoint}" />
                 </ContentView>
@@ -53,8 +53,8 @@
                 MiddleTemplate="{StaticResource Middle}"
                 LastTemplate="{StaticResource Last}" />
     </ContentView.Resources>
-    <CollectionView RemainingItemsThreshold="3" RemainingItemsThresholdReachedCommand="{Binding TresholdReachedCommand}"
+    <CollectionView RemainingItemsThreshold="3" RemainingItemsThresholdReached="OnTresholdReached"
                     ItemsSource="{Binding Codepoints, Mode=OneWay}" BindingContext="{x:Reference eltlst}"
-                    BindableLayout.ItemTemplateSelector="{StaticResource selector}">
+                    ItemTemplate="{StaticResource selector}">
     </CollectionView>
 </ContentView>

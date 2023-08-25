@@ -1,8 +1,6 @@
 namespace Unidecoder.Maui.Controls;
 
-using CommunityToolkit.Mvvm.ComponentModel;
 using System.Collections.ObjectModel;
-using System.Windows.Input;
 
 using Unidecoder.Maui.Models;
 
@@ -13,7 +11,7 @@ public partial class ElementList : ContentView
 			defaultValue: new List<Models.StringElement>(),
 			propertyChanged: ElementsPropertyChanged);
 
-    private const int initialCount = 15;
+    private const int initialCount = 25;
     private const int additionalCount = 7;
     private int elementsConverted;
 
@@ -32,7 +30,7 @@ public partial class ElementList : ContentView
 
     public string ElementCount { get => _elementCount; set => _elementCount = value; }
 
-    public ICommand TresholdReachedCommand { get; init; }
+    //public ICommand TresholdReachedCommand { get; init; }
 
     public ElementList()
 	{
@@ -40,7 +38,7 @@ public partial class ElementList : ContentView
         //this.VM = MauiProgram.App.Services.GetService<ViewModels.ElementListVm>()
         //    ?? throw new InvalidOperationException("VM not found for DI: ElementListVm");
         // this.BindingContext = this;//  {.VM}; //<- do not do this, this needs the binding context of the surrounding page to bind correctly ???
-        TresholdReachedCommand = new Command(OnTresholdReached);
+        //TresholdReachedCommand = new Command(OnTresholdReached);
     }
 
     private static void ElementsPropertyChanged(BindableObject bindable, object oldValue, object newValue)
@@ -67,7 +65,7 @@ public partial class ElementList : ContentView
         ElementCount = $"{Elements.Count} -> {Codepoints.Count}";
     }
 
-    private void OnTresholdReached()
+    internal void OnTresholdReached(object sender, EventArgs e)
     {
         if (Elements is null || elementsConverted >= Elements.Count)
         {
