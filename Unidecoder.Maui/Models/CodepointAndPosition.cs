@@ -2,7 +2,7 @@
 
 namespace Unidecoder.Maui.Models;
 
-public class CodepointAndPosition
+public class CodepointAndPosition :IEquatable<CodepointAndPosition>
 {
 	public CodepointAndPosition(CodepointInfo codepoint, CodepointPosition position)
 	{
@@ -19,6 +19,11 @@ public class CodepointAndPosition
 	/// </summary>
 	/// <remarks>Only needed for a 'First' cp.</remarks>
     public StringElement? Element { get; init; }
+
+    public bool Equals(CodepointAndPosition? other)
+    {
+        return this.Position == other?.Position && this.Codepoint.Equals(other?.Codepoint);
+    }
 
     public override string ToString() => Position switch
     {

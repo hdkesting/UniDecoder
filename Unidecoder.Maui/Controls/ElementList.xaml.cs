@@ -2,6 +2,8 @@ namespace Unidecoder.Maui.Controls;
 
 using System.Collections.ObjectModel;
 
+using Microsoft.Maui.Controls;
+
 using Unidecoder.Maui.Models;
 
 public partial class ElementList : ContentView
@@ -11,8 +13,8 @@ public partial class ElementList : ContentView
 			defaultValue: new List<Models.StringElement>(),
 			propertyChanged: ElementsPropertyChanged);
 
-    private const int initialCount = 25;
-    private const int additionalCount = 7;
+    private const int InitialCount = 15;
+    private const int AdditionalCount = 7;
     private int elementsConverted;
 
     /// <summary>
@@ -24,13 +26,7 @@ public partial class ElementList : ContentView
 		set => SetValue(ElementsProperty, value);
 	}
 
-    private string _elementCount = "!?";
-
     public ObservableCollection<Models.CodepointAndPosition> Codepoints { get; } = new();
-
-    public string ElementCount { get => _elementCount; set => _elementCount = value; }
-
-    //public ICommand TresholdReachedCommand { get; init; }
 
     public ElementList()
 	{
@@ -38,7 +34,6 @@ public partial class ElementList : ContentView
         //this.VM = MauiProgram.App.Services.GetService<ViewModels.ElementListVm>()
         //    ?? throw new InvalidOperationException("VM not found for DI: ElementListVm");
         // this.BindingContext = this;//  {.VM}; //<- do not do this, this needs the binding context of the surrounding page to bind correctly ???
-        //TresholdReachedCommand = new Command(OnTresholdReached);
     }
 
     private static void ElementsPropertyChanged(BindableObject bindable, object oldValue, object newValue)
@@ -51,43 +46,69 @@ public partial class ElementList : ContentView
 
     internal void ElementsChanged()
     {
-        Codepoints.Clear();
+        // do NOT just clear Codepoints and start over: try and keep what is alreday correct, assuming most is just changing (or rather appending) a previous text
 
-        var initiallist = TranslateElements(Elements.Take(initialCount));
+        int cpindex = 0;
+
+        var prevElementsConverted = elementsConverted;
+        elementsConverted = 0;
+        System.Diagnostics.Debug.WriteLine($">> ElementsChanged: Starting new initial {InitialCount}, was {prevElementsConverted}");
+
+        var initiallist = TranslateElements(Elements.Take(Math.Max(InitialCount, prevElementsConverted)));
         foreach (var element in initiallist)
         {
-            Codepoints.Add(element);
+            if (cpindex >= Codepoints.Count)
+            {
+                System.Diagnostics.Debug.WriteLine($">> ElementsChanged: Add cp {element.Codepoint.Character} at index {cpindex}");
+                Codepoints.Add(element);
+            }
+            else if (!Codepoints[cpindex].Equals(element))
+            {
+                System.Diagnostics.Debug.WriteLine($">> ElementsChanged: Replace index {cpindex} with cp {element.Codepoint.Character}");
+                Codepoints[cpindex] = element;
+            }
+            else
+            {
+                System.Diagnostics.Debug.WriteLine($">> ElementsChanged: index {cpindex} already has {element.Codepoint.Character}");
+            }
+
+            cpindex++;
         }
 
-        elementsConverted = initialCount;
-        System.Diagnostics.Debug.WriteLine($">> ElementsChanged: converted {elementsConverted} items into {Codepoints.Count} Codepoints out of {Elements.Count}");
+        while (Codepoints.Count > cpindex)
+        {
+            System.Diagnostics.Debug.WriteLine($">> ElementsChanged: remove extra at end - total before {Codepoints.Count}");
+            Codepoints.RemoveAt(Codepoints.Count-1);
+        }
 
-        ElementCount = $"{Elements.Count} -> {Codepoints.Count}";
+        this.OnPropertyChanged(nameof(Codepoints));
+
+        System.Diagnostics.Debug.WriteLine($">> ElementsChanged: converted {elementsConverted} items into {Codepoints.Count} Codepoints out of {Elements.Count}");
     }
 
     internal void OnTresholdReached(object sender, EventArgs e)
     {
         if (Elements is null || elementsConverted >= Elements.Count)
         {
-            System.Diagnostics.Debug.WriteLine($">> OnTresholdReached: got all {Elements?.Count ?? -1}");
+            System.Diagnostics.Debug.WriteLine($">> OnTresholdReached: already processed all {Elements?.Count ?? -1}");
             return;
         }
 
-        foreach (var elt in TranslateElements(Elements.Skip(elementsConverted).Take(additionalCount)))
+        foreach (var elt in TranslateElements(Elements.Skip(elementsConverted).Take(AdditionalCount)))
         {
             Codepoints.Add(elt);
         }
 
-        System.Diagnostics.Debug.WriteLine($">> OnTresholdReached: added {additionalCount} items to Codepoints (total {Codepoints.Count})");
-        elementsConverted += additionalCount;
+        System.Diagnostics.Debug.WriteLine($">> OnTresholdReached: added {AdditionalCount} items to Codepoints (total {Codepoints.Count})");
         System.Diagnostics.Debug.WriteLine($">> OnTresholdReached: converted {elementsConverted} items into Codepoints out of {Elements.Count}");
     }
 
-    private static IList<Models.CodepointAndPosition> TranslateElements(IEnumerable<StringElement> elements)
+    private IList<Models.CodepointAndPosition> TranslateElements(IEnumerable<StringElement> elements)
     {
         var list = new List<CodepointAndPosition>();
         foreach (var element in elements)
         {
+            elementsConverted++;
             if (element.Codepoints.Count == 1)
             {
                 list.Add(new CodepointAndPosition(element.Codepoints[0], Support.CodepointPosition.Single));

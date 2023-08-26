@@ -11,7 +11,7 @@ using Unidecoder.Maui.Support;
 /// <summary>
 /// Information about a single unicode codepoint.
 /// </summary>
-public class CodepointInfo
+public class CodepointInfo : IEquatable<CodepointInfo>
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="CodepointInfo"/> class.
@@ -79,4 +79,9 @@ public class CodepointInfo
     /// Gets the name of the Unicode category.
     /// </summary>
     public string CategoryName { get; }
+
+    public bool Equals(CodepointInfo? other)
+    {
+        return this.Codepoint == other?.Codepoint;
+    }
 }

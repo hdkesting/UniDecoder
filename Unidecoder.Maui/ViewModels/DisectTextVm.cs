@@ -23,7 +23,7 @@ public partial class DisectTextVm : ObservableObject
 
 	public ICommand SampleTextChanged { get; init; }
 
-	public string? SampleText { get; set; }
+    public string? SampleText { get; set; } = "this is a longer string";
 
 	[ObservableProperty]
 	private IList<StringElement> _elements = new List<StringElement>();

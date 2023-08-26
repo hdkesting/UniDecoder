@@ -55,6 +55,7 @@
     </ContentView.Resources>
     <CollectionView RemainingItemsThreshold="3" RemainingItemsThresholdReached="OnTresholdReached"
                     ItemsSource="{Binding Codepoints, Mode=OneWay}" BindingContext="{x:Reference eltlst}"
-                    ItemTemplate="{StaticResource selector}">
+                    ItemTemplate="{StaticResource selector}"
+                    VerticalOptions="FillAndExpand" VerticalScrollBarVisibility="Always">
     </CollectionView>
 </ContentView>
