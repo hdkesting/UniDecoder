@@ -39,7 +39,7 @@ namespace Unidecoder.Maui
             appBuilder.Services.AddSingleton<ViewModels.ShowByNameVm>();
             // TODO other view-VMs
 
-            appBuilder.Services.AddSingleton<ViewModels.ElementListVm>();
+            // appBuilder.Services.AddSingleton<ViewModels.ElementListVm>();
 
             return appBuilder;
         }

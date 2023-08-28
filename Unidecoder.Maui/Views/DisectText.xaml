@@ -7,16 +7,18 @@
              x:Class="Unidecoder.Maui.Views.DisectText"
              x:DataType="vm:DisectTextVm"
              Title="Show Characters in Text">
-    <VerticalStackLayout Margin="10" VerticalOptions="FillAndExpand">
-        <Label Text="Characters in a text" HorizontalOptions="Center" FontSize="20" FontAttributes="Bold"/>
-        <Label>
-            Type in (or copy from somewhere &amp; paste in here) some text in the field below. Information about all separate characters in that text will then be shown.
-        </Label>
-        <Entry Text="{Binding SampleText}" BackgroundColor="Beige" >
-            <Entry.Behaviors>
-                <toolkit:EventToCommandBehavior EventName="TextChanged" Command="{Binding SampleTextChanged}" />
-            </Entry.Behaviors>
-        </Entry>
-        <ctrl:ElementList Elements="{Binding Elements, Mode=OneWay}"/>
-    </VerticalStackLayout>
+    <Grid RowDefinitions="Auto, *" Margin="10" VerticalOptions="FillAndExpand">
+        <VerticalStackLayout Grid.Row="0">
+            <Label Text="Characters in a text" HorizontalOptions="Center" FontSize="20" FontAttributes="Bold"/>
+            <Label>
+                Type in (or copy from somewhere &amp; paste in here) some text in the field below. Information about all separate characters in that text will then be shown.
+            </Label>
+            <Entry Text="{Binding SampleText}" BackgroundColor="Beige" >
+                <Entry.Behaviors>
+                    <toolkit:EventToCommandBehavior EventName="TextChanged" Command="{Binding SampleTextChanged}" />
+                </Entry.Behaviors>
+            </Entry>
+        </VerticalStackLayout>
+        <ctrl:ElementList Grid.Row="1" Elements="{Binding Elements, Mode=OneWay}"/>
+    </Grid>
 </ContentPage>

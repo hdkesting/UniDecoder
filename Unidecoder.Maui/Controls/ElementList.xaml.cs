@@ -44,7 +44,7 @@ public partial class ElementList : ContentView
 		//this_.OnPropertyChanged(nameof(this_.VM));
 	}
 
-    internal void ElementsChanged()
+    internal async void ElementsChanged()
     {
         // do NOT just clear Codepoints and start over: try and keep what is alreday correct, assuming most is just changing (or rather appending) a previous text
 
@@ -60,6 +60,7 @@ public partial class ElementList : ContentView
             if (cpindex >= Codepoints.Count)
             {
                 System.Diagnostics.Debug.WriteLine($">> ElementsChanged: Add cp {element.Codepoint.Character} at index {cpindex}");
+                //await Task.Delay(50);
                 Codepoints.Add(element);
             }
             else if (!Codepoints[cpindex].Equals(element))
@@ -78,10 +79,11 @@ public partial class ElementList : ContentView
         while (Codepoints.Count > cpindex)
         {
             System.Diagnostics.Debug.WriteLine($">> ElementsChanged: remove extra at end - total before {Codepoints.Count}");
+            //await Task.Delay(50);
             Codepoints.RemoveAt(Codepoints.Count-1);
         }
 
-        this.OnPropertyChanged(nameof(Codepoints));
+        //this.OnPropertyChanged(nameof(Codepoints));
 
         System.Diagnostics.Debug.WriteLine($">> ElementsChanged: converted {elementsConverted} items into {Codepoints.Count} Codepoints out of {Elements.Count}");
     }

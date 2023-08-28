@@ -23,31 +23,25 @@ public partial class DisectTextVm : ObservableObject
 
 	public ICommand SampleTextChanged { get; init; }
 
-    public string? SampleText { get; set; } = "this is a longer string";
+    public string? SampleText { get; set; }
 
 	[ObservableProperty]
 	private IList<StringElement> _elements = new List<StringElement>();
-
-	[ObservableProperty]
-	private string _elementCount = "?";
 
     private Task ExecuteTextChanged()
 	{
 		var text = this.SampleText;
 
-        if (!string.IsNullOrEmpty(text))
-		{
-			Elements = service.ListElements(text);
-			System.Diagnostics.Debug.WriteLine(text);
-			ElementCount = Elements.Count.ToString();
-			// TODO?
-		}
-		else
-		{
-			Elements = new List<StringElement>();
-			ElementCount = "zero";
-		}
+        if (string.IsNullOrEmpty(text))
+        {
+            Elements = new List<StringElement>();
+        }
+        else
+        {
+            Elements = service.ListElements(text);
+            System.Diagnostics.Debug.WriteLine(text);
+        }
 
-		return Task.CompletedTask;
+        return Task.CompletedTask;
 	}
 }
