@@ -7,11 +7,22 @@
              x:Class="Unidecoder.Maui.Views.DisectText"
              x:DataType="vm:DisectTextVm"
              Title="Show Characters in Text">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <toolkit:InvertedBoolConverter x:Key="boolinverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
     <Grid RowDefinitions="Auto, *" Margin="10" VerticalOptions="FillAndExpand">
         <VerticalStackLayout Grid.Row="0">
-            <toolkit:Expander IsExpanded="True">
+            <toolkit:Expander IsExpanded="True" x:Name="expander" x:DataType="{x:Type toolkit:Expander}">
                 <toolkit:Expander.Header>
-                    <Label Text="Characters in a text" HorizontalOptions="Center" FontSize="20" FontAttributes="Bold"/>
+                    <Grid ColumnDefinitions="Auto, 20" HorizontalOptions="FillAndExpand">
+                        <Label Grid.Column="0" Text="Characters in a text" HorizontalOptions="Center" FontSize="20" FontAttributes="Bold"/>
+                        <Label Grid.Column="1" Text="△" HorizontalOptions="EndAndExpand" Margin="5,0" BindingContext="{x:Reference Name=expander}"
+                               IsVisible="{Binding Path=IsExpanded}" />
+                        <Label Grid.Column="1" Text="▽" HorizontalOptions="EndAndExpand" Margin="5,0" BindingContext="{x:Reference Name=expander}"
+                               IsVisible="{Binding Path=IsExpanded, Converter={StaticResource boolinverter}}" />
+                    </Grid>
                 </toolkit:Expander.Header>
                 <VerticalStackLayout>
                     <Label>
