@@ -91,35 +91,36 @@ public class UnidecoderService
     }
 
     /// <summary>
-    /// Finds the characters by their name, returning the first <see cref="MaxResults"/> matches.
+    /// Finds the characters by their name, <em>lazily</em> returning the matches.
     /// </summary>
     /// <param name="searchText">The search text.</param>
-    /// <param name="capped">When <see langword="true"/> (default), then limit the result amount.</param>
-    /// <param name="cancellationToken">A cancellation token, to stop longer queries on arrival of new input.</param>
-    /// <returns>A list of <see cref="StringElement"/>.</returns>
-    public List<StringElement> FindByName(string searchText, bool capped = true, CancellationToken cancellationToken = default)
+    /// <returns>A sequence of <see cref="StringElement"/>s.</returns>
+    public IEnumerable<StringElement> FindByName(string searchText)
     {
         if (string.IsNullOrWhiteSpace(searchText))
         {
-            return new List<StringElement>();
+            yield break;
         }
 
         searchText = searchText.Trim();
 
-        var list = Enumerable.Range(LowestPossibleCodepoint, HighestPossibleCodepoint - LowestPossibleCodepoint)
-            .Where(CodepointExists)
-            .Select(UnicodeInfo.GetCharInfo)
-            .Where(x => NameMatches(searchText, x.Name))
-            .Select(info => new CodepointInfo(UnicodeInfo.GetCharInfo(info.CodePoint)))
-            .Select(cp => new StringElement(cp.Character) { Codepoints = { cp } })
-            .Select(cp => { cancellationToken.ThrowIfCancellationRequested(); return cp; });
+        int count = 0;
 
-        if (capped)
+        for (int cp = LowestPossibleCodepoint; cp < HighestPossibleCodepoint; cp++)
         {
-            list = list.Take(MaxResultCount);
+            if (CodepointExists(cp))
+            {
+                var charinfo = UnicodeInfo.GetCharInfo(cp);
+                if (NameMatches(searchText, charinfo.Name))
+                {
+                    var cpinfo = new CodepointInfo(charinfo);
+                    var se = new StringElement(cpinfo.Character) { Codepoints = { cpinfo } };
+                    count++;
+                    System.Diagnostics.Debug.WriteLine($"UnidecoderService/FindByName - found {count}th value: {cpinfo.Name}.");
+                    yield return se;
+                }
+            }
         }
-
-        return list.ToList();
     }
 
     /// <summary>

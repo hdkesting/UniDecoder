@@ -15,9 +15,7 @@ using Unidecoder.Maui.Services;
 internal partial class ShowByNameVm : ObservableObject
 {
     private static readonly TimeSpan DebounceDelay = TimeSpan.FromMilliseconds(200);
-    private static readonly TimeSpan AutoCancelTimespan = TimeSpan.FromMilliseconds(2000);
     private readonly UnidecoderService service;
-    private CancellationTokenSource _tokenSource = new(AutoCancelTimespan);
 
     public ShowByNameVm(UnidecoderService service)
     {
@@ -30,28 +28,24 @@ internal partial class ShowByNameVm : ObservableObject
     public ICommand SampleNameChanged { get; init; }
 
     [ObservableProperty]
-    private IList<StringElement> _elements = new List<StringElement>();
+    private IEnumerable<StringElement> _elements = new List<StringElement>();
 
     private async Task ExecuteNameChanged()
     {
         var text = this.SampleName;
-        Interlocked.Exchange(ref _tokenSource, new CancellationTokenSource(AutoCancelTimespan)).Cancel();
 
         try
         {
-            if (!string.IsNullOrEmpty(text))
+            if (!string.IsNullOrEmpty(text) && text.Length >= 3)
             {
                 System.Diagnostics.Debug.WriteLine($"--- before {text}");
                 await Task.Yield();
                 var sw = Stopwatch.StartNew();
-                // this seems to be cancelled correctly and takes ~500 ms
-                var elements = service.FindByName(text, capped: true, cancellationToken: _tokenSource.Token);
+                var elements = service.FindByName(text);
                 sw.Stop();
-                System.Diagnostics.Debug.WriteLine($"--- after {text}: {sw.ElapsedMilliseconds} ms");
-                this._tokenSource.Token.ThrowIfCancellationRequested();
+                System.Diagnostics.Debug.WriteLine($"--- after {text}: {sw.ElapsedMilliseconds} ms.");
                 sw.Restart();
 
-                // this cannot be cancelled and takes ~7 secs
                 Elements = elements;
                 sw.Stop();
                 System.Diagnostics.Debug.WriteLine($"--- after {text} - 2: {sw.ElapsedMilliseconds} ms");

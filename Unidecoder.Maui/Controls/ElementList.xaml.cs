@@ -9,20 +9,23 @@ using Unidecoder.Maui.Models;
 public partial class ElementList : ContentView
 {
 	public static readonly BindableProperty ElementsProperty
-		= BindableProperty.Create(nameof(Elements), typeof(IList<Models.StringElement>), typeof(ElementList),
+		= BindableProperty.Create(nameof(Elements), typeof(IEnumerable<Models.StringElement>), typeof(ElementList),
 			defaultValue: new List<Models.StringElement>(),
 			propertyChanged: ElementsPropertyChanged);
 
     private const int InitialCount = 15;
     private const int AdditionalCount = 7;
     private int elementsConverted;
+    private bool allElementsProcessed;
+
+    private IEnumerator<Models.StringElement>? elementsEnumerator;
 
     /// <summary>
     /// Gets or sets the incoming list of elements to show.
     /// </summary>
-    public IList<Models.StringElement> Elements
+    public IEnumerable<Models.StringElement> Elements
 	{
-		get => (IList<Models.StringElement>)GetValue(ElementsProperty);
+		get => (IEnumerable<Models.StringElement>)GetValue(ElementsProperty);
 		set => SetValue(ElementsProperty, value);
 	}
 
@@ -31,9 +34,7 @@ public partial class ElementList : ContentView
     public ElementList()
 	{
 		InitializeComponent();
-        //this.VM = MauiProgram.App.Services.GetService<ViewModels.ElementListVm>()
-        //    ?? throw new InvalidOperationException("VM not found for DI: ElementListVm");
-        // this.BindingContext = this;//  {.VM}; //<- do not do this, this needs the binding context of the surrounding page to bind correctly ???
+        // this.BindingContext = this; //<- do not do this, this needs the binding context of the surrounding page to bind correctly ???
     }
 
     private static void ElementsPropertyChanged(BindableObject bindable, object oldValue, object newValue)
@@ -41,26 +42,46 @@ public partial class ElementList : ContentView
         System.Diagnostics.Debug.WriteLine("ElementList - ElementsPropertyChanged");
 		var this_ = (ElementList)bindable;
 		this_.ElementsChanged();
-		//this_.OnPropertyChanged(nameof(this_.VM));
 	}
 
-    internal async void ElementsChanged()
+    internal void ElementsChanged()
     {
-        // do NOT just clear Codepoints and start over: try and keep what is alreday correct, assuming most is just changing (or rather appending) a previous text
+        // do NOT just clear Codepoints and start over: try and keep what is already correct, assuming most is just changing (or rather appending) a previous text
 
         int cpindex = 0;
 
+        // *copy* the current enumerator, so that the "Current" value is kept (will probably not survive the "GetValue" otherwise)
+        elementsEnumerator = Elements.GetEnumerator();
+
         var prevElementsConverted = elementsConverted;
         elementsConverted = 0;
+        allElementsProcessed = false;
         System.Diagnostics.Debug.WriteLine($">> ElementsChanged: Starting new initial {InitialCount}, was {prevElementsConverted}");
 
-        var initiallist = TranslateElements(Elements.Take(Math.Max(InitialCount, prevElementsConverted)));
-        foreach (var element in initiallist)
+        // get at least InitialCount, but up to the current maximum
+        var totake = Math.Max(InitialCount, prevElementsConverted);
+
+        // Elements.Take(totake).ToList();
+        List<Models.StringElement> firstPart = new();
+        for(int i=0; i<totake; i++)
+        {
+            if (elementsEnumerator.MoveNext())
+            {
+                firstPart.Add(elementsEnumerator.Current);
+            }
+            else
+            {
+                System.Diagnostics.Debug.WriteLine($">> ElementsChanged: Got All at index {i}");
+                allElementsProcessed = true;
+                break;
+            }
+        }
+
+        foreach (var element in TranslateElements(firstPart))
         {
             if (cpindex >= Codepoints.Count)
             {
                 System.Diagnostics.Debug.WriteLine($">> ElementsChanged: Add cp {element.Codepoint.Character} at index {cpindex}");
-                //await Task.Delay(50);
                 Codepoints.Add(element);
             }
             else if (!Codepoints[cpindex].Equals(element))
@@ -76,33 +97,54 @@ public partial class ElementList : ContentView
             cpindex++;
         }
 
+        // clean up possible trailing part
         while (Codepoints.Count > cpindex)
         {
             System.Diagnostics.Debug.WriteLine($">> ElementsChanged: remove extra at end - total before {Codepoints.Count}");
-            //await Task.Delay(50);
             Codepoints.RemoveAt(Codepoints.Count-1);
         }
 
-        //this.OnPropertyChanged(nameof(Codepoints));
-
-        System.Diagnostics.Debug.WriteLine($">> ElementsChanged: converted {elementsConverted} items into {Codepoints.Count} Codepoints out of {Elements.Count}");
+        System.Diagnostics.Debug.WriteLine($">> ElementsChanged: converted {elementsConverted} items into {Codepoints.Count} Codepoints");
     }
 
     internal void OnTresholdReached(object sender, EventArgs e)
     {
-        if (Elements is null || elementsConverted >= Elements.Count)
+        if (elementsEnumerator is null)
         {
-            System.Diagnostics.Debug.WriteLine($">> OnTresholdReached: already processed all {Elements?.Count ?? -1}");
+            System.Diagnostics.Debug.WriteLine($">> OnTresholdReached: Elements is null");
             return;
         }
 
-        foreach (var elt in TranslateElements(Elements.Skip(elementsConverted).Take(AdditionalCount)))
+        if (allElementsProcessed)
+        {
+            System.Diagnostics.Debug.WriteLine($">> OnTresholdReached: already got all");
+            return;
+        }
+
+        // var nextPart = Elements.Take(AdditionalCount).ToList();
+        List<Models.StringElement> nextPart = new();
+        for (int i = 0; i < AdditionalCount; i++)
+        {
+            if (elementsEnumerator.MoveNext())
+            {
+                nextPart.Add(elementsEnumerator.Current);
+            }
+            else
+            {
+                System.Diagnostics.Debug.WriteLine($">> OnTresholdReached: got all at index {i}");
+                allElementsProcessed = true;
+                break;
+            }
+        }
+
+        // treshold reached means that there is no existing filling for Codepoints, so always append
+        foreach (var elt in TranslateElements(nextPart))
         {
             Codepoints.Add(elt);
         }
 
         System.Diagnostics.Debug.WriteLine($">> OnTresholdReached: added {AdditionalCount} items to Codepoints (total {Codepoints.Count})");
-        System.Diagnostics.Debug.WriteLine($">> OnTresholdReached: converted {elementsConverted} items into Codepoints out of {Elements.Count}");
+        System.Diagnostics.Debug.WriteLine($">> OnTresholdReached: converted {elementsConverted} items into Codepoints ");
     }
 
     private IList<Models.CodepointAndPosition> TranslateElements(IEnumerable<StringElement> elements)
