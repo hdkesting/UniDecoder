@@ -15,6 +15,7 @@ public partial class ElementList : ContentView
 
     private const int InitialCount = 15;
     private const int AdditionalCount = 7;
+    private const int MaxCount = 50;
     private int elementsConverted;
     private bool allElementsProcessed;
 
@@ -58,8 +59,10 @@ public partial class ElementList : ContentView
         allElementsProcessed = false;
         System.Diagnostics.Debug.WriteLine($">> ElementsChanged: Starting new initial {InitialCount}, was {prevElementsConverted}");
 
-        // get at least InitialCount, but up to the current maximum
-        var totake = Math.Max(InitialCount, prevElementsConverted);
+        bool wasScrolled = false;
+
+        // get at least InitialCount, up to the current maximum, but with a maximum of MaxCount (as protection)
+        var totake = Math.Min(Math.Max(InitialCount, prevElementsConverted), MaxCount);
 
         // Elements.Take(totake).ToList();
         List<Models.StringElement> firstPart = new();
@@ -88,6 +91,11 @@ public partial class ElementList : ContentView
             {
                 System.Diagnostics.Debug.WriteLine($">> ElementsChanged: Replace index {cpindex} with cp {element.Codepoint.Character}");
                 Codepoints[cpindex] = element;
+                if (!wasScrolled)
+                {
+                    TheElements.ScrollTo(cpindex, position: ScrollToPosition.Center);
+                    wasScrolled = true;
+                }
             }
             else
             {
@@ -98,10 +106,18 @@ public partial class ElementList : ContentView
         }
 
         // clean up possible trailing part
-        while (Codepoints.Count > cpindex)
+        if (Codepoints.Count > cpindex)
         {
-            System.Diagnostics.Debug.WriteLine($">> ElementsChanged: remove extra at end - total before {Codepoints.Count}");
-            Codepoints.RemoveAt(Codepoints.Count-1);
+            while (Codepoints.Count > cpindex)
+            {
+                System.Diagnostics.Debug.WriteLine($">> ElementsChanged: remove extra at end - total before {Codepoints.Count}");
+                Codepoints.RemoveAt(Codepoints.Count - 1);
+            }
+
+            if (!wasScrolled)
+            {
+                TheElements.ScrollTo(cpindex, position: ScrollToPosition.End);
+            }
         }
 
         System.Diagnostics.Debug.WriteLine($">> ElementsChanged: converted {elementsConverted} items into {Codepoints.Count} Codepoints");

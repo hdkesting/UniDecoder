@@ -53,10 +53,10 @@
                 MiddleTemplate="{StaticResource Middle}"
                 LastTemplate="{StaticResource Last}" />
     </ContentView.Resources>
-    <CollectionView RemainingItemsThreshold="3" RemainingItemsThresholdReached="OnTresholdReached"
+    <CollectionView x:Name="TheElements" RemainingItemsThreshold="3" RemainingItemsThresholdReached="OnTresholdReached"
                     ItemsSource="{Binding Codepoints, Mode=OneWay}" BindingContext="{x:Reference eltlst}"
                     ItemTemplate="{StaticResource selector}"
-                    VerticalOptions="FillAndExpand" VerticalScrollBarVisibility="Always"
+                    VerticalOptions="FillAndExpand" VerticalScrollBarVisibility="Default"
                     ItemsUpdatingScrollMode="KeepScrollOffset">
     </CollectionView>
 </ContentView>

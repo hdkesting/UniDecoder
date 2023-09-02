@@ -106,7 +106,7 @@ public class UnidecoderService
 
         int count = 0;
 
-        for (int cp = LowestPossibleCodepoint; cp < HighestPossibleCodepoint; cp++)
+        for (int cp = LowestPossibleCodepoint; cp <= HighestPossibleCodepoint; cp++)
         {
             if (CodepointExists(cp))
             {
@@ -148,21 +148,21 @@ public class UnidecoderService
     /// </summary>
     /// <param name="blockName">Name of the block.</param>
     /// <returns>A list of <see cref="CodepointInfo"/>.</returns>
-    public List<CodepointInfo> GetCharactersOfBlock(string blockName)
+    public IEnumerable<StringElement> GetCharactersOfBlock(string blockName)
     {
         var block = UnicodeInfo.GetBlocks().FirstOrDefault(b => b.Name.Equals(blockName, StringComparison.OrdinalIgnoreCase));
 
         if (block.Name is null)
         {
-            return new List<CodepointInfo>();
+            yield break;
         }
 
-        var list = block.CodePointRange
+        foreach (var cpi in block.CodePointRange
             .Select(UnicodeInfo.GetCharInfo)
-            .Select(it => new CodepointInfo(it))
-            .ToList();
-
-        return list;
+            .Select(it => new CodepointInfo(it)))
+        {
+            yield return new StringElement(cpi.Character) { Codepoints = { cpi } }; 
+        }
     }
 
     /// <summary>
@@ -170,24 +170,23 @@ public class UnidecoderService
     /// </summary>
     /// <param name="categoryName">Name of the category.</param>
     /// <returns>A list of <see cref="CodepointInfo"/>.</returns>
-    public List<CodepointInfo> GetCharactersOfCategory(string categoryName)
+    public IEnumerable<StringElement> GetCharactersOfCategory(string categoryName)
     {
         categoryName = categoryName.Replace(" ", string.Empty); // remove all spaces
 
         if (Enum.TryParse(categoryName, true, out System.Globalization.UnicodeCategory cat))
         {
-            var list = Enumerable.Range(LowestPossibleCodepoint, HighestPossibleCodepoint - LowestPossibleCodepoint)
-                .Where(CodepointExists)
-                .Where(cp => UnicodeInfo.GetCategory(cp) == cat)
-                .Select(UnicodeInfo.GetCharInfo)
-                .Select(it => new CodepointInfo(it))
-                //.Take(200)
-                .ToList();
-
-            return list;
+            for (var cp = LowestPossibleCodepoint; cp <= HighestPossibleCodepoint; cp++)
+            {
+                if (CodepointExists(cp) && UnicodeInfo.GetCategory(cp) == cat)
+                {
+                    var charinfo = UnicodeInfo.GetCharInfo(cp);
+                    var cpinfo = new CodepointInfo(charinfo);
+                    var se = new StringElement(cpinfo.Character) { Codepoints = { cpinfo } };
+                    yield return se;
+                }
+            }
         }
-
-        return new List<CodepointInfo>();
     }
 
     private bool CodepointExists(int codepoint)
