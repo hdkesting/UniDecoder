@@ -137,6 +137,7 @@ public class UnidecoderService
             .Where(n => n <= HighestPossibleCodepoint)
             .Where(CodepointExists)
             .Select(UnicodeInfo.GetCharInfo)
+            .Where(it => !string.IsNullOrWhiteSpace(it.Name))
             .Select(it => new CodepointInfo(it))
             .ToList();
 
@@ -159,6 +160,7 @@ public class UnidecoderService
 
         foreach (var cpi in block.CodePointRange
             .Select(UnicodeInfo.GetCharInfo)
+            .Where(it => !string.IsNullOrWhiteSpace(it.Name))
             .Select(it => new CodepointInfo(it)))
         {
             yield return new StringElement(cpi.Character) { Codepoints = { cpi } }; 
@@ -181,6 +183,11 @@ public class UnidecoderService
                 if (CodepointExists(cp) && UnicodeInfo.GetCategory(cp) == cat)
                 {
                     var charinfo = UnicodeInfo.GetCharInfo(cp);
+                    if (string.IsNullOrEmpty(charinfo.Name))
+                    {
+                        continue;
+                    }
+
                     var cpinfo = new CodepointInfo(charinfo);
                     var se = new StringElement(cpinfo.Character) { Codepoints = { cpinfo } };
                     yield return se;

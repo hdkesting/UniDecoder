@@ -1,12 +1,49 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:ctrl="clr-namespace:Unidecoder.Maui.Controls"
+             xmlns:vm="clr-namespace:Unidecoder.Maui.ViewModels"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              x:Class="Unidecoder.Maui.Views.ShowByBlock"
+             x:DataType="vm:ShowByBlockVm"
              Title="Show Characters By Block">
-    <VerticalStackLayout>
-        <Label
-            Text="Show by Block"
-            VerticalOptions="Center"
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <toolkit:InvertedBoolConverter x:Key="boolinverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <Grid RowDefinitions="Auto, *" Margin="10" VerticalOptions="FillAndExpand">
+        <VerticalStackLayout Grid.Row="0">
+            <toolkit:Expander IsExpanded="True" x:Name="expander" x:DataType="{x:Type toolkit:Expander}">
+                <toolkit:Expander.Header>
+                    <Grid ColumnDefinitions="Auto, 20" HorizontalOptions="FillAndExpand">
+                        <Label Grid.Column="0" Text="Find characters by block" FontSize="20" FontAttributes="Bold"/>
+                        <Label Grid.Column="1" Text="△" HorizontalOptions="EndAndExpand" Margin="5,0" BindingContext="{x:Reference Name=expander}"
+                              IsVisible="{Binding Path=IsExpanded}" />
+                        <Label Grid.Column="1" Text="▽" HorizontalOptions="EndAndExpand" Margin="5,0" BindingContext="{x:Reference Name=expander}"
+                              IsVisible="{Binding Path=IsExpanded, Converter={StaticResource boolinverter}}" />
+                    </Grid>
+                </toolkit:Expander.Header>
+                <toolkit:Expander.Content>
+                    <VerticalStackLayout>
+                        <Label>
+                            Characters are grouped in blocks. Select a block to see its characters.
+                        </Label>
+                        <Label>
+                            <!-- TODO add links -->
+                            Examples: 'Emoticons', 'Miscellaneous Symbols' or 'Hebrew'.
+                        </Label>
+                    </VerticalStackLayout>
+                </toolkit:Expander.Content>
+            </toolkit:Expander>
+
+            <Picker ItemsSource="{Binding BlockNames}" BackgroundColor="Beige" SelectedItem="{Binding SelectedBlock}">
+                <Picker.Behaviors>
+                    <toolkit:EventToCommandBehavior EventName="SelectedIndexChanged" Command="{Binding SelectedIndexChangedCommand}" />
+                </Picker.Behaviors>
+            </Picker>
+        </VerticalStackLayout>
+
+        <ctrl:ElementList Grid.Row="1" Elements="{Binding Elements, Mode=OneWay}"/>
+    </Grid>
 </ContentPage>
