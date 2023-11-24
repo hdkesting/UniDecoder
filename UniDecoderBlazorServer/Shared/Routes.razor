@@ -1,6 +1,6 @@
 ﻿<LoadingScreen>
     <CascadingAppState>
-        <Router AppAssembly="@typeof(App).Assembly">
+        <Router AppAssembly="@typeof(Routes).Assembly">
             <Found Context="routeData">
                 <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
                 <FocusOnNavigate RouteData="@routeData" Selector="h1" />
@@ -14,3 +14,7 @@
         </Router>
     </CascadingAppState>
 </LoadingScreen>
+
+@code {
+
+}

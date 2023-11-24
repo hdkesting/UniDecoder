@@ -4,7 +4,9 @@ using Microsoft.AspNetCore.Components.Web;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddRazorPages();
+//builder.Services.AddRazorPages();
+builder.Services.AddRazorComponents()
+    .AddInteractiveServerComponents();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddSingleton<UniDecoderBlazorServer.Services.UnidecoderService>();
 var app = builder.Build();
@@ -22,8 +24,11 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+app.UseAntiforgery();
 
 app.MapBlazorHub();
-app.MapFallbackToPage("/_Host");
+
+app.MapRazorComponents<UniDecoderBlazorServer.Pages.App>()
+    .AddInteractiveServerRenderMode();
 
 app.Run();
