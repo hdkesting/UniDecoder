@@ -27,9 +27,9 @@
     }
 
 @code {
-    private RenderFragment ShowChar => __builder =>
-        {
-<div class="char">
+    private RenderFragment ShowChar => 
+
+@<div class="char">
         <!-- class = "sample" or "latin sample" -->
         <div class="@(SeemsLatin() ? "latin sample" : "sample")"
             onclick="cp(@Character.Codepoint, '@Character.Name')">@Character.Character</div>
@@ -41,5 +41,5 @@
                 <a href="name/@Uri.EscapeDataString(Character.Codepoint.ToString(CultureInfo.InvariantCulture))">@Character.Codepoint</a></p>
         </div>
 </div>
-        };
+        ;
 }
