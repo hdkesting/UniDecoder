@@ -1,15 +1,15 @@
 ﻿export function initializeInactivityTimer() {
+    const minutes = 10;
     let isActivityDetected = false;
     let minuteCounter = 0;
-    let minutes = 15; // hardcoded timeout
 
     document.onmousemove = activityDetected;
-    document.onkeypress = activityDetected;
+    document.onkeydown = activityDetected;
     document.onscroll = activityDetected; // scrolling by mouse-wheel doesn't count as mousemove, so catch separately
 
     // check every minute for recent activity
     let timer = setInterval(checkActivity, 1 * 60 * 1000); // 1 minute
-    console.log("InactivityTimer: Logging out after " + minutes + " minutes of inactivity");
+    console.log("InactivityTimer: Will log out after " + minutes + " minutes of inactivity");
 
     // just quickly set a flag on detected activity
     function activityDetected() {
@@ -19,7 +19,7 @@
     function checkActivity() {
         if (isActivityDetected) {
             // activity seen, so reset all
-            console.log("InactivityTimer: activity seen in previous minute")
+            console.log("InactivityTimer: activity was seen in previous minute")
             isActivityDetected = false;
             minuteCounter = 0;
         } else {
