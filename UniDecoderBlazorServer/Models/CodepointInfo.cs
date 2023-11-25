@@ -79,4 +79,6 @@ public class CodepointInfo
     /// Gets the name of the Unicode category.
     /// </summary>
     public string CategoryName {  get; }
+
+    public override string ToString() => $"{Character} - '{Name}'";
 }

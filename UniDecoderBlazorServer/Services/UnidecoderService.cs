@@ -15,6 +15,8 @@ public class UnidecoderService
 
     public int MaxResults => MaxResultCount;
 
+    private static readonly char[] wordSeparator = [' '];
+
     /// <summary>
     /// Lists the characters in the supplied <paramref name="input"/>.
     /// </summary>
@@ -24,11 +26,11 @@ public class UnidecoderService
     {
         if (string.IsNullOrEmpty(input))
         {
-            return new List<CodepointInfo>();
+            return [];
         }
 
-        var result = input.AsPermissiveCodePointEnumerable().Select(cp => new CodepointInfo(UnicodeInfo.GetCharInfo(cp))).ToList();
-        return result;
+        return [..input.AsPermissiveCodePointEnumerable()
+            .Select(cp => new CodepointInfo(UnicodeInfo.GetCharInfo(cp)))];
     }
 
     public List<StringElement> ListElements(string input)
@@ -84,10 +86,7 @@ public class UnidecoderService
     /// Gets the supported unicode version.
     /// </summary>
     /// <returns>The version.</returns>
-    public Version GetUnicodeVersion()
-    {
-        return UnicodeInfo.UnicodeVersion;
-    }
+    public Version GetUnicodeVersion() => UnicodeInfo.UnicodeVersion;
 
     /// <summary>
     /// Finds the characters by their name, returning the first <see cref="MaxResults"/> matches.
@@ -98,7 +97,7 @@ public class UnidecoderService
     {
         if (string.IsNullOrWhiteSpace(searchText))
         {
-            return new List<CodepointInfo>();
+            return [];
         }
 
         searchText = searchText.Trim();
@@ -148,7 +147,7 @@ public class UnidecoderService
 
         if (block.Name is null)
         {
-            return new List<CodepointInfo>();
+            return [];
         }
 
         var list = block.CodePointRange
@@ -183,7 +182,7 @@ public class UnidecoderService
             return list;
         }
 
-        return new List<CodepointInfo>();
+        return [];
     }
 
     private bool CodepointExists(int codepoint)
@@ -200,12 +199,12 @@ public class UnidecoderService
             return false;
         }
 
-        var searchwords = match.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-        var sourcewords = source.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+        var searchwords = match.Split(wordSeparator, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+        var sourcewords = source.Split(wordSeparator, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
 
         foreach (var word in searchwords)
         {
-            if (word.StartsWith("-"))
+            if (word.StartsWith('-'))
             {
                 var notword = word[1..];
                 if (sourcewords.Any(w => w.StartsWith(notword, StringComparison.OrdinalIgnoreCase)))

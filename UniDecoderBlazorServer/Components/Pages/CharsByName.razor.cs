@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Components;
 
 using UniDecoderBlazorServer.Models;
 using UniDecoderBlazorServer.Components.Shared;
+using Microsoft.AspNetCore.Components.Forms;
 
 namespace UniDecoderBlazorServer.Components.Pages
 {
@@ -11,7 +12,7 @@ namespace UniDecoderBlazorServer.Components.Pages
     {
         private bool loading, queued;
 
-        ElementReference textInput;
+        private ElementReference textInput = default!;
 
         [Parameter]
         public int? IntParam { get; set; }
@@ -25,11 +26,7 @@ namespace UniDecoderBlazorServer.Components.Pages
         public string? SearchText
         {
             get => AppState.NameSearchText;
-            set
-            {
-                AppState.NameSearchText = value;
-                Task.Run(async () => await PerformSearch(value));
-            }
+            set => AppState.NameSearchText = value;
         }
 
         public List<CodepointInfo>? Characters { get; set; }
@@ -44,16 +41,20 @@ namespace UniDecoderBlazorServer.Components.Pages
             {
                 SearchText = Name;
             }
-            else
-            {
-                await PerformSearch(SearchText);
-            }
+
+            await PerformSearch(SearchText);
         }
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
             // "autofocus" doesn't work in Blazor
             await textInput.FocusAsync();
+        }
+
+        private async Task OnValueChange(string? value)
+        {
+            SearchText = value;
+            await PerformSearch(SearchText);
         }
 
         private async Task PerformSearch(string? text)
@@ -74,7 +75,7 @@ namespace UniDecoderBlazorServer.Components.Pages
                     queued = false;
                     // System.Diagnostics.Debug.WriteLine(SearchText);
                     // try and parse the search value as an integer or hex value.
-                    text = SearchText ?? string.Empty;
+                    // text = SearchText ?? string.Empty;
                     int? codepoint = ParseAsDecimal(text) ?? ParseAsHex(text);
                     if (codepoint.HasValue)
                     {

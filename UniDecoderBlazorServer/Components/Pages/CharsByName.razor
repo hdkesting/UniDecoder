@@ -21,20 +21,20 @@
     <a class="sample" href="name/twelve">twelve</a>.
   </p>
   <p>
-    Or a number <a class="sample" href="name/0x20AC">0x20AC</a> or <a class="sample" href="name/8364">8364</a> (both the same &euro; sign). A number as name will show some characters before and after as well.
+    Or a codepoint value as a number, hexadecimal <a class="sample" href="name/0x20AC">0x20AC</a> or simply decimal <a class="sample" href="name/8364">8364</a> (both the same &euro; sign). Using a number as name will show some characters before and after as well.
   </p>
   <p>
     Or multiple words: <a class="sample" href="name/digit%20circled">digit circled</a>
   </p>
   <p>
-    Or if you want to find <em>un</em>circled digits: <a class="sample" href="name/digit%20-circled">digit <mark>-</mark>circled</a>
+    Or if you want to find <em>un</em>circled digits, add a minus-sign: <a class="sample" href="name/digit%20-circled">digit <mark>-</mark>circled</a>
   </p>
   <p>
     The name or code to search for:
   </p>
 <form autocomplete="off" onsubmit="return false">
-    <input  type="text" placeholder="The name to find" autofocus required @ref="textInput"
-           class="form-control" @bind=SearchText @bind:event="oninput"/>
+    <input type="text" placeholder="The name to find" @ref="textInput"
+           class="form-control" @bind:get=@SearchText @bind:set="@OnValueChange" />
 </form>
 
 @if (!string.IsNullOrEmpty(SearchText))
