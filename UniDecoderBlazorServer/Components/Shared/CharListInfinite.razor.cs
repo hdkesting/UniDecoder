@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Components.Web.Virtualization;
 using UniDecoderBlazorServer.Models;
 using UniDecoderBlazorServer.Support;
 
-namespace UniDecoderBlazorServer.Shared
+namespace UniDecoderBlazorServer.Components.Shared
 {
     public partial class CharListInfinite
     {

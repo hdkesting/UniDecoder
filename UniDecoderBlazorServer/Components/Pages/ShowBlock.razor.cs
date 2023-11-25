@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Components;
 
 using UniDecoderBlazorServer.Models;
-using UniDecoderBlazorServer.Shared;
+using UniDecoderBlazorServer.Components.Shared;
 
-namespace UniDecoderBlazorServer.Pages
+namespace UniDecoderBlazorServer.Components.Pages
 {
     public partial class ShowBlock
     {

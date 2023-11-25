@@ -3,7 +3,7 @@ using Microsoft.JSInterop;
 
 using UniDecoderBlazorServer.Support;
 
-namespace UniDecoderBlazorServer.Shared
+namespace UniDecoderBlazorServer.Components.Shared
 {
     public partial class InfiniteScrolling<T>
     {

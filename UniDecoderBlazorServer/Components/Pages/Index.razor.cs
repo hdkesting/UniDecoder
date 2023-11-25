@@ -2,7 +2,7 @@
 
 using UniDecoderBlazorServer.Models;
 
-namespace UniDecoderBlazorServer.Pages
+namespace UniDecoderBlazorServer.Components.Pages
 {
     public partial class Index
     {

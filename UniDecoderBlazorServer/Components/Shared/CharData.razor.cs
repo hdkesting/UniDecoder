@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Components;
 
 using UniDecoderBlazorServer.Models;
 
-namespace UniDecoderBlazorServer.Shared
+namespace UniDecoderBlazorServer.Components.Shared
 {
     public partial class CharData
     {

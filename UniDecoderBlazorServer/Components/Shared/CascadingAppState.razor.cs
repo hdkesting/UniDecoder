@@ -2,7 +2,7 @@ using System.Runtime.CompilerServices;
 
 using Microsoft.AspNetCore.Components;
 
-namespace UniDecoderBlazorServer.Shared;
+namespace UniDecoderBlazorServer.Components.Shared;
 
 public partial class CascadingAppState
 {

@@ -1,13 +1,15 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 
+using UniDecoderBlazorServer.Components;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 //builder.Services.AddRazorPages();
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
-builder.Services.AddServerSideBlazor();
+//builder.Services.AddServerSideBlazor();
 builder.Services.AddSingleton<UniDecoderBlazorServer.Services.UnidecoderService>();
 var app = builder.Build();
 
@@ -26,9 +28,9 @@ app.UseStaticFiles();
 app.UseRouting();
 app.UseAntiforgery();
 
-app.MapBlazorHub();
+//app.MapBlazorHub();
 
-app.MapRazorComponents<UniDecoderBlazorServer.Pages.App>()
+app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
 
 app.Run();
