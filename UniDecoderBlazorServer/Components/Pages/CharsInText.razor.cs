@@ -55,7 +55,7 @@ namespace UniDecoderBlazorServer.Components.Pages
             }
             else
             {
-                Characters = new List<StringElement>();
+                Characters = [];
             }
         }
     }

@@ -8,21 +8,21 @@ namespace UniDecoderBlazorServer.Components.Pages
     public partial class ShowBlock
     {
         ElementReference dropdownElement;
-        private string? _blockName;
+        // private string? _blockName;
 
         [CascadingParameter]
         public CascadingAppState AppState { get; set; } = null!;
 
         [Parameter]
-        public string? BlockName
-        {
-            get => _blockName;
-            set
-            {
-                _blockName = value;
-                PerformSearch();
-            }
-        }
+        public string? BlockName {  get; set; }
+        //{
+        //    get => _blockName;
+        //    set
+        //    {
+        //        _blockName = value;
+        //        PerformSearch();
+        //    }
+        //}
 
         private List<CodepointInfo>? Characters { get; set; }
 
@@ -34,10 +34,13 @@ namespace UniDecoderBlazorServer.Components.Pages
         {
             // ordering: *first* the ones containing "Latin", *then* the others (false < true)
             Blocks = myservice.GetAllBlocks().Select(b => b.Value).ToList();
-            FilteredBlocks = Blocks
-                .Where(n => !n.Contains("Private Use") && !n.Contains("Surrogate"))
-                .OrderBy(n => !n.Contains("Latin"))
-                .ThenBy(n => n).ToList();
+            FilteredBlocks =
+            [
+                .. Blocks
+                    .Where(n => !n.Contains("Private Use") && !n.Contains("Surrogate"))
+                    .OrderBy(n => !n.Contains("Latin"))
+                    .ThenBy(n => n),
+            ];
         }
 
         protected override void OnParametersSet()
@@ -46,10 +49,8 @@ namespace UniDecoderBlazorServer.Components.Pages
             {
                 BlockName = AppState?.BlockName ?? FilteredBlocks?.First() ?? "Basic Latin";
             }
-            else
-            {
-                PerformSearch();
-            }
+ 
+            PerformSearch();
         }
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -74,7 +75,7 @@ namespace UniDecoderBlazorServer.Components.Pages
             }
             else
             {
-                Characters = new List<CodepointInfo>();
+                Characters = [];
             }
         }
     }

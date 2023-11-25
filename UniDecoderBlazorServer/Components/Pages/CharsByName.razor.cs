@@ -34,7 +34,7 @@ namespace UniDecoderBlazorServer.Components.Pages
 
         public List<CodepointInfo>? Characters { get; set; }
 
-        protected override void OnParametersSet()
+        protected override async Task OnParametersSetAsync()
         {
             if (IntParam.HasValue)
             {
@@ -46,7 +46,7 @@ namespace UniDecoderBlazorServer.Components.Pages
             }
             else
             {
-                Task.Run(async () => await PerformSearch(SearchText));
+                await PerformSearch(SearchText);
             }
         }
 
@@ -92,7 +92,7 @@ namespace UniDecoderBlazorServer.Components.Pages
             }
             else
             {
-                Characters = new List<CodepointInfo>();
+                Characters = [];
             }
 
             await InvokeAsync(StateHasChanged);

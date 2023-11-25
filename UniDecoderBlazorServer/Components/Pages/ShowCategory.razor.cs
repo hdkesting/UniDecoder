@@ -8,21 +8,21 @@ namespace UniDecoderBlazorServer.Components.Pages
     public partial class ShowCategory
     {
         ElementReference dropdownElement;
-        private string? _categoryName;
+        // private string? _categoryName;
 
         [CascadingParameter]
         public CascadingAppState AppState { get; set; } = null!;
 
         [Parameter]
-        public string? CategoryName
-        {
-            get => _categoryName;
-            set
-            {
-                _categoryName = value;
-                PerformSearch();
-            }
-        }
+        public string? CategoryName {  get; set; }
+        //{
+        //    get => _categoryName;
+        //    set
+        //    {
+        //        _categoryName = value;
+        //        PerformSearch();
+        //    }
+        //}
 
         private List<CodepointInfo>? Characters { get; set; }
 
@@ -42,10 +42,8 @@ namespace UniDecoderBlazorServer.Components.Pages
             {
                 CategoryName = AppState?.CategoryName ?? "Lowercase Letter";
             }
-            else
-            {
-                PerformSearch();
-            }
+
+            PerformSearch();
         }
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -66,7 +64,7 @@ namespace UniDecoderBlazorServer.Components.Pages
             }
             else
             {
-                Characters = new List<CodepointInfo>();
+                Characters = [];
             }
         }
     }

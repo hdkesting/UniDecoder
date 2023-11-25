@@ -42,7 +42,7 @@ namespace UniDecoderBlazorServer.Components.Shared
                     var newItems = await ItemsProvider(new InfiniteScrollingItemsProviderRequest(_items.Count, _loadItemsCts.Token));
                     _items.AddRange(newItems);
                 }
-                catch (OperationCanceledException oce)when (oce.CancellationToken == _loadItemsCts.Token)
+                catch (OperationCanceledException oce) when (oce.CancellationToken == _loadItemsCts.Token)
                 {
                 // No-op; we canceled the operation, so it's fine to suppress this exception.
                 }
@@ -71,7 +71,7 @@ namespace UniDecoderBlazorServer.Components.Shared
             }
 
             // new list of items, so reset
-            _items = new();
+            _items = [];
             await LoadMoreItems();
         }
 
@@ -86,7 +86,7 @@ namespace UniDecoderBlazorServer.Components.Shared
             }
         }
 
-        public async ValueTask DisposeAsync()
+        async ValueTask IAsyncDisposable.DisposeAsync()
         {
             // Cancel the current load items operation
             if (_loadItemsCts != null)
@@ -110,6 +110,7 @@ namespace UniDecoderBlazorServer.Components.Shared
             }
 
             _currentComponentReference?.Dispose();
+            GC.SuppressFinalize(this);
         }
     }
 }

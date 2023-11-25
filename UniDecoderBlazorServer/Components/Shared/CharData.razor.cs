@@ -7,7 +7,7 @@ namespace UniDecoderBlazorServer.Components.Shared
     public partial class CharData
     {
         [Parameter]
-        public CodepointInfo Character { get; set; } = null !;
+        public CodepointInfo Character { get; set; } = null!;
 
         [Parameter]
         public ElementPosition Position { get; set; } = ElementPosition.Single;

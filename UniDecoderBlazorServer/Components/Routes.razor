@@ -1,19 +1,18 @@
-﻿<LoadingScreen>
-    <CascadingAppState>
-        <Router AppAssembly="@typeof(Routes).Assembly">
-            <Found Context="routeData">
-                <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
-                <FocusOnNavigate RouteData="@routeData" Selector="h1" />
-            </Found>
-            <NotFound>
-                <PageTitle>Not found</PageTitle>
-                <LayoutView Layout="@typeof(MainLayout)">
-                    <p role="alert">Sorry, there's nothing at this address.</p>
-                </LayoutView>
-            </NotFound>
-        </Router>
-    </CascadingAppState>
-</LoadingScreen>
+﻿@using UniDecoderBlazorServer.Components.Layout
+<CascadingAppState>
+    <Router AppAssembly="@typeof(Routes).Assembly">
+        <Found Context="routeData">
+            <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
+            <FocusOnNavigate RouteData="@routeData" Selector="h1" />
+        </Found>
+        @* <NotFound> -- apparently, this is not used anymore
+            <PageTitle>Not found</PageTitle>
+            <LayoutView Layout="@typeof(MainLayout)">
+                <p role="alert">Sorry, there's nothing at this address.</p>
+            </LayoutView>
+        </NotFound> *@
+    </Router>
+</CascadingAppState>
 
 @code {
 
