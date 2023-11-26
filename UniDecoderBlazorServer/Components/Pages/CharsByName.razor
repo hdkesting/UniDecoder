@@ -34,7 +34,7 @@
   </p>
 <form autocomplete="off" onsubmit="return false">
     <input type="text" placeholder="The name to find" @ref="textInput"
-           class="form-control" @bind:get=@SearchText @bind:set="@OnValueChange" />
+           class="form-control" @bind:get=@SearchText @bind:set="@OnValueChange" @bind:event="oninput" />
 </form>
 
 @if (!string.IsNullOrEmpty(SearchText))

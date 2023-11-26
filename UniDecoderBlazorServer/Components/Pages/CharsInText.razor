@@ -32,7 +32,7 @@
 <div>
     <p>Type or paste your text to split into characters:</p>
     <input placeholder="Enter the text to inspect" autofocus required @ref="textInput"
-           class="form-control" @bind=SearchText @bind:event="oninput"/>
+           class="form-control" @bind:get=@SearchText @bind:set="@OnInput" @bind:event="oninput" />
     @* @bind is two-way binding, @bind:event="oninput" updates the binding on every keystroke *@
 </div>
 

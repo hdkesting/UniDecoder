@@ -20,11 +20,7 @@ namespace UniDecoderBlazorServer.Components.Pages
         public string? SearchText
         {
             get => AppState.TextSplitText;
-            set
-            {
-                AppState.TextSplitText = value;
-                PerformSearch();
-            }
+            set => AppState.TextSplitText = value;
         }
 
         public List<StringElement>? Characters { get; set; }
@@ -35,10 +31,8 @@ namespace UniDecoderBlazorServer.Components.Pages
             {
                 SearchText = HttpUtility.HtmlDecode(Uri.UnescapeDataString(TextParam));
             }
-            else
-            {
-                PerformSearch();
-            }
+                
+            PerformSearch();
         }
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -57,6 +51,12 @@ namespace UniDecoderBlazorServer.Components.Pages
             {
                 Characters = [];
             }
+        }
+
+        private void OnInput(string? text)
+        {
+            SearchText = text;
+            PerformSearch();
         }
     }
 }
