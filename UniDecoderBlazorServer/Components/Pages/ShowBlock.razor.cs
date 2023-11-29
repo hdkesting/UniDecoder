@@ -8,21 +8,12 @@ namespace UniDecoderBlazorServer.Components.Pages
     public partial class ShowBlock
     {
         ElementReference dropdownElement;
-        // private string? _blockName;
 
         [CascadingParameter]
         public CascadingAppState AppState { get; set; } = null!;
 
         [Parameter]
         public string? BlockName {  get; set; }
-        //{
-        //    get => _blockName;
-        //    set
-        //    {
-        //        _blockName = value;
-        //        PerformSearch();
-        //    }
-        //}
 
         private List<CodepointInfo>? Characters { get; set; }
 
@@ -57,6 +48,12 @@ namespace UniDecoderBlazorServer.Components.Pages
         {
             // "autofocus" doesn't work in Blazor
             await dropdownElement.FocusAsync();
+        }
+
+        private void UpdateBlockName(string blockName)
+        {
+            BlockName = blockName;
+            PerformSearch();
         }
 
         private void PerformSearch()

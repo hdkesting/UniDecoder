@@ -8,21 +8,12 @@ namespace UniDecoderBlazorServer.Components.Pages
     public partial class ShowCategory
     {
         ElementReference dropdownElement;
-        // private string? _categoryName;
 
         [CascadingParameter]
         public CascadingAppState AppState { get; set; } = null!;
 
         [Parameter]
         public string? CategoryName {  get; set; }
-        //{
-        //    get => _categoryName;
-        //    set
-        //    {
-        //        _categoryName = value;
-        //        PerformSearch();
-        //    }
-        //}
 
         private List<CodepointInfo>? Characters { get; set; }
 
@@ -30,10 +21,13 @@ namespace UniDecoderBlazorServer.Components.Pages
 
         protected override void OnInitialized()
         {
-            Categories = myservice.GetAllCategories()
-                .Select(di => di.Value)
-                .Where(n => n != "Other Not Assigned")
-                .OrderBy(n => n).ToList();
+            Categories =
+            [
+                .. myservice.GetAllCategories()
+                                .Select(di => di.Value)
+                                .Where(n => n != "Other Not Assigned")
+                                .OrderBy(n => n),
+            ];
         }
 
         protected override void OnParametersSet()
@@ -50,6 +44,12 @@ namespace UniDecoderBlazorServer.Components.Pages
         {
             // "autofocus" doesn't work in Blazor
             await dropdownElement.FocusAsync();
+        }
+
+        private void UpdateCategory(string categoryName)
+        {
+            CategoryName = categoryName;
+            PerformSearch();
         }
 
         private void PerformSearch()
