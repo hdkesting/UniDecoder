@@ -9,7 +9,7 @@ using System.Text.RegularExpressions;
 /// <summary>
 /// Various (string) extensions.
 /// </summary>
-public static class Extensions
+public static partial class Extensions
 {
     /// <summary>
     /// Converts the (upper case) input to Title Case.
@@ -48,6 +48,14 @@ public static class Extensions
     {
         return string.IsNullOrEmpty(input)
                     ? string.Empty
-                    : Regex.Replace(input, @"(?<=[a-z0-9])([A-Z])|(?<=[A-Z])([A-Z])(?=[a-z])", " $1$2"); // insert space before capital letter
+                    : WordBreakFinder().Replace(input, " $1$2"); // insert space before capital letter
     }
+
+    /// <summary>
+    /// Match either a capital after a lowercase or digit (Pascal[C]ase),
+    /// or a capital, after a capital and before a lowercase (UI[F]unction)
+    /// </summary>
+    /// <returns></returns>
+    [GeneratedRegex(@"(?<=[a-z0-9])([A-Z])|(?<=[A-Z])([A-Z])(?=[a-z])")]
+    private static partial Regex WordBreakFinder();
 }

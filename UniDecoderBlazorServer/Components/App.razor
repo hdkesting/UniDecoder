@@ -7,11 +7,11 @@
     <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css" />
     <link href="css/site.css" rel="stylesheet" />
     <link href="UniDecoderBlazorServer.styles.css" rel="stylesheet" />
-    <HeadOutlet />
+    <HeadOutlet @rendermode="@(new InteractiveServerRenderMode(prerender: false))" />
 </head>
 <body>
     @* It seems "Routes"" is not found in the root so it has to be in Components (or such) *@
-    <Routes @rendermode="@RenderMode.InteractiveServer" />
+    <Routes @rendermode="@(new InteractiveServerRenderMode(prerender: false))" />
 
     <div id="blazor-error-ui">
         An unhandled exception has occurred. See browser dev tools for details.
