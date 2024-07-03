@@ -50,7 +50,7 @@ namespace UniDecoderBlazorServer.Components.Pages
             await dropdownElement.FocusAsync();
         }
 
-        private void UpdateBlockName(string blockName)
+        private void UpdateBlockName(string? blockName)
         {
             BlockName = blockName;
             PerformSearch();
