@@ -46,7 +46,7 @@ namespace UniDecoderBlazorServer.Components.Pages
             await dropdownElement.FocusAsync();
         }
 
-        private void UpdateCategory(string categoryName)
+        private void UpdateCategory(string? categoryName)
         {
             CategoryName = categoryName;
             PerformSearch();
