@@ -20,7 +20,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UniDecoderBlazorServer", "U
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MAUI", "MAUI", "{531EC2D1-07D1-419E-88BF-6B5DFD919504}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unidecoder.Maui", "Unidecoder.Maui\Unidecoder.Maui.csproj", "{9C75CEB2-8C2A-4563-AB41-842F06FB7175}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unidecoder.Maui", "MAUI\Unidecoder.Maui\Unidecoder.Maui.csproj", "{9C75CEB2-8C2A-4563-AB41-842F06FB7175}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
