@@ -14,12 +14,6 @@ Implementations
 
 * A winforms app to run locally
   * Project: Unidecoder
-* A website using async javascript and a download of the full character list 
-  * Project: UnidecoderWeb
-* A website using Azure functions to do the action 
-  * Projects: UnidecoderWebStatic, Unidecoder.Functions (.Test)
-* A website created in Angular, using Azure Functions as backend
-  * Project: UnidecoderAngular
 * A Blazor web application (Blazor Server) 
   * Currently deployed to https://unidecoder.azurewebsites.net
   * Project: UnidecoderBlazorServer
