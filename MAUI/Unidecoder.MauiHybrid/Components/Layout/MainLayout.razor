@@ -1,4 +1,8 @@
 ﻿@inherits LayoutComponentBase
+@inject IJSRuntime js
+@implements IAsyncDisposable;
+
+<PageTitle>Uni(-code) Decoder</PageTitle>
 
 <div class="page">
     <div class="sidebar">
@@ -6,12 +10,32 @@
     </div>
 
     <main>
-        <div class="top-row px-4">
-            <a href="https://learn.microsoft.com/aspnet/core/" target="_blank">About</a>
-        </div>
-
         <article class="content px-4">
             @Body
         </article>
     </main>
 </div>
+
+@code {
+    private IJSObjectReference? _module;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            _module = await js.InvokeAsync<IJSObjectReference>("import", "./js/inactivityTimer.js");
+            await _module.InvokeVoidAsync("initializeInactivityTimer");
+        }
+    }
+
+    async ValueTask IAsyncDisposable.DisposeAsync()
+    {
+        if (_module is not null)
+        {
+            await _module.DisposeAsync();
+            _module = null;
+        }
+
+        GC.SuppressFinalize(this);
+    }
+}

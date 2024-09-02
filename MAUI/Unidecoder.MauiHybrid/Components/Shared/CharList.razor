@@ -1,0 +1,51 @@
+﻿@using Unidecoder.MauiHybrid.Components.Shared
+@using Unidecoder.MauiHybrid.Models
+
+@if (Characters is not null && Characters.Any())
+{
+    @if (!string.IsNullOrEmpty(CountMessageFormat))
+    {
+        <p>@string.Format(CountMessageFormat, @Characters.Count)</p>
+    }
+    <section>
+    @foreach(var ch in Characters)
+    {
+        if (ch.Codepoints.Count == 1)
+        {
+            <CharData Character=@ch.Codepoints.Single()/>
+        }
+        else
+        {
+            for (int i=0; i<ch.Codepoints.Count; i++)
+            {
+                if (i==0)
+                {
+                    <CharData Character="@ch.Codepoints[i]" Element="@ch.Element" Position="CharData.ElementPosition.First"/>
+                }
+                else if (i == ch.Codepoints.Count-1)
+                {
+                    <CharData Character="@ch.Codepoints[i]" Position="CharData.ElementPosition.Last"/>
+                }
+                else
+                {
+                    <CharData Character="@ch.Codepoints[i]" Position="CharData.ElementPosition.Middle"/>
+                }
+            }
+        }
+    }
+    </section>
+}
+else
+{
+    <p>@EmptyListMessage</p>
+}
+@code {
+    [Parameter]
+    public List<StringElement>? Characters{ get; set; }
+
+    [Parameter]
+    public string? EmptyListMessage{ get; set; }
+
+    [Parameter]
+    public string? CountMessageFormat { get; set; }
+}

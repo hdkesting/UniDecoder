@@ -9,7 +9,7 @@ main {
 }
 
 .sidebar {
-    background-image: linear-gradient(180deg, rgb(5, 39, 103) 0%, #3a0647 70%);
+    background-image: linear-gradient(180deg, #03163E 0%, #0a0a80 70%);
 }
 
 .top-row {
@@ -21,32 +21,32 @@ main {
     align-items: center;
 }
 
-    .top-row ::deep a, .top-row ::deep .btn-link {
+    .top-row ::deep a, .top-row .btn-link {
         white-space: nowrap;
         margin-left: 1.5rem;
-        text-decoration: none;
     }
 
-        .top-row ::deep a:hover, .top-row ::deep .btn-link:hover {
-            text-decoration: underline;
-        }
+    .top-row a:first-child {
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
 
-        .top-row ::deep a:first-child {
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
+/* max width just < 1000ps, as set for min-width below. Sync value with NavMenu.razor.css */
+@media (max-width: 999.98px) {
+    .top-row:not(.auth) {
+        display: none;
+    }
 
-@media (max-width: 640.98px) {
-    .top-row {
+    .top-row.auth {
         justify-content: space-between;
     }
 
-        .top-row ::deep a, .top-row ::deep .btn-link {
-            margin-left: 0;
-        }
+    .top-row a, .top-row .btn-link {
+        margin-left: 0;
+    }
 }
 
-@media (min-width: 641px) {
+@media (min-width: 1000px) {
     .page {
         flex-direction: row;
     }
@@ -63,12 +63,6 @@ main {
         top: 0;
         z-index: 1;
     }
-
-        .top-row.auth ::deep a:first-child {
-            flex: 1;
-            text-align: right;
-            width: 0;
-        }
 
     .top-row, article {
         padding-left: 2rem !important;

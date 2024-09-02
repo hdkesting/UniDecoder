@@ -1,0 +1,24 @@
+﻿@using Unidecoder.MauiHybrid.Support
+@if (Characters is not null && Characters.Any())
+{
+    @if (!string.IsNullOrEmpty(CountMessageFormat))
+    {
+        <p>@string.Format(CountMessageFormat, @Characters.Count)</p>
+    }
+    <section>
+        <InfiniteScrolling ItemsProvider=GetItems>
+            <ItemTemplate Context="item">
+                <CharData Character="item"/>
+            </ItemTemplate>
+            <LoadingTemplate>
+                @*-- NB this does NOT pick up css that is scoped to CharData --*@
+                <article><div class="sample"><span class="oi oi-reload spin"></span></div> <div><p>Loading</p></div></article>
+            </LoadingTemplate>
+        </InfiniteScrolling>
+    </section>
+}
+else
+{
+    <p>@EmptyListMessage</p>
+}
+

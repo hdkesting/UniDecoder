@@ -1,0 +1,46 @@
+﻿@using System.Globalization
+@using Unidecoder.MauiHybrid.Models
+
+    @switch (Position)
+    {
+        case ElementPosition.Single:
+            @ShowChar
+            break;
+
+        case ElementPosition.First:
+            <div class="element element-start">
+                <div class="element-sample">@Element</div>
+                @ShowChar
+            </div>
+            break;
+
+        case ElementPosition.Middle:
+            <div class="element element-middle">
+                @ShowChar
+            </div>
+            break;
+
+        case ElementPosition.Last:
+            <div class="element element-end">
+                @ShowChar
+            </div>
+            break;
+    }
+
+@code {
+    private RenderFragment ShowChar => 
+
+@<div class="char">
+        <!-- class = "sample" or "latin sample" -->
+        <div class="@(SeemsLatin() ? "latin sample" : "sample")"
+            onclick="cp(@Character.Codepoint, '@Character.Name')">@Character.Character</div>
+        <div class="info">
+            <p><b>@Character.Name</b></p>
+            <p><a href="block/@Uri.EscapeDataString(Character.Block)">@Character.Block</a></p>
+            <p><a href="cat/@Uri.EscapeDataString(Character.CategoryName)"><i>@Character.CategoryName</i></a></p>
+            <p><a href="name/@Uri.EscapeDataString("0x" + Character.CodepointHex)">@Character.CodepointHex</a> &ndash;
+                <a href="name/@Uri.EscapeDataString(Character.Codepoint.ToString(CultureInfo.InvariantCulture))">@Character.Codepoint</a></p>
+        </div>
+</div>
+        ;
+}
