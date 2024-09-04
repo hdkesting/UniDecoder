@@ -20,6 +20,8 @@ public static class MauiProgram
 		builder.Logging.AddDebug();
 #endif
 
+        builder.Services.AddSingleton<Unidecoder.MauiHybrid.Services.UnidecoderService>();
+
         return builder.Build();
     }
 }

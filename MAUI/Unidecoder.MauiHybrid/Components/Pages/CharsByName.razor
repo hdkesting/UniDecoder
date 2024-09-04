@@ -1,0 +1,46 @@
+﻿@page "/name"
+@page "/name/{IntParam:int}"
+@page "/name/{Name}"
+
+@inject UnidecoderService myservice
+
+<PageTitle>Characters by name</PageTitle>
+
+  <h2>Find by character's name</h2>
+  <p>
+    Type in a partial name of a character or type in its code to find out about it.
+    When you type in a numerical code (decimal or hexadecimal), some characters around it will also be shown.
+    Note that some values are recognized as both decimal and hexadecimal &ndash; meaning you get more results.
+  </p>
+  <p>
+    The characters are known only by their official (english) name. When you search for something specific, you may need to try some alternative names.
+  </p>
+  <p>
+    Examples: <a class="sample" href="name/phone">phone</a>,
+    <a class="sample" href="name/star">star</a> or
+    <a class="sample" href="name/twelve">twelve</a>.
+  </p>
+  <p>
+    Or a codepoint value as a number, hexadecimal <a class="sample" href="name/0x20AC">0x20AC</a> or simply decimal <a class="sample" href="name/8364">8364</a> (both the same &euro; sign). Using a number as name will show some characters before and after as well.
+  </p>
+  <p>
+    Or multiple words: <a class="sample" href="name/digit%20circled">digit circled</a>
+  </p>
+  <p>
+    Or if you want to find <em>un</em>circled digits, add a minus-sign: <a class="sample" href="name/digit%20-circled">digit <mark>-</mark>circled</a>
+  </p>
+  <p>
+    The name or code to search for:
+  </p>
+<form autocomplete="off" onsubmit="return false">
+    <input type="text" placeholder="The name to find" @ref="textInput"
+           class="form-control" @bind:get=@SearchText @bind:set="@OnValueChange" @bind:event="oninput" />
+</form>
+
+@if (!string.IsNullOrEmpty(SearchText))
+{
+    <div>Shareable link for <a class="sample" href="name/@Uri.EscapeDataString(SearchText)">@SearchText</a></div>
+}
+
+<CharListInfinite Characters=Characters EmptyListMessage="Please enter a text to search for." />
+

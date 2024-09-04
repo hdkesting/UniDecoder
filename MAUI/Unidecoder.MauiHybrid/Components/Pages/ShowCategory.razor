@@ -1,0 +1,36 @@
+﻿@page "/cat"
+@page "/cat/{CategoryName}"
+
+@inject UnidecoderService myservice
+
+<PageTitle>Characters by category</PageTitle>
+
+  <h2>Find characters by category</h2>
+  <p>Characters belong to a category. Select a category below to see its characters.</p>
+  <p>Some characters may be replaced by an empty rectangle: this means that the current font (as installed at <em>your</em> side) cannot display it.</p>
+  <p>
+    Examples: <a class="sample" href="cat/Uppercase%20Letter">Uppercase letter</a>,
+    <a class="sample" href="cat/Other%20Number">Other Number</a> or
+    <a class="sample" href="cat/Math%20Symbol">Math Symbol</a>.
+  </p>
+  <p>For more information about some exotic categories, see this <a href="https://en.m.wikipedia.org/wiki/Help:Multilingual_support#Scripts" target="_blank">Wikipedia page</a>.</p>
+
+@if (Categories is not null)
+{
+    <select class="form-select" @bind:get=@CategoryName @bind:set=UpdateCategory title="Select a category to show" @ref="dropdownElement">
+        @foreach (var cat in Categories)
+        {
+            <option value=@cat>@cat</option>
+        }
+    </select>
+}
+@if (!string.IsNullOrEmpty(CategoryName))
+{
+    <div>Shareable link for <a class="sample" href="cat/@Uri.EscapeDataString(CategoryName)">@CategoryName</a></div>
+}
+
+<CharListInfinite Characters=@Characters
+    EmptyListMessage="Please select a category to investigate."
+    CountMessageFormat="This category contains {0} characters." />
+
+

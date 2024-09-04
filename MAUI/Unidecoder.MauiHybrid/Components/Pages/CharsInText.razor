@@ -1,0 +1,46 @@
+﻿@page "/text"
+@page "/text/{TextParam}"
+
+@using System.Web
+@inject UnidecoderService myservice
+
+<PageTitle>Characters in text</PageTitle>
+
+<h2>Characters in a text</h2>
+<div>Type in (or copy from somewhere &amp; paste in here) some text in the field below. Information about all separate characters in that text will then be shown.</div>
+<div>
+  For example:
+  <dl>
+    <dt><a class="sample" href="text/@Uri.EscapeDataString("Cre&#x0300;me brûlée")">Cre&#x0300;me brûlée</a></dt>
+    <dd>A phrase with accented letters</dd>
+    <dt><a class="sample" href="text/@Uri.EscapeDataString("1× 🍕 à €1,‒")">1× 🍕 à €1,‒</a></dt>
+    <dd>More exotic "letters" are possible</dd>
+    <dt>
+        <a class="sample" href="text/@Uri.EscapeDataString("🏴‍☠️")" title="Pirate flag">🏴‍☠️</a>,
+        <a class="sample" href="text/@Uri.EscapeDataString("🏳️‍🌈")" title="Rainbow flag">🏳️‍🌈</a>,
+        <a class="sample" href="text/@Uri.EscapeDataString("👩🏽‍🍼")" title="Woman feeding baby">👩🏽‍🍼</a>,
+        <a class="sample" href="text/@Uri.EscapeDataString("👨🏻‍👩🏾‍👧🏽")" title="Family">👨🏻‍👩🏾‍👧🏽</a>,
+    </dt>
+    <dd>All sorts of combinations are possible</dd>
+    <dt>
+      <a class="sample" href="text/@Uri.EscapeDataString("Рhishy@Μicrοsοﬅ.com")">Рhishy@Μicrοsοﬅ.com</a> or
+      <a class="sample" href="text/@Uri.EscapeDataString("аррӏе.com")">аррӏе.com</a>
+    </dt>
+    <dd>You can even detect some phishy addresses (look closely at the letters)</dd>
+  </dl>
+</div>
+<div>
+    <p>Type or paste your text to split into characters:</p>
+    <input placeholder="Enter the text to inspect" autofocus required @ref="textInput"
+           class="form-control" @bind:get=@SearchText @bind:set="@OnInput" @bind:event="oninput" />
+    @* @bind is two-way binding, @bind:event="oninput" updates the binding on every keystroke *@
+</div>
+
+@if (!string.IsNullOrEmpty(SearchText))
+{
+    <div>Shareable link for <a class="sample" href="text/@Uri.EscapeDataString(SearchText)">@SearchText</a></div>
+}
+
+<CharList Characters=Characters EmptyListMessage="Please enter a text to investigate." />
+
+
