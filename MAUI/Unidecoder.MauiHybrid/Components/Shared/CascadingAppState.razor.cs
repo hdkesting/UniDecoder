@@ -54,37 +54,27 @@ public partial class CascadingAppState
         }
     }
 
-    /*
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         // NB localStorage persists across browser restarts and tabs
         // sessionStorage is local to tab
-        var storedResult = await storage.GetAsync<string>(nameof(NameSearchText));
-        NameSearchText = storedResult.Success ? storedResult.Value : string.Empty;
-        storedResult = await storage.GetAsync<string>(nameof(TextSplitText));
-        TextSplitText = storedResult.Success ? storedResult.Value : string.Empty;
-        storedResult = await storage.GetAsync<string>(nameof(BlockName));
-        BlockName = storedResult.Success ? storedResult.Value : string.Empty;
-        storedResult = await storage.GetAsync<string>(nameof(CategoryName));
-        CategoryName = storedResult.Success ? storedResult.Value : string.Empty;
+        // do not access local storage before this lifecycle event
+        // set local backing fields to prevent calling Update
+        _nameSearchText = await localStorage.GetItemAsync<string>(nameof(NameSearchText));
+        _textSplitText = await localStorage.GetItemAsync<string>(nameof(TextSplitText));
+        _blockName = await localStorage.GetItemAsync<string>(nameof(BlockName));
+        _categoryName = await localStorage.GetItemAsync<string>(nameof(CategoryName));
     }
-    */
+
     private async Task Update(string? value, [CallerMemberName] string member = "")
     {
-        // TODO
-        // possibly: https://dev.to/icebeam7/storing-local-data-in-a-net-maui-blazor-hybrid-app-using-indexeddb-part-1-3hn2
-        // or https://dev.to/nick_alonge/using-local-browser-storage-in-net-maui-blazor-hybrid-3loe
-        // or simply use https://github.com/Blazored/LocalStorage
-        /*
-        if (value != null)
+        if (value is not null)
         {
-            await storage.SetAsync(member, value);
+            await localStorage.SetItemAsync(member, value);
         }
         else
         {
-            await storage.DeleteAsync(member);
+            await localStorage.RemoveItemAsync(member);
         }
-        */
-        await Task.CompletedTask;
     }
 }

@@ -1,4 +1,7 @@
 ﻿namespace Unidecoder.MauiHybrid;
+
+using Blazored.LocalStorage;
+
 using Microsoft.Extensions.Logging;
 
 public static class MauiProgram
@@ -14,13 +17,14 @@ public static class MauiProgram
             });
 
         builder.Services.AddMauiBlazorWebView();
+        builder.Services.AddBlazoredLocalStorage();
 
 #if DEBUG
-		builder.Services.AddBlazorWebViewDeveloperTools();
-		builder.Logging.AddDebug();
+        builder.Services.AddBlazorWebViewDeveloperTools();
+        builder.Logging.AddDebug();
 #endif
 
-        builder.Services.AddSingleton<Unidecoder.MauiHybrid.Services.UnidecoderService>();
+        builder.Services.AddSingleton<Services.UnidecoderService>();
 
         return builder.Build();
     }
