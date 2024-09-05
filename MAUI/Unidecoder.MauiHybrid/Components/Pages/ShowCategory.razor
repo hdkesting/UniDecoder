@@ -17,7 +17,7 @@
 
 @if (Categories is not null)
 {
-    <select class="form-select" @bind:get=@CategoryName @bind:set=UpdateCategory title="Select a category to show" @ref="dropdownElement">
+    <select class="form-select" @bind:get=@CategoryName @bind:set=UpdateCategory title="Select a category to show" @ref="dropdownElement" name="category-selection">
         @foreach (var cat in Categories)
         {
             <option value=@cat>@cat</option>

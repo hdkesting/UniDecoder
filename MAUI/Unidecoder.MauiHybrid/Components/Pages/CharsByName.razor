@@ -13,7 +13,7 @@
     Note that some values are recognized as both decimal and hexadecimal &ndash; meaning you get more results.
   </p>
   <p>
-    The characters are known only by their official (english) name. When you search for something specific, you may need to try some alternative names.
+    The characters are known only by their official (English) name. When you search for something specific, you may need to try some alternative names.
   </p>
   <p>
     Examples: <a class="sample" href="name/phone">phone</a>,
@@ -34,7 +34,7 @@
   </p>
 <form autocomplete="off" onsubmit="return false">
     <input type="text" placeholder="The name to find" @ref="textInput"
-           class="form-control" @bind:get=@SearchText @bind:set="@OnValueChange" @bind:event="oninput" />
+           class="form-control" @bind:get=@SearchText @bind:set="@OnValueChange" @bind:event="oninput" name="character-name"/>
 </form>
 
 @if (!string.IsNullOrEmpty(SearchText))
