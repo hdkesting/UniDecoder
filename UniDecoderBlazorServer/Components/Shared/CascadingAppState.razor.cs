@@ -54,36 +54,28 @@ public partial class CascadingAppState
         }
     }
 
-    /* this works locally, but not when deployed to Azure ??
+    ///* this works locally, but not when deployed to Azure ??
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         // NB localStorage persists across browser restarts and tabs
         // sessionStorage is local to tab
         // use AfterRender lifecycle event, to have the SignalR link up-and-running
         // assign to the backing fields, so as not to invoke Update
-        var storedResult = await storage.GetAsync<string>(nameof(NameSearchText));
-        _nameSearchText = storedResult.Success ? storedResult.Value : string.Empty;
-        storedResult = await storage.GetAsync<string>(nameof(TextSplitText));
-        _textSplitText = storedResult.Success ? storedResult.Value : string.Empty;
-        storedResult = await storage.GetAsync<string>(nameof(BlockName));
-        _blockName = storedResult.Success ? storedResult.Value : string.Empty;
-        storedResult = await storage.GetAsync<string>(nameof(CategoryName));
-        _categoryName = storedResult.Success ? storedResult.Value : string.Empty;
+        _nameSearchText = await localStorage.GetItemAsync<string>(nameof(NameSearchText));
+        _textSplitText = await localStorage.GetItemAsync<string>(nameof(TextSplitText));
+        _blockName = await localStorage.GetItemAsync<string>(nameof(BlockName));
+        _categoryName = await localStorage.GetItemAsync<string>(nameof(CategoryName));
     }
-    */
 
     private async Task Update(string? value, [CallerMemberName] string member = "")
     {
-        /*
-        if (value != null)
+        if (value is not null)
         {
-            await storage.SetAsync(member, value);
+            await localStorage.SetItemAsync(member, value);
         }
         else
         {
-            await storage.DeleteAsync(member);
+            await localStorage.RemoveItemAsync(member);
         }
-        */
-        await Task.CompletedTask;
     }
 }
