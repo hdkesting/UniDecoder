@@ -54,21 +54,24 @@ public partial class CascadingAppState
         }
     }
 
-    /*
-    protected override async Task OnInitializedAsync()
+    /* this works locally, but not when deployed to Azure ??
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         // NB localStorage persists across browser restarts and tabs
         // sessionStorage is local to tab
+        // use AfterRender lifecycle event, to have the SignalR link up-and-running
+        // assign to the backing fields, so as not to invoke Update
         var storedResult = await storage.GetAsync<string>(nameof(NameSearchText));
-        NameSearchText = storedResult.Success ? storedResult.Value : string.Empty;
+        _nameSearchText = storedResult.Success ? storedResult.Value : string.Empty;
         storedResult = await storage.GetAsync<string>(nameof(TextSplitText));
-        TextSplitText = storedResult.Success ? storedResult.Value : string.Empty;
+        _textSplitText = storedResult.Success ? storedResult.Value : string.Empty;
         storedResult = await storage.GetAsync<string>(nameof(BlockName));
-        BlockName = storedResult.Success ? storedResult.Value : string.Empty;
+        _blockName = storedResult.Success ? storedResult.Value : string.Empty;
         storedResult = await storage.GetAsync<string>(nameof(CategoryName));
-        CategoryName = storedResult.Success ? storedResult.Value : string.Empty;
+        _categoryName = storedResult.Success ? storedResult.Value : string.Empty;
     }
     */
+
     private async Task Update(string? value, [CallerMemberName] string member = "")
     {
         /*
