@@ -1,4 +1,5 @@
 ﻿namespace UniDecoderBlazorServer.Tests;
+
 using Bunit;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
