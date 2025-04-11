@@ -24,6 +24,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unidecoder.Maui", "MAUI\Uni
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unidecoder.MauiHybrid", "MAUI\Unidecoder.MauiHybrid\Unidecoder.MauiHybrid.csproj", "{0A88BC90-65C6-4955-BD86-883EFA8B578B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniDecoderBlazorServer.Tests", "UniDecoderBlazorServer.Tests\UniDecoderBlazorServer.Tests.csproj", "{1F1D732A-3BBA-4F39-A017-F6D0628A1E5F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -115,6 +117,22 @@ Global
 		{0A88BC90-65C6-4955-BD86-883EFA8B578B}.Release|x86.ActiveCfg = Release|Any CPU
 		{0A88BC90-65C6-4955-BD86-883EFA8B578B}.Release|x86.Build.0 = Release|Any CPU
 		{0A88BC90-65C6-4955-BD86-883EFA8B578B}.Release|x86.Deploy.0 = Release|Any CPU
+		{1F1D732A-3BBA-4F39-A017-F6D0628A1E5F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1F1D732A-3BBA-4F39-A017-F6D0628A1E5F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1F1D732A-3BBA-4F39-A017-F6D0628A1E5F}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{1F1D732A-3BBA-4F39-A017-F6D0628A1E5F}.Debug|ARM.Build.0 = Debug|Any CPU
+		{1F1D732A-3BBA-4F39-A017-F6D0628A1E5F}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{1F1D732A-3BBA-4F39-A017-F6D0628A1E5F}.Debug|x64.Build.0 = Debug|Any CPU
+		{1F1D732A-3BBA-4F39-A017-F6D0628A1E5F}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{1F1D732A-3BBA-4F39-A017-F6D0628A1E5F}.Debug|x86.Build.0 = Debug|Any CPU
+		{1F1D732A-3BBA-4F39-A017-F6D0628A1E5F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1F1D732A-3BBA-4F39-A017-F6D0628A1E5F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1F1D732A-3BBA-4F39-A017-F6D0628A1E5F}.Release|ARM.ActiveCfg = Release|Any CPU
+		{1F1D732A-3BBA-4F39-A017-F6D0628A1E5F}.Release|ARM.Build.0 = Release|Any CPU
+		{1F1D732A-3BBA-4F39-A017-F6D0628A1E5F}.Release|x64.ActiveCfg = Release|Any CPU
+		{1F1D732A-3BBA-4F39-A017-F6D0628A1E5F}.Release|x64.Build.0 = Release|Any CPU
+		{1F1D732A-3BBA-4F39-A017-F6D0628A1E5F}.Release|x86.ActiveCfg = Release|Any CPU
+		{1F1D732A-3BBA-4F39-A017-F6D0628A1E5F}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -124,6 +142,7 @@ Global
 		{82190E3A-F4E2-4769-AA74-E14EABE39F60} = {7F5DC882-572A-458B-BEF2-49B61193CAEA}
 		{9C75CEB2-8C2A-4563-AB41-842F06FB7175} = {531EC2D1-07D1-419E-88BF-6B5DFD919504}
 		{0A88BC90-65C6-4955-BD86-883EFA8B578B} = {531EC2D1-07D1-419E-88BF-6B5DFD919504}
+		{1F1D732A-3BBA-4F39-A017-F6D0628A1E5F} = {7F5DC882-572A-458B-BEF2-49B61193CAEA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C2CB8706-01F8-4103-874C-A154B69811A5}
