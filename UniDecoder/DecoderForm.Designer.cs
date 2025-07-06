@@ -29,300 +29,323 @@
         private void InitializeComponent()
         {
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DecoderForm));
-            this.gridCharacters = new System.Windows.Forms.DataGridView();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.lbBigChar = new System.Windows.Forms.Label();
-            this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.tabPageShow = new System.Windows.Forms.TabPage();
-            this.label3 = new System.Windows.Forms.Label();
-            this.tbTextInput = new System.Windows.Forms.TextBox();
-            this.tabPageFind = new System.Windows.Forms.TabPage();
-            this.tbNameInput = new System.Windows.Forms.TextBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.tabPageBlock = new System.Windows.Forms.TabPage();
-            this.cbBlocks = new System.Windows.Forms.ComboBox();
-            this.label6 = new System.Windows.Forms.Label();
-            this.NormalizationGroup = new System.Windows.Forms.GroupBox();
-            this.label5 = new System.Windows.Forms.Label();
-            this.rbNone = new System.Windows.Forms.RadioButton();
-            this.rbFormC = new System.Windows.Forms.RadioButton();
-            this.rbFormD = new System.Windows.Forms.RadioButton();
-            this.VersionLabel = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.gridCharacters)).BeginInit();
-            this.tabControl1.SuspendLayout();
-            this.tabPageShow.SuspendLayout();
-            this.tabPageFind.SuspendLayout();
-            this.tabPageBlock.SuspendLayout();
-            this.NormalizationGroup.SuspendLayout();
-            this.SuspendLayout();
+            gridCharacters = new System.Windows.Forms.DataGridView();
+            label1 = new System.Windows.Forms.Label();
+            label2 = new System.Windows.Forms.Label();
+            lbBigChar = new System.Windows.Forms.Label();
+            tabControl1 = new System.Windows.Forms.TabControl();
+            tabPageShow = new System.Windows.Forms.TabPage();
+            label3 = new System.Windows.Forms.Label();
+            tbTextInput = new System.Windows.Forms.TextBox();
+            tabPageFind = new System.Windows.Forms.TabPage();
+            tbNameInput = new System.Windows.Forms.TextBox();
+            label4 = new System.Windows.Forms.Label();
+            tabPageBlock = new System.Windows.Forms.TabPage();
+            cbBlocks = new System.Windows.Forms.ComboBox();
+            label6 = new System.Windows.Forms.Label();
+            NormalizationGroup = new System.Windows.Forms.GroupBox();
+            label5 = new System.Windows.Forms.Label();
+            rbNone = new System.Windows.Forms.RadioButton();
+            rbFormC = new System.Windows.Forms.RadioButton();
+            rbFormD = new System.Windows.Forms.RadioButton();
+            VersionLabel = new System.Windows.Forms.Label();
+            ((System.ComponentModel.ISupportInitialize)gridCharacters).BeginInit();
+            tabControl1.SuspendLayout();
+            tabPageShow.SuspendLayout();
+            tabPageFind.SuspendLayout();
+            tabPageBlock.SuspendLayout();
+            NormalizationGroup.SuspendLayout();
+            SuspendLayout();
             // 
             // gridCharacters
             // 
-            this.gridCharacters.AllowUserToAddRows = false;
-            this.gridCharacters.AllowUserToDeleteRows = false;
-            this.gridCharacters.AllowUserToResizeRows = false;
-            this.gridCharacters.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.gridCharacters.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
-            this.gridCharacters.BackgroundColor = System.Drawing.SystemColors.Window;
-            this.gridCharacters.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.gridCharacters.Location = new System.Drawing.Point(12, 148);
-            this.gridCharacters.MultiSelect = false;
-            this.gridCharacters.Name = "gridCharacters";
-            this.gridCharacters.ReadOnly = true;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.gridCharacters.RowHeadersDefaultCellStyle = dataGridViewCellStyle1;
-            this.gridCharacters.RowHeadersVisible = false;
-            this.gridCharacters.Size = new System.Drawing.Size(571, 370);
-            this.gridCharacters.TabIndex = 5;
-            this.gridCharacters.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.GridCharacters_CellDoubleClick);
-            this.gridCharacters.CellMouseEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.GridCharacters_CellMouseEnter);
-            this.gridCharacters.CellMouseLeave += new System.Windows.Forms.DataGridViewCellEventHandler(this.GridCharacters_CellMouseLeave);
+            gridCharacters.AllowUserToAddRows = false;
+            gridCharacters.AllowUserToDeleteRows = false;
+            gridCharacters.AllowUserToResizeRows = false;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
+            gridCharacters.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            gridCharacters.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            gridCharacters.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
+            gridCharacters.BackgroundColor = System.Drawing.SystemColors.Window;
+            gridCharacters.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            gridCharacters.Location = new System.Drawing.Point(14, 171);
+            gridCharacters.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            gridCharacters.MultiSelect = false;
+            gridCharacters.Name = "gridCharacters";
+            gridCharacters.ReadOnly = true;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            gridCharacters.RowHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            gridCharacters.RowHeadersVisible = false;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Calibri", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
+            gridCharacters.RowsDefaultCellStyle = dataGridViewCellStyle3;
+            gridCharacters.Size = new System.Drawing.Size(666, 427);
+            gridCharacters.TabIndex = 5;
+            gridCharacters.CellDoubleClick += GridCharacters_CellDoubleClick;
+            gridCharacters.CellMouseEnter += GridCharacters_CellMouseEnter;
+            gridCharacters.CellMouseLeave += GridCharacters_CellMouseLeave;
             // 
             // label1
             // 
-            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(38, 521);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(159, 13);
-            this.label1.TabIndex = 8;
-            this.label1.Text = "↑ double click to copy character";
+            label1.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
+            label1.AutoSize = true;
+            label1.Location = new System.Drawing.Point(44, 601);
+            label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            label1.Name = "label1";
+            label1.Size = new System.Drawing.Size(175, 15);
+            label1.TabIndex = 8;
+            label1.Text = "↑ double click to copy character";
             // 
             // label2
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(13, 132);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(58, 13);
-            this.label2.TabIndex = 9;
-            this.label2.Text = "Characters";
+            label2.AutoSize = true;
+            label2.Location = new System.Drawing.Point(15, 152);
+            label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            label2.Name = "label2";
+            label2.Size = new System.Drawing.Size(63, 15);
+            label2.TabIndex = 9;
+            label2.Text = "Characters";
             // 
             // lbBigChar
             // 
-            this.lbBigChar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.lbBigChar.AutoSize = true;
-            this.lbBigChar.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.lbBigChar.Font = new System.Drawing.Font("Segoe UI Semibold", 27.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbBigChar.Location = new System.Drawing.Point(532, 95);
-            this.lbBigChar.Name = "lbBigChar";
-            this.lbBigChar.Size = new System.Drawing.Size(32, 50);
-            this.lbBigChar.TabIndex = 10;
-            this.lbBigChar.Text = " ";
+            lbBigChar.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
+            lbBigChar.AutoSize = true;
+            lbBigChar.BackColor = System.Drawing.SystemColors.ControlLight;
+            lbBigChar.Font = new System.Drawing.Font("Segoe UI Semibold", 27.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 0);
+            lbBigChar.Location = new System.Drawing.Point(621, 110);
+            lbBigChar.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            lbBigChar.Name = "lbBigChar";
+            lbBigChar.Size = new System.Drawing.Size(32, 50);
+            lbBigChar.TabIndex = 10;
+            lbBigChar.Text = " ";
             // 
             // tabControl1
             // 
-            this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.tabControl1.Controls.Add(this.tabPageShow);
-            this.tabControl1.Controls.Add(this.tabPageFind);
-            this.tabControl1.Controls.Add(this.tabPageBlock);
-            this.tabControl1.Location = new System.Drawing.Point(12, 12);
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(571, 76);
-            this.tabControl1.TabIndex = 11;
-            this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.TabControl1_SelectedIndexChanged);
+            tabControl1.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            tabControl1.Controls.Add(tabPageShow);
+            tabControl1.Controls.Add(tabPageFind);
+            tabControl1.Controls.Add(tabPageBlock);
+            tabControl1.Location = new System.Drawing.Point(14, 14);
+            tabControl1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            tabControl1.Name = "tabControl1";
+            tabControl1.SelectedIndex = 0;
+            tabControl1.Size = new System.Drawing.Size(666, 88);
+            tabControl1.TabIndex = 11;
+            tabControl1.SelectedIndexChanged += TabControl1_SelectedIndexChanged;
             // 
             // tabPageShow
             // 
-            this.tabPageShow.Controls.Add(this.label3);
-            this.tabPageShow.Controls.Add(this.tbTextInput);
-            this.tabPageShow.Location = new System.Drawing.Point(4, 22);
-            this.tabPageShow.Name = "tabPageShow";
-            this.tabPageShow.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageShow.Size = new System.Drawing.Size(563, 50);
-            this.tabPageShow.TabIndex = 0;
-            this.tabPageShow.Text = "Show";
-            this.tabPageShow.UseVisualStyleBackColor = true;
+            tabPageShow.Controls.Add(label3);
+            tabPageShow.Controls.Add(tbTextInput);
+            tabPageShow.Location = new System.Drawing.Point(4, 24);
+            tabPageShow.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            tabPageShow.Name = "tabPageShow";
+            tabPageShow.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            tabPageShow.Size = new System.Drawing.Size(658, 60);
+            tabPageShow.TabIndex = 0;
+            tabPageShow.Text = "Show";
+            tabPageShow.UseVisualStyleBackColor = true;
             // 
             // label3
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(4, 7);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(140, 13);
-            this.label3.TabIndex = 3;
-            this.label3.Text = "Show characters in this text:";
+            label3.AutoSize = true;
+            label3.Location = new System.Drawing.Point(5, 8);
+            label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            label3.Name = "label3";
+            label3.Size = new System.Drawing.Size(153, 15);
+            label3.TabIndex = 3;
+            label3.Text = "Show characters in this text:";
             // 
             // tbTextInput
             // 
-            this.tbTextInput.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.tbTextInput.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbTextInput.Location = new System.Drawing.Point(3, 23);
-            this.tbTextInput.Name = "tbTextInput";
-            this.tbTextInput.Size = new System.Drawing.Size(554, 22);
-            this.tbTextInput.TabIndex = 2;
-            this.tbTextInput.Text = "1× 🍕 à €1,‒";
-            this.tbTextInput.TextChanged += new System.EventHandler(this.TbInput_TextChanged);
+            tbTextInput.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            tbTextInput.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
+            tbTextInput.Location = new System.Drawing.Point(4, 27);
+            tbTextInput.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            tbTextInput.Name = "tbTextInput";
+            tbTextInput.Size = new System.Drawing.Size(646, 22);
+            tbTextInput.TabIndex = 2;
+            tbTextInput.Text = "1× 🍕 à €1,‒";
+            tbTextInput.TextChanged += TbInput_TextChanged;
             // 
             // tabPageFind
             // 
-            this.tabPageFind.Controls.Add(this.tbNameInput);
-            this.tabPageFind.Controls.Add(this.label4);
-            this.tabPageFind.Location = new System.Drawing.Point(4, 22);
-            this.tabPageFind.Name = "tabPageFind";
-            this.tabPageFind.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageFind.Size = new System.Drawing.Size(563, 50);
-            this.tabPageFind.TabIndex = 1;
-            this.tabPageFind.Text = "Find";
-            this.tabPageFind.UseVisualStyleBackColor = true;
+            tabPageFind.Controls.Add(tbNameInput);
+            tabPageFind.Controls.Add(label4);
+            tabPageFind.Location = new System.Drawing.Point(4, 24);
+            tabPageFind.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            tabPageFind.Name = "tabPageFind";
+            tabPageFind.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            tabPageFind.Size = new System.Drawing.Size(658, 60);
+            tabPageFind.TabIndex = 1;
+            tabPageFind.Text = "Find";
+            tabPageFind.UseVisualStyleBackColor = true;
             // 
             // tbNameInput
             // 
-            this.tbNameInput.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.tbNameInput.Location = new System.Drawing.Point(6, 23);
-            this.tbNameInput.Name = "tbNameInput";
-            this.tbNameInput.Size = new System.Drawing.Size(551, 20);
-            this.tbNameInput.TabIndex = 1;
-            this.tbNameInput.TextChanged += new System.EventHandler(this.TbNameInput_TextChanged);
+            tbNameInput.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            tbNameInput.Location = new System.Drawing.Point(7, 27);
+            tbNameInput.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            tbNameInput.Name = "tbNameInput";
+            tbNameInput.Size = new System.Drawing.Size(642, 23);
+            tbNameInput.TabIndex = 1;
+            tbNameInput.TextChanged += TbNameInput_TextChanged;
             // 
             // label4
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(7, 7);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(214, 13);
-            this.label4.TabIndex = 0;
-            this.label4.Text = "Find characters by name using these words:";
+            label4.AutoSize = true;
+            label4.Location = new System.Drawing.Point(8, 8);
+            label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            label4.Name = "label4";
+            label4.Size = new System.Drawing.Size(237, 15);
+            label4.TabIndex = 0;
+            label4.Text = "Find characters by name using these words:";
             // 
             // tabPageBlock
             // 
-            this.tabPageBlock.Controls.Add(this.cbBlocks);
-            this.tabPageBlock.Controls.Add(this.label6);
-            this.tabPageBlock.Location = new System.Drawing.Point(4, 22);
-            this.tabPageBlock.Name = "tabPageBlock";
-            this.tabPageBlock.Size = new System.Drawing.Size(563, 50);
-            this.tabPageBlock.TabIndex = 2;
-            this.tabPageBlock.Text = "Block";
-            this.tabPageBlock.UseVisualStyleBackColor = true;
+            tabPageBlock.Controls.Add(cbBlocks);
+            tabPageBlock.Controls.Add(label6);
+            tabPageBlock.Location = new System.Drawing.Point(4, 24);
+            tabPageBlock.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            tabPageBlock.Name = "tabPageBlock";
+            tabPageBlock.Size = new System.Drawing.Size(658, 60);
+            tabPageBlock.TabIndex = 2;
+            tabPageBlock.Text = "Block";
+            tabPageBlock.UseVisualStyleBackColor = true;
             // 
             // cbBlocks
             // 
-            this.cbBlocks.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
-            this.cbBlocks.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.cbBlocks.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbBlocks.FormattingEnabled = true;
-            this.cbBlocks.Location = new System.Drawing.Point(5, 20);
-            this.cbBlocks.Name = "cbBlocks";
-            this.cbBlocks.Size = new System.Drawing.Size(280, 21);
-            this.cbBlocks.Sorted = true;
-            this.cbBlocks.TabIndex = 1;
-            this.cbBlocks.SelectedValueChanged += new System.EventHandler(this.CbBlocks_SelectedValueChanged);
+            cbBlocks.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            cbBlocks.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            cbBlocks.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            cbBlocks.FormattingEnabled = true;
+            cbBlocks.Location = new System.Drawing.Point(6, 23);
+            cbBlocks.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            cbBlocks.Name = "cbBlocks";
+            cbBlocks.Size = new System.Drawing.Size(326, 23);
+            cbBlocks.Sorted = true;
+            cbBlocks.TabIndex = 1;
+            cbBlocks.SelectedValueChanged += CbBlocks_SelectedValueChanged;
             // 
             // label6
             // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(5, 4);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(203, 13);
-            this.label6.TabIndex = 0;
-            this.label6.Text = "Show characters from the selected block:";
+            label6.AutoSize = true;
+            label6.Location = new System.Drawing.Point(6, 5);
+            label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            label6.Name = "label6";
+            label6.Size = new System.Drawing.Size(223, 15);
+            label6.TabIndex = 0;
+            label6.Text = "Show characters from the selected block:";
             // 
             // NormalizationGroup
             // 
-            this.NormalizationGroup.Controls.Add(this.label5);
-            this.NormalizationGroup.Controls.Add(this.rbNone);
-            this.NormalizationGroup.Controls.Add(this.rbFormC);
-            this.NormalizationGroup.Controls.Add(this.rbFormD);
-            this.NormalizationGroup.Location = new System.Drawing.Point(12, 90);
-            this.NormalizationGroup.Name = "NormalizationGroup";
-            this.NormalizationGroup.Size = new System.Drawing.Size(272, 39);
-            this.NormalizationGroup.TabIndex = 14;
-            this.NormalizationGroup.TabStop = false;
+            NormalizationGroup.Controls.Add(label5);
+            NormalizationGroup.Controls.Add(rbNone);
+            NormalizationGroup.Controls.Add(rbFormC);
+            NormalizationGroup.Controls.Add(rbFormD);
+            NormalizationGroup.Location = new System.Drawing.Point(14, 104);
+            NormalizationGroup.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            NormalizationGroup.Name = "NormalizationGroup";
+            NormalizationGroup.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            NormalizationGroup.Size = new System.Drawing.Size(317, 45);
+            NormalizationGroup.TabIndex = 14;
+            NormalizationGroup.TabStop = false;
             // 
             // label5
             // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(6, 16);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(73, 13);
-            this.label5.TabIndex = 17;
-            this.label5.Text = "Normalization:";
+            label5.AutoSize = true;
+            label5.Location = new System.Drawing.Point(7, 18);
+            label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            label5.Name = "label5";
+            label5.Size = new System.Drawing.Size(85, 15);
+            label5.TabIndex = 17;
+            label5.Text = "Normalization:";
             // 
             // rbNone
             // 
-            this.rbNone.AutoSize = true;
-            this.rbNone.Checked = true;
-            this.rbNone.Location = new System.Drawing.Point(85, 14);
-            this.rbNone.Name = "rbNone";
-            this.rbNone.Size = new System.Drawing.Size(51, 17);
-            this.rbNone.TabIndex = 16;
-            this.rbNone.TabStop = true;
-            this.rbNone.Text = "None";
-            this.rbNone.UseVisualStyleBackColor = true;
-            this.rbNone.CheckedChanged += new System.EventHandler(this.RbShowChars_CheckedChanged);
+            rbNone.AutoSize = true;
+            rbNone.Checked = true;
+            rbNone.Location = new System.Drawing.Point(99, 16);
+            rbNone.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            rbNone.Name = "rbNone";
+            rbNone.Size = new System.Drawing.Size(54, 19);
+            rbNone.TabIndex = 16;
+            rbNone.TabStop = true;
+            rbNone.Text = "None";
+            rbNone.UseVisualStyleBackColor = true;
+            rbNone.CheckedChanged += RbShowChars_CheckedChanged;
             // 
             // rbFormC
             // 
-            this.rbFormC.AutoSize = true;
-            this.rbFormC.Location = new System.Drawing.Point(142, 14);
-            this.rbFormC.Name = "rbFormC";
-            this.rbFormC.Size = new System.Drawing.Size(52, 17);
-            this.rbFormC.TabIndex = 15;
-            this.rbFormC.Text = "FomC";
-            this.rbFormC.UseVisualStyleBackColor = true;
-            this.rbFormC.CheckedChanged += new System.EventHandler(this.RbShowChars_CheckedChanged);
+            rbFormC.AutoSize = true;
+            rbFormC.Location = new System.Drawing.Point(166, 16);
+            rbFormC.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            rbFormC.Name = "rbFormC";
+            rbFormC.Size = new System.Drawing.Size(57, 19);
+            rbFormC.TabIndex = 15;
+            rbFormC.Text = "FomC";
+            rbFormC.UseVisualStyleBackColor = true;
+            rbFormC.CheckedChanged += RbShowChars_CheckedChanged;
             // 
             // rbFormD
             // 
-            this.rbFormD.AutoSize = true;
-            this.rbFormD.Location = new System.Drawing.Point(200, 14);
-            this.rbFormD.Name = "rbFormD";
-            this.rbFormD.Size = new System.Drawing.Size(53, 17);
-            this.rbFormD.TabIndex = 14;
-            this.rbFormD.Text = "FomD";
-            this.rbFormD.UseVisualStyleBackColor = true;
-            this.rbFormD.CheckedChanged += new System.EventHandler(this.RbShowChars_CheckedChanged);
+            rbFormD.AutoSize = true;
+            rbFormD.Location = new System.Drawing.Point(233, 16);
+            rbFormD.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            rbFormD.Name = "rbFormD";
+            rbFormD.Size = new System.Drawing.Size(57, 19);
+            rbFormD.TabIndex = 14;
+            rbFormD.Text = "FomD";
+            rbFormD.UseVisualStyleBackColor = true;
+            rbFormD.CheckedChanged += RbShowChars_CheckedChanged;
             // 
             // VersionLabel
             // 
-            this.VersionLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.VersionLabel.AutoSize = true;
-            this.VersionLabel.Location = new System.Drawing.Point(529, 524);
-            this.VersionLabel.Name = "VersionLabel";
-            this.VersionLabel.Size = new System.Drawing.Size(40, 13);
-            this.VersionLabel.TabIndex = 15;
-            this.VersionLabel.Text = "0.0.0.0";
+            VersionLabel.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
+            VersionLabel.AutoSize = true;
+            VersionLabel.Location = new System.Drawing.Point(617, 605);
+            VersionLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            VersionLabel.Name = "VersionLabel";
+            VersionLabel.Size = new System.Drawing.Size(40, 15);
+            VersionLabel.TabIndex = 15;
+            VersionLabel.Text = "0.0.0.0";
             // 
             // DecoderForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(595, 546);
-            this.Controls.Add(this.VersionLabel);
-            this.Controls.Add(this.NormalizationGroup);
-            this.Controls.Add(this.tabControl1);
-            this.Controls.Add(this.lbBigChar);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.gridCharacters);
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Name = "DecoderForm";
-            this.Text = "Unicode decoder";
-            ((System.ComponentModel.ISupportInitialize)(this.gridCharacters)).EndInit();
-            this.tabControl1.ResumeLayout(false);
-            this.tabPageShow.ResumeLayout(false);
-            this.tabPageShow.PerformLayout();
-            this.tabPageFind.ResumeLayout(false);
-            this.tabPageFind.PerformLayout();
-            this.tabPageBlock.ResumeLayout(false);
-            this.tabPageBlock.PerformLayout();
-            this.NormalizationGroup.ResumeLayout(false);
-            this.NormalizationGroup.PerformLayout();
-            this.ResumeLayout(false);
-            this.PerformLayout();
+            AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            ClientSize = new System.Drawing.Size(694, 630);
+            Controls.Add(VersionLabel);
+            Controls.Add(NormalizationGroup);
+            Controls.Add(tabControl1);
+            Controls.Add(lbBigChar);
+            Controls.Add(label2);
+            Controls.Add(label1);
+            Controls.Add(gridCharacters);
+            Icon = (System.Drawing.Icon)resources.GetObject("$this.Icon");
+            Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            Name = "DecoderForm";
+            Text = "Unicode decoder";
+            ((System.ComponentModel.ISupportInitialize)gridCharacters).EndInit();
+            tabControl1.ResumeLayout(false);
+            tabPageShow.ResumeLayout(false);
+            tabPageShow.PerformLayout();
+            tabPageFind.ResumeLayout(false);
+            tabPageFind.PerformLayout();
+            tabPageBlock.ResumeLayout(false);
+            tabPageBlock.PerformLayout();
+            NormalizationGroup.ResumeLayout(false);
+            NormalizationGroup.PerformLayout();
+            ResumeLayout(false);
+            PerformLayout();
 
         }
 
