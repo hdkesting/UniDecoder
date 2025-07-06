@@ -53,10 +53,8 @@ public class UnidecoderService
     /// <returns>A dictionary combining the id and the name.</returns>
     public Dictionary<int, string> GetAllCategories()
     {
-        return Enum.GetValues(typeof(System.Globalization.UnicodeCategory))
-            .Cast<System.Globalization.UnicodeCategory>()
-            .Where(uc => uc != System.Globalization.UnicodeCategory.PrivateUse)
-            .Where(uc => uc != System.Globalization.UnicodeCategory.Surrogate)
+        return Enum.GetValues<System.Globalization.UnicodeCategory>()
+            .Where(uc => uc is not (System.Globalization.UnicodeCategory.PrivateUse or System.Globalization.UnicodeCategory.Surrogate))
             .ToDictionary(c => (int)c, c => c.ToString().ToSeparateWords());
     }
 
@@ -113,7 +111,7 @@ public class UnidecoderService
             list = list.Take(MaxResultCount);
         }
 
-        return list.ToList();
+        return [.. list];
     }
 
     /// <summary>
@@ -126,8 +124,7 @@ public class UnidecoderService
         const int halfRange = 8;
 
         var list = Enumerable.Range(codepoint - halfRange, halfRange * 2)
-            .Where(n => n >= LowestPossibleCodepoint)
-            .Where(n => n <= HighestPossibleCodepoint)
+            .Where(n => n >= LowestPossibleCodepoint && n <= HighestPossibleCodepoint)
             .Where(this.CodepointExists)
             .Select(UnicodeInfo.GetCharInfo)
             .Select(it => new CodepointInfo(it))
