@@ -1,0 +1,36 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Uni-Decoder</title>
+    <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css" />
+    <link href="css/site.css" rel="stylesheet" />
+</head>
+<body>
+    <div style="width: 80vw; margin-left:10vw; margin-top:10vh">
+        <h1>Uni Decoder</h1>
+        <div>
+            Every character (letter, digit, punctuation, emoji,...) of any language has its own codepoint and name in the Unicode character set. At least, that is what the Unicode Consortium is aiming for.<br />
+            For more info, see the official <a href="https://www.unicode.org/faq/">Unicode FAQ</a>.
+        </div>
+        <div>
+            Unicode only describes the name and meaning of a character, <em>not</em> how it should be shown on screen or in print. That is the task of the font and leads to some issues:
+            <ul>
+                <li>
+                    Specific characters may look the same on one computer (or tablet, or phone) but different on another, because of differences in the installed fonts.
+                    <ul>
+                        <li>An example: "ο" and "o" are different letters (<a href="text/prοof">prοof</a>)</li>
+                        <li>Sometimes <a href="text/🇳🇱">🇳🇱</a> is shown as "NL" (for instance on Windows), sometimes as a flag (for instance on Android)</li>
+                    </ul>
+                </li>
+                <li>
+                    Most fonts (probably even all) do not support the full unicode character set – which after all also includes ancient characters like <a href="block/Cuneiform">Cuneiform</a>
+                    and others that are "not in everyday use", such as <a href="block/Domino%20Tiles">Domino Tiles</a>.
+                </li>
+            </ul>
+        </div>
+
+        <div class="text-center"><a class="btn btn-primary" href="/">Go back to application</a></div>
+    </div>
+</body>
+</html>

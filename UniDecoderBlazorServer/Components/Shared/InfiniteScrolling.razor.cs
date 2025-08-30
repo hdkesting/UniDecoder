@@ -99,14 +99,23 @@ namespace UniDecoderBlazorServer.Components.Shared
             // Stop the IntersectionObserver
             if (_instance != null)
             {
-                await _instance.InvokeVoidAsync("dispose");
-                await _instance.DisposeAsync();
+                try
+                {
+                    await _instance.InvokeVoidAsync("dispose");
+                    await _instance.DisposeAsync();
+                }
+                catch { }
                 _instance = null;
             }
 
             if (_module != null)
             {
-                await _module.DisposeAsync();
+                try
+                {
+                    await _module.DisposeAsync();
+                }
+                catch { }
+                _module = null;
             }
 
             _currentComponentReference?.Dispose();

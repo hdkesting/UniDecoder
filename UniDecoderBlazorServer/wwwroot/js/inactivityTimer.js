@@ -9,7 +9,7 @@
 
     // check every minute for recent activity
     let timer = setInterval(checkActivity, 1 * 60 * 1000); // 1 minute
-    console.log("InactivityTimer: Will log out after " + minutes + " minutes of inactivity");
+    console.log(`InactivityTimer: Will log out after ${minutes} minutes of inactivity`);
 
     // just quickly set a flag on detected activity
     function activityDetected() {
@@ -37,7 +37,8 @@
         console.log("timeout happened - exiting app");
         let backlen = history.length;
         console.log(`clearing ${backlen - 1} history items`);
-        history.go(-(backlen - 1)); // keep the last page, which will be replaced
-        setTimeout(() => { history.replaceState(null, '', './loggedout.html'); history.go(0); }, 500);
+        history.go(-backlen);
+        //setTimeout(() => { history.replaceState(null, '', './loggedout.html'); history.go(0); }, 500);
+        location.href = './unidecoder.html';
     }
 }
