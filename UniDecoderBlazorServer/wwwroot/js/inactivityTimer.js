@@ -1,4 +1,4 @@
-﻿export function initializeInactivityTimer() {
+﻿function initializeInactivityTimer() {
     const minutes = 10;
     let isActivityDetected = false;
     let minuteCounter = 0;
