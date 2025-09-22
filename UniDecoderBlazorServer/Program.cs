@@ -1,3 +1,6 @@
+using Blazor.WhyDidYouRender.Configuration;
+using Blazor.WhyDidYouRender.Extensions;
+
 using Blazored.LocalStorage;
 
 using UniDecoderBlazorServer.Components;
@@ -10,6 +13,19 @@ builder.Services.AddRazorComponents()
 builder.Services.AddBlazoredLocalStorage();
 
 builder.Services.AddSingleton<UniDecoderBlazorServer.Services.UnidecoderService>();
+
+// Add WhyDidYouRender - works automatically!
+builder.Services.AddWhyDidYouRender(config =>
+{
+    config.Enabled = true;
+    config.Verbosity = TrackingVerbosity.Verbose;
+    config.Output = TrackingOutput.Both; // Server console AND browser console
+    config.TrackParameterChanges = true;
+    config.TrackPerformance = true;
+    config.EnableStateTracking = true; // Track field-level changes
+    config.AutoTrackSimpleTypes = true; // Auto-track strings, ints, etc.
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -29,5 +45,8 @@ app.UseAntiforgery();
 
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
+
+// Initialize WhyDidYouRender services
+app.Services.InitializeSSRServices();
 
 app.Run();

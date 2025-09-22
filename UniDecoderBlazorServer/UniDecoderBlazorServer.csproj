@@ -16,7 +16,8 @@
 
   <ItemGroup>
     <PackageReference Include="Blazored.LocalStorage" Version="4.5.0" />
-    <PackageReference Include="Microsoft.Azure.SignalR" Version="1.30.3">
+    <PackageReference Include="Blazor.WhyDidYouRender" Version="2.1.1" />
+    <PackageReference Include="Microsoft.Azure.SignalR" Version="1.32.0">
       <TreatAsUsed>true</TreatAsUsed>
     </PackageReference>
     <PackageReference Include="UnicodeInformation" Version="2.7.1" />
