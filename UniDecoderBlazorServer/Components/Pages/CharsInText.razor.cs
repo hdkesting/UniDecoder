@@ -1,3 +1,5 @@
+namespace UniDecoderBlazorServer.Components.Pages;
+
 using System.Web;
 
 using Microsoft.AspNetCore.Components;
@@ -5,58 +7,55 @@ using Microsoft.AspNetCore.Components;
 using UniDecoderBlazorServer.Models;
 using UniDecoderBlazorServer.Components.Shared;
 
-namespace UniDecoderBlazorServer.Components.Pages
+public partial class CharsInText
 {
-    public partial class CharsInText
+    ElementReference textInput;
+
+    [CascadingParameter]
+    public CascadingAppState AppState { get; set; } = null!;
+
+    [Parameter]
+    public string? TextParam { get; set; }
+
+    public string? SearchText
     {
-        ElementReference textInput;
+        get => AppState.TextSplitText;
+        set => AppState.TextSplitText = value;
+    }
 
-        [CascadingParameter]
-        public CascadingAppState AppState { get; set; } = null!;
+    public List<StringElement>? Characters { get; set; }
 
-        [Parameter]
-        public string? TextParam { get; set; }
-
-        public string? SearchText
+    protected override void OnParametersSet()
+    {
+        if (!string.IsNullOrWhiteSpace(TextParam))
         {
-            get => AppState.TextSplitText;
-            set => AppState.TextSplitText = value;
+            SearchText = HttpUtility.HtmlDecode(Uri.UnescapeDataString(TextParam));
         }
+            
+        PerformSearch();
+    }
 
-        public List<StringElement>? Characters { get; set; }
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        // "autofocus" doesn't work in Blazor
+        await textInput.FocusAsync();
+    }
 
-        protected override void OnParametersSet()
+    private void PerformSearch()
+    {
+        if (!string.IsNullOrWhiteSpace(SearchText))
         {
-            if (!string.IsNullOrWhiteSpace(TextParam))
-            {
-                SearchText = HttpUtility.HtmlDecode(Uri.UnescapeDataString(TextParam));
-            }
-                
-            PerformSearch();
+            Characters = myservice.ListElements(SearchText);
         }
-
-        protected override async Task OnAfterRenderAsync(bool firstRender)
+        else
         {
-            // "autofocus" doesn't work in Blazor
-            await textInput.FocusAsync();
+            Characters = [];
         }
+    }
 
-        private void PerformSearch()
-        {
-            if (!string.IsNullOrWhiteSpace(SearchText))
-            {
-                Characters = myservice.ListElements(SearchText);
-            }
-            else
-            {
-                Characters = [];
-            }
-        }
-
-        private void OnInput(string? text)
-        {
-            SearchText = text;
-            PerformSearch();
-        }
+    private void OnInput(string? text)
+    {
+        SearchText = text;
+        PerformSearch();
     }
 }

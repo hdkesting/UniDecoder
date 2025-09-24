@@ -36,6 +36,9 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+// Initialize WhyDidYouRender services -- errors when I enable this, but seems to work fine without.
+// app.Services.InitializeSSRServices();
+
 app.UseHttpsRedirection();
 
 app.UseStaticFiles();
@@ -45,8 +48,5 @@ app.UseAntiforgery();
 
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
-
-// Initialize WhyDidYouRender services
-app.Services.InitializeSSRServices();
 
 app.Run();

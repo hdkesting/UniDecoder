@@ -1,4 +1,8 @@
-﻿@using UniDecoderBlazorServer.Support
+﻿@using Blazor.WhyDidYouRender.Components
+@using UniDecoderBlazorServer.Support
+
+@inherits TrackedComponentBase
+
 @if (Characters is not null && Characters.Any())
 {
     @if (!string.IsNullOrEmpty(CountMessageFormat))
@@ -15,18 +19,6 @@
                 <article><div class="sample"><span class="oi oi-reload spin"></span></div> <div><p>Loading</p></div></article>
             </LoadingTemplate>
         </InfiniteScrolling>
-
-@*        <Virtualize Items="Characters" Context="item" OverscanCount="10">
-            -- either use Items=Characters
-            -- or ItemsProvider=GetVirtualItems
-            <ItemContent>
-                <CharData Character="item" @key="item.Codepoint"/>
-            </ItemContent>
-            <Placeholder>
-                <article><div class="sample"><span class="oi oi-reload spin"></span></div> <div><p>Loading</p></div></article>
-            </Placeholder>
-        </Virtualize>
-*@
     </section>
 }
 else

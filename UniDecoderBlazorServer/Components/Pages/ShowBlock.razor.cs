@@ -1,79 +1,78 @@
+namespace UniDecoderBlazorServer.Components.Pages;
+
 using Microsoft.AspNetCore.Components;
 
 using UniDecoderBlazorServer.Models;
 using UniDecoderBlazorServer.Components.Shared;
 
-namespace UniDecoderBlazorServer.Components.Pages
+public partial class ShowBlock
 {
-    public partial class ShowBlock
+    ElementReference dropdownElement;
+
+    [CascadingParameter]
+    public CascadingAppState AppState { get; set; } = null!;
+
+    [Parameter]
+    public string? BlockName {  get; set; }
+
+    private List<CodepointInfo>? Characters { get; set; }
+
+    private List<string>? FilteredBlocks { get; set; }
+
+    private List<string>? Blocks { get; set; }
+
+    protected override void OnInitialized()
     {
-        ElementReference dropdownElement;
+        // ordering: *first* the ones containing "Latin", *then* the others (false < true)
+        Blocks = myservice.GetAllBlocks().Select(b => b.Value).ToList();
+        FilteredBlocks =
+        [
+            .. Blocks
+                .Where(n => !n.Contains("Private Use") && !n.Contains("Surrogate"))
+                .OrderBy(n => !n.Contains("Latin"))
+                .ThenBy(n => n),
+        ];
+    }
 
-        [CascadingParameter]
-        public CascadingAppState AppState { get; set; } = null!;
-
-        [Parameter]
-        public string? BlockName {  get; set; }
-
-        private List<CodepointInfo>? Characters { get; set; }
-
-        private List<string>? FilteredBlocks { get; set; }
-
-        private List<string>? Blocks { get; set; }
-
-        protected override void OnInitialized()
+    protected override void OnParametersSet()
+    {
+        if (string.IsNullOrEmpty(BlockName))
         {
-            // ordering: *first* the ones containing "Latin", *then* the others (false < true)
-            Blocks = myservice.GetAllBlocks().Select(b => b.Value).ToList();
-            FilteredBlocks =
-            [
-                .. Blocks
-                    .Where(n => !n.Contains("Private Use") && !n.Contains("Surrogate"))
-                    .OrderBy(n => !n.Contains("Latin"))
-                    .ThenBy(n => n),
-            ];
+            BlockName = AppState?.BlockName ?? FilteredBlocks?.First() ?? "Basic Latin";
         }
 
-        protected override void OnParametersSet()
+        PerformSearch();
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        // "autofocus" doesn't work in Blazor
+        await dropdownElement.FocusAsync();
+    }
+
+    private void UpdateBlockName(string? blockName)
+    {
+        BlockName = blockName;
+        PerformSearch();
+    }
+
+    private void PerformSearch()
+    {
+        if (!string.IsNullOrEmpty(BlockName) && Blocks is not null)
         {
-            if (string.IsNullOrEmpty(BlockName))
+            // do search in the full block list
+            if (!Blocks.Any(b => b.Equals(BlockName, StringComparison.OrdinalIgnoreCase)))
             {
-                BlockName = AppState?.BlockName ?? FilteredBlocks?.First() ?? "Basic Latin";
+                // not a known name, just get the default one
+                BlockName = FilteredBlocks?.First() ?? "Basic Latin";
             }
- 
-            PerformSearch();
+
+            Characters = myservice.GetCharactersOfBlock(BlockName);
+            AppState.BlockName = BlockName;
         }
-
-        protected override async Task OnAfterRenderAsync(bool firstRender)
+        else
         {
-            // "autofocus" doesn't work in Blazor
-            await dropdownElement.FocusAsync();
-        }
-
-        private void UpdateBlockName(string? blockName)
-        {
-            BlockName = blockName;
-            PerformSearch();
-        }
-
-        private void PerformSearch()
-        {
-            if (!string.IsNullOrEmpty(BlockName) && Blocks is not null)
-            {
-                // do search in the full block list
-                if (!Blocks.Any(b => b.Equals(BlockName, StringComparison.OrdinalIgnoreCase)))
-                {
-                    // not a known name, just get the default one
-                    BlockName = FilteredBlocks?.First() ?? "Basic Latin";
-                }
-
-                Characters = myservice.GetCharactersOfBlock(BlockName);
-                AppState.BlockName = BlockName;
-            }
-            else
-            {
-                Characters = [];
-            }
+            Characters = [];
         }
     }
 }

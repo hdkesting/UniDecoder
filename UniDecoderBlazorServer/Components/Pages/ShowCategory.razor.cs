@@ -1,71 +1,70 @@
+namespace UniDecoderBlazorServer.Components.Pages;
+
 using Microsoft.AspNetCore.Components;
 
 using UniDecoderBlazorServer.Models;
 using UniDecoderBlazorServer.Components.Shared;
 
-namespace UniDecoderBlazorServer.Components.Pages
+public partial class ShowCategory
 {
-    public partial class ShowCategory
+    ElementReference dropdownElement;
+
+    [CascadingParameter]
+    public CascadingAppState AppState { get; set; } = null!;
+
+    [Parameter]
+    public string? CategoryName {  get; set; }
+
+    private List<CodepointInfo>? Characters { get; set; }
+
+    private List<string>? Categories { get; set; }
+
+    protected override void OnInitialized()
     {
-        ElementReference dropdownElement;
+        Categories =
+        [
+            .. myservice.GetAllCategories()
+                            .Select(di => di.Value)
+                            .Where(n => n != "Other Not Assigned")
+                            .OrderBy(n => n),
+        ];
+    }
 
-        [CascadingParameter]
-        public CascadingAppState AppState { get; set; } = null!;
-
-        [Parameter]
-        public string? CategoryName {  get; set; }
-
-        private List<CodepointInfo>? Characters { get; set; }
-
-        private List<string>? Categories { get; set; }
-
-        protected override void OnInitialized()
+    protected override void OnParametersSet()
+    {
+        if (string.IsNullOrEmpty(CategoryName))
         {
-            Categories =
-            [
-                .. myservice.GetAllCategories()
-                                .Select(di => di.Value)
-                                .Where(n => n != "Other Not Assigned")
-                                .OrderBy(n => n),
-            ];
+            CategoryName = AppState?.CategoryName ?? "Lowercase Letter";
         }
 
-        protected override void OnParametersSet()
+        PerformSearch();
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        // "autofocus" doesn't work in Blazor
+        await dropdownElement.FocusAsync();
+    }
+
+    private void UpdateCategory(string? categoryName)
+    {
+        CategoryName = categoryName;
+        PerformSearch();
+    }
+
+    private void PerformSearch()
+    {
+        if (!string.IsNullOrEmpty(CategoryName))
         {
-            if (string.IsNullOrEmpty(CategoryName))
+            Characters = myservice.GetCharactersOfCategory(CategoryName);
+            if (AppState is not null)
             {
-                CategoryName = AppState?.CategoryName ?? "Lowercase Letter";
+                AppState.CategoryName = CategoryName;
             }
-
-            PerformSearch();
         }
-
-        protected override async Task OnAfterRenderAsync(bool firstRender)
+        else
         {
-            // "autofocus" doesn't work in Blazor
-            await dropdownElement.FocusAsync();
-        }
-
-        private void UpdateCategory(string? categoryName)
-        {
-            CategoryName = categoryName;
-            PerformSearch();
-        }
-
-        private void PerformSearch()
-        {
-            if (!string.IsNullOrEmpty(CategoryName))
-            {
-                Characters = myservice.GetCharactersOfCategory(CategoryName);
-                if (AppState is not null)
-                {
-                    AppState.CategoryName = CategoryName;
-                }
-            }
-            else
-            {
-                Characters = [];
-            }
+            Characters = [];
         }
     }
 }
