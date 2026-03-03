@@ -24,7 +24,7 @@ public partial class ShowBlock
     protected override void OnInitialized()
     {
         // ordering: *first* the ones containing "Latin", *then* the others (false < true)
-        Blocks = myservice.GetAllBlocks().Select(b => b.Value).ToList();
+        Blocks = [.. myservice.GetAllBlocks().Select(b => b.Value)];
         FilteredBlocks =
         [
             .. Blocks
