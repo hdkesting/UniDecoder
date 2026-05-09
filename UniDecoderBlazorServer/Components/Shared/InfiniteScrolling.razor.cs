@@ -7,7 +7,7 @@ namespace UniDecoderBlazorServer.Components.Shared
 {
     public partial class InfiniteScrolling<T>
     {
-        private List<T> _items = new();
+        private List<T> _items = [];
         private ElementReference _lastItemIndicator;
         private DotNetObjectReference<InfiniteScrolling<T>>? _currentComponentReference;
         private IJSObjectReference? _module;
